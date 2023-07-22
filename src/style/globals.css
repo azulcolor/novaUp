@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+    --light-theme-background: #f5f5f5;
+    --dark-theme-background: #1f2020;
+    --upqroo-background: #f97316;
+    --secondary-text: #6a6a6a;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+/* Esto aplica a toda la barra de desplazamiento. */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Esto aplica a la "caja" o pista en la que se desplaza la barra de desplazamiento. */
+::-webkit-scrollbar-track {
+    background: #cfc2c2;
+}
+
+/* Esto aplica a la "manija" o barra de desplazamiento en sí. */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+/* Cambia el color de la manija cuando la arrastras o la pones en hover. */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--upqroo-background);
+  /* #555; */
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background: var(--light-theme-background);
+    overflow: auto;
+}
+
+.btn-primary {
+    background: var(--upqroo-background);
+    color: var(--light-theme-background);
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.btn-primary:hover {
+    background: #ff9833;
+}
+
+.btn-secondary {
+    background: #650101;
+    color: var(--light-theme-background);
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.txt-secondary {
+    color: var(--secondary-text);
+}
+
+.btn-secondary:hover {
+    background: #850303;
+}
+
+.fadeIn {
+    animation: 1s ease-out 0s 1 fadeIn;
+}
+
+@keyframes fadeIn {
+    0% {
+    transform: translateX(-100%);
+    opacity: 0;
+    }
+    100% {
+    transform: translateX(0);
+    opacity: 1;
+    }
+}
+
+.light-theme {
+    background: var(--light-theme-background);
+    color: var(--dark-theme-background);
+}
+
+.light-theme > h1 {
+    font-size: 25px;
+    text-align: center;
+}
+
+.dark-theme {
+    background: var(--dark-theme-background);
+    color: var(--light-theme-background);
+}
+
+.upqroo-bg {
+    background: var(--upqroo-background);
+}
