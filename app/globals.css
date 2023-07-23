@@ -78,6 +78,24 @@ body {
   font-size: 15px;
 }
 
+.alternative-title-bold {
+  color: var(--primary-color);
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.alternative-subtitle-bold {
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.alternative-text-bold {
+  color: var(--primary-color);
+  font-size: 15px;
+  font-weight: bold;
+}
+
 .btn-primary{
   background: var(--upqroo-offical-color);
   foreground: var(--alternative-text-color);
