@@ -1,0 +1,14 @@
+.admin-layout {
+   display: flex;
+   width: 100%;
+   padding: 2rem;
+   justify-content: space-between;
+   flex-direction: unset;
+}
+
+.admin-layout__nav {
+   display: flex;
+   justify-content: flex-start;
+   flex-direction: unset;
+   gap: 2rem;
+}

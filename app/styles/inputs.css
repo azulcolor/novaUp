@@ -1,0 +1,8 @@
+.btn {
+   /* reemplace to primary color */
+   background: #ff8900 !important;
+   border-radius: 5px;
+   padding: 0.8rem;
+   color: #ffffff;
+   box-sizing: border-box;
+}
