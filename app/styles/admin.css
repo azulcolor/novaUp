@@ -12,3 +12,46 @@
    flex-direction: unset;
    gap: 2rem;
 }
+
+.admin-container {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+}
+
+.admin-container__table {
+   width: 70vw;
+   height: 75vh;
+   padding: 5rem;
+   background: #ffff;
+   border-radius: 15px;
+   overflow: hidden;
+}
+
+.admin-container__table table {
+   width: 100%;
+   text-align: center;
+   font-size: 1.5em;
+}
+
+.admin-container__table table td {
+   border-bottom: 1px solid black;
+   padding: 1rem;
+}
+
+.admin-container__table table tbody tr:nth-child(even) {
+   background-color: #f2f2f2; /* Color para las filas pares */
+}
+
+.admin-container__table table tbody tr:nth-child(odd) {
+   background-color: #ffffff; /* Color para las filas impares */
+}
+
+.admin-container__table table tbody tr:nth-child(even):hover {
+   background-color: #e0e0e0; /* Color al pasar el ratón en filas pares */
+}
+
+.admin-container__table table tbody tr:nth-child(odd):hover {
+   background-color: #f8f8f8; /* Color al pasar el ratón en filas impares */
+}

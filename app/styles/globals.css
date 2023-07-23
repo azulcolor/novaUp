@@ -1,3 +1,4 @@
+@import './header.css';
 @import './admin.css';
 @import './inputs.css';
 
@@ -6,16 +7,17 @@
 @tailwind utilities;
 
 :root {
-   --background: 0, 0, 0;
+   --background: #fbfbfb;
+   --background-container: #e8e8e8;
    --background-start-rgb: 214, 219, 220;
    --background-end-rgb: 255, 255, 255;
-   --form-background-color: #DFDFDF;
+   --form-background-color: #dfdfdf;
    --title-text: #232323;
-   --subtitle-text: #2C2C2C;
-   --normal-text: #7A7A7A;
-   --primary-color: #FF8900;
-   --secondary-color: #607EE9;
-   --teriary-color: #F3F2F7;
+   --subtitle-text: #2c2c2c;
+   --normal-text: #7a7a7a;
+   --primary-color: #ff8900;
+   --secondary-color: #607ee9;
+   --tertiary-color: #f3f2f7;
    --alternative-text-color: 0, 0, 0;
    --upqroo-offical-color: #f97316;
 }
@@ -29,8 +31,7 @@
 }
 
 body {
-   color: rgb(var(--foreground-rgb));
-   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+   background: var(--background);
 }
 
 .title {

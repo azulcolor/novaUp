@@ -1,12 +1,27 @@
+import { Table } from '@/app/components/common/Table';
 import { apiRequest } from '@/app/libs/axios-api';
+import { cookies } from 'next/headers';
 import React from 'react';
 
 export default async function AdminUsers() {
-   const users = await apiRequest.getUSers('');
+   const cookieStore = cookies();
+   const token = cookieStore.get('nova-access-token')?.value || '';
+   console.log(token);
+   const users = await apiRequest.getUSers(token);
    console.log(users);
    return (
-      <div>
-         <h1>Users</h1>
+      <div className="admin-container">
+         <div className="admin-container__table">
+            <Table
+               data={users.map((user) => {
+                  return {
+                     Email: user.email,
+                     Departamento: user.department.name,
+                     'Tipo de usuario': user.role.name,
+                  };
+               })}
+            />
+         </div>
       </div>
    );
 }
