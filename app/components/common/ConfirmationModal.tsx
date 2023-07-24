@@ -1,17 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ConfirmationModalProps } from '@/app/types';
 import { CustomButton } from '../CustomInputs/CustomButton';
 import { apiRequest } from '@/app/libs/axios-api';
 import { getCookie } from 'cookies-next';
 import { usePathname, useRouter } from 'next/navigation';
 
-export const ConfirmationModal = ({
-   title,
-   children,
-   target,
-}: ConfirmationModalProps) => {
+interface Props {
+   title: string;
+   children: React.ReactNode;
+   target: number;
+}
+
+export const ConfirmationModal = ({ title, children, target }: Props) => {
    const router = useRouter();
    const pathname = usePathname();
    const [isOpen, setIsOpen] = useState(false);

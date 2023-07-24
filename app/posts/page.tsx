@@ -1,28 +1,21 @@
-import React from "react";
-import Card from "../components/common/Card";
+import React from 'react';
+import Card from '../components/common/Card';
+import { apiRequest } from '../libs/axios-api';
 
 export default async function Categories() {
-    return (
-        <>
-            <div className="body">
-                <div className="top-utilies">
-                    <select className="select">
-                        <option>Deporte</option>
-                        <option>Ciencias</option>
-                        <option>Academicos</option>
-                        <option>Literatura</option>
-                        <option>Moderno</option>
-                    </select>
-                </div>
-                <div className="content">
-                    <div className="content-posts">
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                    </div>
-                </div>
+   const posts = await apiRequest.getPosts('');
+   console.log(posts);
+   return (
+      <>
+         <div className="body">
+            <div className="top-utilies"></div>
+            <div className="content">
+               {posts.length &&
+                  posts.map((post, index) => (
+                     <Card key={`${post.id}-${index}`} post={post} />
+                  ))}
             </div>
-        </>
-    );
+         </div>
+      </>
+   );
 }

@@ -1,7 +1,14 @@
 'use client';
 
 import React from 'react';
-import { CustomButtonProps } from '../../types';
+
+interface Props {
+   title: string;
+   handleClick: () => void;
+   containerStyles?: string;
+   btnType?: 'button' | 'submit';
+   disabled?: boolean;
+}
 
 export const CustomButton = ({
    title,
@@ -9,7 +16,7 @@ export const CustomButton = ({
    containerStyles = '',
    btnType = 'button',
    disabled = false,
-}: CustomButtonProps) => {
+}: Props) => {
    return (
       <button
          disabled={disabled}

@@ -5,10 +5,14 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import { TableProps } from '@/app/types';
 import { ConfirmationModal } from './ConfirmationModal';
 
-export const Table = ({ data, itemsPage }: TableProps) => {
+interface Props {
+   data: any[];
+   itemsPage: number;
+}
+
+export const Table = ({ data, itemsPage }: Props) => {
    const [currentPage, setCurrentPage] = useState(1);
    const headers = Object.keys(data[0] || {});
 
