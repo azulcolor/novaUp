@@ -9,6 +9,7 @@ export interface IUser {
    email: string;
    role: ICatalogGen;
    department: ICatalogGen;
+   error?: string;
 }
 
 export interface IUserForm {

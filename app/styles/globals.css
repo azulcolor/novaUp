@@ -102,7 +102,7 @@ body {
 
 .btn-primary {
    background: var(--upqroo-offical-color);
-   foreground: var(--alternative-text-color);
+   color: var(--tertiary-color);
    transition: background-color 0.3s ease;
 }
 
