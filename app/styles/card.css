@@ -15,7 +15,7 @@
 }
 
 .card__body button {
-  width: 100%;
+  width: 80%;
 }
 
 .card__title {
@@ -40,12 +40,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 35vh;
-  width: 20vw;
+  height: 45vh;
+  width: 30vw;
   padding: 2rem;
 }
 
 .card__image img {
-  height: 90%;
+  height: 100%;
+  width: 100%;
   border-radius: 0.5rem;
+}
+
+@media (max-width: 900px){
+  .card__image {
+    height: 55vh;
+    width: 60vw;
+  }
+}
+
+@media (max-width: 550px) {
+  .card__image {
+    height: 65vh;
+    width: 100vw;
+  }
 }

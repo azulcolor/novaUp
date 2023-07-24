@@ -18,16 +18,24 @@
    display: grid;
    grid-template-columns: repeat(2, minmax(0, 1fr));
    gap: 100px;
-   margin: 0 2vw
-   
+   margin: 0 2vw;
 }
 
 .content > div:nth-child(odd):after {
    content: '';
    display: block;
    position: absolute;
-   right: -50px; /* La mitad del espacio de separación */
+   right: -50px; 
    height: 100%;
    width: 1px;
    background: rgba(0, 0, 0, 0.25);
+}
+
+
+@media (max-width: 900px) {
+   .content {
+      grid-template-columns: repeat(1, minmax(0, 1fr)); 
+      gap: 40px; 
+      margin: 0; 
+   }
 }
