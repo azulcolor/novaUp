@@ -7,14 +7,11 @@ export default async function Categories() {
    console.log(posts);
    return (
       <>
-         <div className="body">
-            <div className="top-utilies"></div>
-            <div className="content">
-               {posts.length &&
-                  posts.map((post, index) => (
-                     <Card key={`${post.id}-${index}`} post={post} />
-                  ))}
-            </div>
+         <div className="content">
+            {posts.length &&
+               posts.map((post, index) => (
+                  <Card key={`${post.id}-${index}`} post={post} />
+               ))}
          </div>
       </>
    );

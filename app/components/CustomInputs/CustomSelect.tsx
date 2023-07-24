@@ -6,7 +6,7 @@ interface Props {
    options: ICatalogGen[];
    select?: ICatalogGen;
    disabled?: boolean;
-   containerStyles: string;
+   containerStyles?: string;
 }
 
 export const CustomSelect = ({
@@ -16,5 +16,13 @@ export const CustomSelect = ({
    disabled,
    containerStyles,
 }: Props) => {
-   return <div>CustomSelect</div>;
+   return (
+      <div>
+         <select>
+            <option value={select ? select.id || 0 : 0}>
+               {select ? select.name : placeholder}
+            </option>
+         </select>
+      </div>
+   );
 };
