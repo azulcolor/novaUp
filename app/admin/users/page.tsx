@@ -13,13 +13,18 @@ export default async function AdminUsers() {
       <div className="admin-container">
          <div className="admin-container__table">
             <Table
-               data={users.map((user) => {
-                  return {
-                     Email: user.email,
-                     Departamento: user.department.name,
-                     'Tipo de usuario': user.role.name,
-                  };
-               })}
+               data={
+                  users?.length
+                     ? users?.map((user) => {
+                          return {
+                             Email: user.email,
+                             Departamento: user.department.name,
+                             'Tipo de usuario': user.role.name,
+                          };
+                       })
+                     : []
+               }
+               itemsPage={10}
             />
          </div>
       </div>

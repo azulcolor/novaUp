@@ -21,18 +21,19 @@
 }
 
 .admin-container__table {
-   width: 70vw;
+   overflow: auto;
+   position: relative;
+   width: 90vw;
    height: 75vh;
    padding: 5rem;
    background: #ffff;
    border-radius: 15px;
-   overflow: hidden;
 }
 
 .admin-container__table table {
    width: 100%;
    text-align: center;
-   font-size: 1.5em;
+   font-size: 1.3em;
 }
 
 .admin-container__table table td {
@@ -54,4 +55,50 @@
 
 .admin-container__table table tbody tr:nth-child(odd):hover {
    background-color: #f8f8f8; /* Color al pasar el ratón en filas impares */
+}
+
+.table-control {
+   position: absolute;
+   right: 50%;
+   bottom: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: row;
+   gap: 10px;
+}
+
+.table-control button {
+   padding: 1rem;
+}
+
+.modal-container {
+   position: fixed;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background: rgba(0, 0, 0, 0.6);
+   z-index: 50;
+}
+
+.modal {
+   z-index: 55;
+   width: 30vw;
+   padding: 2rem;
+   border-radius: 15px;
+   background: #ffff;
+}
+
+.modal__title {
+   padding: 2rem;
+}
+
+.modal__body {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
 }
