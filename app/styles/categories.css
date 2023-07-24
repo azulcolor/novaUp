@@ -1,7 +1,6 @@
 .post-layout {
    display: flex;
-   width: 100%;
-   padding: 2rem;
+   padding: 2rem 4vw;
    justify-content: space-between;
    flex-direction: unset;
 }
@@ -19,6 +18,8 @@
    display: grid;
    grid-template-columns: repeat(2, minmax(0, 1fr));
    gap: 100px;
+   margin: 0 2vw
+   
 }
 
 .content > div:nth-child(odd):after {
