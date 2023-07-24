@@ -1,0 +1,39 @@
+.card-body {
+    border-radius: 0.5rem;
+    border-width: 1px;
+    border-color: #E5E7EB;
+    background-color: #f1eded;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.card-content {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+    padding: 1.5rem;
+}
+
+.card-text {
+    flex: 1;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #111827;
+}
+
+.card-subtext {
+    margin-bottom: 0.75rem; 
+    font-weight: 400; 
+    color: #374151; 
+}
+.card-image {
+    border-radius: 0.5rem;
+}
+
+.card-padding-text{
+    padding: 1.25rem; 
+}
