@@ -2,6 +2,8 @@
    position: relative;
    display: flex;
    flex-direction: row;
+   padding: 2rem;
+   padding-bottom: 5rem;
    border-radius: 1rem;
    align-items: center;
 }
@@ -11,30 +13,31 @@
    flex-direction: column;
    justify-content: center;
    width: 60%;
-   padding: 2rem;
 }
 
 .card__body button {
    width: 80%;
+   padding: 0.8rem 0.5rem;
+   font-size: 1rem;
 }
 
 .card__title {
-   padding: 1rem;
    font-size: 1.3rem;
    line-height: 2rem;
+   padding-right: 1rem;
    font-weight: 700;
    letter-spacing: -0.025em;
    color: #111827;
 }
 
 .card__summary {
-   padding: 1rem;
-   max-width: 23rem;
+   max-width: 29rem;
    max-height: 10.5rem;
+   padding-top: 1.5rem;
+   padding-bottom: 5rem;
+   padding-right: 1rem;
    overflow: hidden;
-   font-size: 0.9rem;
-   padding-bottom: 2rem;
-   margin-bottom: 2rem;
+   font-size: 1rem;
    font-weight: 400;
    color: #374151;
 }
@@ -43,9 +46,8 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   height: 35vh;
-   width: 25vw;
-   padding: 3rem;
+   width: 40%;
+   height: 100%;
 }
 
 .card__image img {
@@ -54,24 +56,16 @@
    border-radius: 0.5rem;
 }
 
-@media (max-width: 900px) {
-   .card__image {
-      height: 55vh;
-      width: 60vw;
-   }
-}
-
-@media (max-width: 550px) {
-   .card__image {
-      height: 10vh;
-      width: 10vw;
+@media (max-width: 650px) {
+   .card {
+      padding: 0;
    }
 }
 
 @media (max-width: 480px) {
    .card__title {
       color: var(--title, #232323);
-      font-size: 11px;
+      font-size: 10px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -80,23 +74,17 @@
 
    .card__body button {
       border-radius: 5px;
-      width: 100%;
-      padding: 1px;
+      width: 80%;
+      padding: 5px;
+      font-size: 9px;
    }
 
    .card__summary {
       color: #6a6a6a;
-      font-size: 10px;
+      font-size: 9px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
       margin-bottom: 0;
-   }
-
-   .card__image {
-      width: 144px;
-      height: 180px;
-      flex-shrink: 0;
-      padding: 0;
    }
 }

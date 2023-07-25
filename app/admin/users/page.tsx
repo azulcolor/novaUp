@@ -8,9 +8,6 @@ export default async function AdminUsers() {
    const token = cookieStore.get('nova-access-token')?.value || '';
    const users = await apiRequest.getUSers(token);
 
-   console.log(token);
-   console.log(users);
-
    return (
       <div className="admin-container">
          <div className="admin-container__table">

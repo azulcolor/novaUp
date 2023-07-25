@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 import { UsersDetails } from './UsersDetails';
-import { CustomButton } from '@/app/components/CustomInputs/CustomButton';
+import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { useRouter } from 'next/navigation';
 import { url } from '@/libs/utils/url';
-import { IUser } from '@/app/interfaces';
+import { IUser } from '@/interfaces';
 
 interface Props {
    tabSelector: 'users' | 'posts';

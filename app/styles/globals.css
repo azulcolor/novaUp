@@ -21,7 +21,6 @@
    --secondary-color: #607ee9;
    --tertiary-color: #f3f2f7;
    --alternative-text-color: 0, 0, 0;
-   --upqroo-offical-color: #f97316;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -109,7 +108,7 @@ body {
 }
 
 .btn-primary {
-   background: var(--upqroo-offical-color);
+   background: var(--primary-color);
    color: var(--tertiary-color);
    transition: background-color 0.3s ease;
    border-radius: 0.5rem;
