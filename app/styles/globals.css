@@ -3,6 +3,8 @@
 @import './inputs.css';
 @import './card.css';
 @import './categories.css';
+@import './cardcarousel.css';
+@import './carousel.css';
 
 @tailwind base;
 @tailwind components;

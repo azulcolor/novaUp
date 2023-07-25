@@ -1,0 +1,127 @@
+.cardcarousel {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding: 2rem 5rem 2rem 5rem;
+  padding-bottom: 1rem;
+  border-radius: 1rem;
+  align-items: center;
+}
+
+.cardcarousel__body {
+  background: #ffffff;
+  padding: 1rem 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  border-radius: 0.5rem;
+}
+
+.cardcarousel__image {
+  flex: 1;
+  padding: 1rem;
+  display: flex; /* Agregar esta línea para ajustar el tamaño de la imagen */
+  justify-content: center; /* Agregar esta línea para centrar horizontalmente la imagen */
+  align-items: center; /* Agregar esta línea para centrar verticalmente la imagen */
+}
+
+.cardcarousel__image img {
+  max-width: 100%; /* La imagen ocupará el 100% del ancho disponible */
+  max-height: 100%; /* La imagen ocupará el 100% de la altura disponible */
+  object-fit: contain; /* Ajusta la imagen manteniendo su relación de aspecto */
+  border-radius: 0.5rem;
+}
+
+.cardcarousel__title {
+  font-size: 1.3rem;
+  line-height: 2rem;
+  padding-right: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #111827;
+}
+
+.cardcarousel__summary {
+  padding-top: 1.5rem;
+  padding-bottom: 5rem;
+  overflow: hidden;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #374151;
+}
+
+.cardcarousel__button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.cardcarousel__button button {
+  width: 50%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 650px) {
+  /* Estilos para dispositivos con ancho de 650px o menos */
+  .cardcarousel {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 0 4rem 0 4rem;
+    padding-bottom: 1rem;
+    border-radius: 1rem;
+    align-items: center;
+  }
+  
+  .cardcarousel {
+    flex-direction: column; /* Cambia la dirección del flex container a columna */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    height: 100%; /* Ocupar toda la altura disponible */
+  }
+
+  .cardcarousel__image {
+    order: -1; /* Cambia el orden de aparición, para que la imagen se muestre primero */
+    width: 100%; /* Ocupar todo el ancho de la card */
+    height: 30%; /* Ocupar la mitad del alto de la card (ajústalo según tu diseño) */
+    padding: 0;
+  }
+
+  .cardcarousel__image img {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .cardcarousel__body {
+    width: 100%; /* Ocupar todo el ancho de la card */
+    height: 50%; /* Ocupar la otra mitad del alto de la card (ajústalo según tu diseño) */
+    display: flex;
+    padding: 1rem 2rem 1rem 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+
+  /* Ajusta el tamaño del título, subtitulo y botón */
+  .cardcarousel__title {
+    font-size: 1.2rem; /* Ajusta el tamaño del título según tu diseño */
+    margin-bottom: 1rem;
+  }
+
+  .cardcarousel__summary {
+    font-size: 0.8rem; /* Ajusta el tamaño del subtitulo según tu diseño */
+    margin-bottom: 0rem;
+  }
+
+  .cardcarousel__button {
+    width: 100%;
+    padding: 0.4rem 0.2rem;
+    font-size: 0.7rem; /* Ajusta el tamaño del botón según tu diseño */
+  }
+  .cardcarousel__button button {
+    width: 45%;
+    padding: 0.4rem 0.2rem;
+    font-size: 0.8rem;
+  }
+}
