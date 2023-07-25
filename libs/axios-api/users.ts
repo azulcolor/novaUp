@@ -1,4 +1,4 @@
-import { api } from '@/app/libs/axios-api';
+import { api } from '@/libs/axios-api';
 import { IUser, IUserForm } from '@/app/interfaces';
 export const apiUsers = {
    getUSers: async (token: string): Promise<IUser[]> =>

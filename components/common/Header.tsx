@@ -1,7 +1,7 @@
 'use client';
 
-import { apiRequest } from '@/app/libs/axios-api';
-import { url } from '@/app/libs/utils/url';
+import { apiRequest } from '@/libs/axios-api';
+import { url } from '@/libs/utils/url';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';

@@ -1,9 +1,9 @@
-import { api } from '@/app/libs/axios-api';
+import { api } from '@/libs/axios-api';
 import {
    errorMessage,
    serializedNewUser,
    serializedPutUser,
-} from '@/app/libs/utils/serializers';
+} from '@/libs/utils/serializers';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 

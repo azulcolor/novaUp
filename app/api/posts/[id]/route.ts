@@ -1,6 +1,6 @@
 import { IPost } from '@/app/interfaces';
-import { api } from '@/app/libs/axios-api';
-import { errorMessage } from '@/app/libs/utils/serializers';
+import { api } from '@/libs/axios-api';
+import { errorMessage } from '@/libs/utils/serializers';
 import { NextRequest, NextResponse } from 'next/server';
 
 const path = '/api/posts/[id]';

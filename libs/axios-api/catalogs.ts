@@ -1,4 +1,4 @@
-import { api } from '@/app/libs/axios-api/axios';
+import { api } from '@/libs/axios-api/axios';
 import { ICatalogGen } from '@/app/interfaces';
 
 export const apiCatalogs = {

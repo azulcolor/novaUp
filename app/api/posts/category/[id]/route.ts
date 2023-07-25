@@ -1,5 +1,5 @@
-import { api } from '@/app/libs/axios-api';
-import { errorMessage } from '@/app/libs/utils/serializers';
+import { api } from '@/libs/axios-api';
+import { errorMessage } from '@/libs/utils/serializers';
 import { NextRequest, NextResponse } from 'next/server';
 
 const path = '/posts/categories/[id]';

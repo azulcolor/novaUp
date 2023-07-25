@@ -23,7 +23,7 @@ export const CustomButton = ({
          type={btnType}
          className={`btn ${containerStyles}`}
          onClick={handleClick}>
-         <span className="flex justify-center">{title}</span>
+         {title}
       </button>
    );
 };

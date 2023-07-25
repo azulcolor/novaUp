@@ -1,4 +1,4 @@
-import { api } from '../../libs/axios-api';
+import { api } from '../../../libs/axios-api';
 import { IPostRequest } from '../../interfaces/posts';
 import { IUser } from '../../interfaces/user';
 import jwt from 'jsonwebtoken';
@@ -8,7 +8,7 @@ import {
    errorMessage,
    serializedNewPost,
    serializedPostUpdate,
-} from '../../libs/utils/serializers';
+} from '../../../libs/utils/serializers';
 
 const path = '/api/posts';
 

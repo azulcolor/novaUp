@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { CustomButton } from '../components/CustomInputs/CustomButton';
-import { url } from '../libs/utils/url';
+import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import { url } from '../../libs/utils/url';
+import { SelectorDetails } from '@/components/common/modals/details/SelectorDetails';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const router = useRouter();
@@ -29,10 +30,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
 
             <div>
-               <CustomButton
-                  title="Crear"
-                  handleClick={() => {}}
-                  containerStyles="btn-primary"
+               <SelectorDetails
+                  tabSelector={activeTab ? 'posts' : 'users'}
+                  action="create"
                />
             </div>
          </nav>

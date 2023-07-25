@@ -1,5 +1,5 @@
 import React from 'react';
-import { CustomSelect } from '../components/CustomInputs/CustomSelect';
+import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
 
 interface Props {
    children: React.ReactNode;

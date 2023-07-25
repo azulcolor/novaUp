@@ -1,5 +1,5 @@
-import { Table } from '@/app/components/common/Table';
-import { apiRequest } from '@/app/libs/axios-api';
+import { Table } from '@/components/common/Table';
+import { apiRequest } from '@/libs/axios-api';
 import { cookies } from 'next/headers';
 import React from 'react';
 

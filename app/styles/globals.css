@@ -69,6 +69,12 @@ body {
    font-weight: bold;
 }
 
+.text-ellipsis {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
 .alternative-title {
    color: var(--primary-color);
    font-size: 32px;

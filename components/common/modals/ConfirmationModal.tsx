@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CustomButton } from '../CustomInputs/CustomButton';
-import { apiRequest } from '@/app/libs/axios-api';
+import { CustomButton } from '../../CustomInputs/CustomButton';
+import { apiRequest } from '@/libs/axios-api';
 import { getCookie } from 'cookies-next';
 import { usePathname, useRouter } from 'next/navigation';
 

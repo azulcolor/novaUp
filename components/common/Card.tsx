@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { CustomButton } from '../CustomInputs/CustomButton';
-import { IPost } from '@/app/interfaces';
+import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import { IPost } from '@/interfaces';
 
 interface Props {
    post: IPost;
@@ -14,7 +14,9 @@ export default function card({ post }: Props) {
       <div className="card">
          <div className="card__body">
             <div className="card__title">{post.title}</div>
-            <div className="card__summary">{post.summary}</div>
+            <div className="card__summary">
+               <p>{post.summary}</p>
+            </div>
             <div>
                <CustomButton
                   title={'Ver detalles'}

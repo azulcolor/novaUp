@@ -5,7 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from './modals/ConfirmationModal';
 
 interface Props {
    data: any[];
