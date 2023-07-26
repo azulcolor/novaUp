@@ -35,6 +35,12 @@ module.exports = {
         blackBackground: {
           DEFAULT: "#2C2C2C"
         },
+        borderLines: {
+          DEFAULT: "#B6B6B6"
+        },
+        redBtn:{
+          DEFAULT: "#FF2D2D"
+        }
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
