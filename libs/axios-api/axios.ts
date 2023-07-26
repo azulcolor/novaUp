@@ -28,6 +28,7 @@ export const api = async <T = any>(
             url,
             data,
             headers: {
+               'Content-Type': 'application/json',
                ...(config?.headers || {}),
                ...headers,
             },
@@ -40,6 +41,7 @@ export const api = async <T = any>(
             url,
             data,
             headers: {
+               'Content-Type': 'application/json',
                ...(config?.headers || {}),
                ...headers,
             },

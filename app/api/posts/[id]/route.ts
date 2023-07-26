@@ -1,4 +1,4 @@
-import { IPost } from '@/app/interfaces';
+import { IPost } from '@/interfaces';
 import { api } from '@/libs/axios-api';
 import { errorMessage } from '@/libs/utils/serializers';
 import { NextRequest, NextResponse } from 'next/server';
