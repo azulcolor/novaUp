@@ -3,6 +3,7 @@
 @import './inputs.css';
 @import './card.css';
 @import './categories.css';
+@import './formPost.css';
 
 @tailwind base;
 @tailwind components;

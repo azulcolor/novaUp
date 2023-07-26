@@ -1,3 +1,6 @@
+'user client';
+
+import FormPost from '@/components/forms/FormPost';
 import { apiRequest } from '@/libs/axios-api';
 import { cookies } from 'next/headers';
 
@@ -11,6 +14,9 @@ export default async function AdminPostById({ params }: Props) {
    const cookieStore = cookies();
    const token = cookieStore.get('nova-access-token')?.value || '';
 
+
    const post = await apiRequest.getPostById(token, Number(params.id));
-   return <h1>{post.title}</h1>;
+   return (
+      <FormPost post={post} />
+   );
 }
