@@ -2,14 +2,17 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import { url } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
 
 interface Props {
    post: IPost;
 }
 
-export default function card({ post }: Props) {
+export default function Card({ post }: Props) {
+   const router = useRouter();
    return (
       <div className="card">
          <div className="card__body">
@@ -20,7 +23,9 @@ export default function card({ post }: Props) {
             <div>
                <CustomButton
                   title={'Ver detalles'}
-                  handleClick={() => {}}
+                  handleClick={() => {
+                     router.push(url.postDetail(post.id));
+                  }}
                   containerStyles="btn-primary"
                />
             </div>
