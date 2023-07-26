@@ -17,10 +17,6 @@ export default async function Home(props: Props) {
         <Carousel items={latests}/>
       </div>
       <div className='bottom__layer'>
-        {posts.length &&
-          posts.map((post, index) => (
-            <Card key={`${post.id}-${index}`} post={post} />
-          ))}
       </div>
     </main>
   )
