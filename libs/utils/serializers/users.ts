@@ -1,4 +1,4 @@
-import { IUserForm } from '@/app/interfaces';
+import { IUserForm } from '@/interfaces';
 
 export const serializedNewUser = (user: IUserForm) => ({
    email: user.email,

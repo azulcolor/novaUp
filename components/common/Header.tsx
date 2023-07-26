@@ -45,6 +45,7 @@ export const Header = () => {
    const handleSignOut = async () => {
       deleteCookie('nova-access-token', {
          path: '/',
+         sameSite: 'lax',
          secure: process.env.NODE_ENV !== 'development',
       });
       signOut();
@@ -79,7 +80,7 @@ export const Header = () => {
                ))}
 
                {!session && <li onClick={() => signIn()}>Iniciar sesion</li>}
-               {session && <li onClick={() => signOut()}>Cerrar sesion</li>}
+               {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
             </ul>
          </div>
       </div>

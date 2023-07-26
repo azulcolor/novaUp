@@ -34,9 +34,9 @@ export const Table = ({ data, itemsPage }: Props) => {
          <table>
             <thead>
                <tr>
-                  {headers.map((header, index) => (
-                     <th key={index}>{header}</th>
-                  ))}
+                  {headers.map((header, index) =>
+                     header === 'id' ? null : <th key={index}>{header}</th>
+                  )}
                   <th />
                </tr>
             </thead>
@@ -45,9 +45,9 @@ export const Table = ({ data, itemsPage }: Props) => {
                   .slice((currentPage - 1) * itemsPage, currentPage * itemsPage)
                   .map((row, index) => (
                      <tr key={index}>
-                        {headers.map((header, index) => (
-                           <td key={index}>{row[header]}</td>
-                        ))}
+                        {headers.map((header, index) =>
+                           header === 'id' ? null : <td key={index}>{row[header]}</td>
+                        )}
                         <td>
                            <ConfirmationModal
                               title={`¿Seguro que quieres borrar ${

@@ -2,12 +2,13 @@
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { CustomInputText } from '@/components/CustomInputs/CustomInputText';
-import { IUser } from '@/interfaces';
+import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
+import { ICatalogGen, IUser } from '@/interfaces';
 import { apiRequest } from '@/libs/axios-api';
 import { getCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
    closeModal: () => void;
@@ -17,9 +18,21 @@ interface Props {
 
 export const UsersDetails = ({ closeModal, userData = undefined, action }: Props) => {
    const [user, SetUser] = useState(userData);
+   const [departments, setDepartments] = useState<ICatalogGen[]>([]);
+   const [roles, setRoles] = useState<ICatalogGen[]>([]);
    const router = useRouter();
 
    const token = getCookie('nova-access-token')?.toString() || '';
+
+   useEffect(() => {
+      (async () => {
+         const departments = await apiRequest.getDepartments();
+         const roles = await apiRequest.getRoles();
+
+         setDepartments(() => departments);
+         setRoles(() => roles);
+      })();
+   }, []);
 
    const handleSaveUser = async () => {
       if (action === 'create') {
@@ -48,7 +61,17 @@ export const UsersDetails = ({ closeModal, userData = undefined, action }: Props
                   value={user?.email || ''}
                   onChangueValue={handleChangueValue}
                />
-               <CustomInputText label="" />
+               <div className="flex justify-between">
+                  <span>Departamento</span>
+                  <CustomSelect
+                     options={departments}
+                     defaultOption={user?.department as any}
+                  />
+               </div>
+               <div className="flex justify-between">
+                  <span>Rol</span>
+                  <CustomSelect options={roles} defaultOption={user?.role as any} />
+               </div>
             </div>
             <div className="modal__body">
                <div>

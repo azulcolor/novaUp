@@ -99,9 +99,11 @@
 
 .modal__control {
    display: flex;
-   justify-content: space-between;
+   justify-content: center;
+   flex-direction: column;
    width: 100%;
    padding: 2rem;
+   gap: 2rem;
 }
 
 .modal__control input {

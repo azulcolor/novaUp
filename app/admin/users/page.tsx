@@ -16,6 +16,7 @@ export default async function AdminUsers() {
                   users?.length
                      ? users?.map((user) => {
                           return {
+                             id: user.id,
                              Email: user.email,
                              Departamento: user.department.name,
                              'Tipo de usuario': user.role.name,
