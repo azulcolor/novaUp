@@ -5,9 +5,11 @@ import { InputSearch } from '@/components/CustomInputs/InputSearch';
 
 interface Props {
    children: React.ReactNode;
+   params: { [key: string]: string | string[] };
+   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function PostLayout({ children }: Props) {
+export default async function PostLayout({ children, params, searchParams }: Props) {
    const categories = await apiRequest.getCategories();
    const extraOption = {
       id: 0,
@@ -18,9 +20,10 @@ export default async function PostLayout({ children }: Props) {
       <>
          <div className="post-layout">
             <CustomSelect
+               attributeToChangue="category"
                options={categories}
-               defaultOption={extraOption}
                select={extraOption}
+               defaultOption={extraOption}
             />
             <InputSearch />
          </div>
