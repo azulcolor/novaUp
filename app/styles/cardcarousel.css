@@ -1,6 +1,7 @@
 .cardcarousel {
     display: grid ;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); 
+    grid-template-columns: repeat(2, minmax(0, 35rem)); 
+    grid-auto-rows: 20rem;
     padding: 0 2rem 2rem 2rem; 
 }
 
@@ -56,7 +57,8 @@
 
 @media(max-width: 910px) {
     .cardcarousel {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
+        grid-template-columns: repeat(1, minmax(0, 20rem));
+        grid-auto-rows: 10rem;
     }
     .cardcarousel__body {
         grid-column: span 1 / span 1;
