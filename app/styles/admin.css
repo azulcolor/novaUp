@@ -22,7 +22,9 @@
 
 .admin-container__table {
    overflow: auto;
-   position: relative;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
    width: 90vw;
    height: 75vh;
    padding: 5rem;
@@ -69,8 +71,6 @@
 }
 
 .table-control {
-   position: absolute;
-   right: 50%;
    bottom: 2rem;
    display: flex;
    justify-content: center;

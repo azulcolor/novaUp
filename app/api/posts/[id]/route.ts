@@ -42,11 +42,12 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
          throw new Error('Access denied, Token not provided.');
       }
 
-      const authToken = headersList.get('autorization');
+      const authToken = headersList.get('authorization');
 
       await api('api', 'DELETE', `/posts/${id}`, {
          Authorization: authToken,
       });
+      return NextResponse.json({ message: 'Post deleted successfully.' });
    } catch (error: any) {
       const formatedError = errorMessage(error, path, 'DELETE');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);

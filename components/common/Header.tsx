@@ -1,20 +1,24 @@
 'use client';
 
-import { apiRequest } from '@/libs/axios-api';
-import { url } from '@/libs/utils/url';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter, usePathname } from 'next/navigation';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import Image from 'next/image';
+
+import { url } from '@/libs/utils/url';
+import { apiRequest } from '@/libs/axios-api';
 
 interface LinkItem {
    label: string;
+   path: string;
    action: () => void;
 }
 
 export const Header = () => {
    const router = useRouter();
+   const pathname = usePathname();
    const { data: session } = useSession();
 
    // next-auth need this for authenticate with external nova-up api
@@ -54,14 +58,17 @@ export const Header = () => {
    const links: LinkItem[] = [
       {
          label: 'Principal',
+         path: '/',
          action: () => router.push(url.home()),
       },
       {
          label: 'Categorías',
+         path: '/posts',
          action: () => router.push(url.posts()),
       },
       {
          label: 'Administración',
+         path: '/admin',
          action: () => router.push(url.adminPosts()),
       },
    ];
@@ -74,7 +81,14 @@ export const Header = () => {
          <div className="header__nav-link">
             <ul>
                {links.map((link) => (
-                  <li key={link.label} onClick={link.action}>
+                  <li
+                     key={link.label}
+                     onClick={link.action}
+                     className={
+                        pathname.split('/')[1] === link.path.split('/')[1]
+                           ? 'border-b'
+                           : ''
+                     }>
                      {link.label}
                   </li>
                ))}

@@ -18,7 +18,6 @@ export default async function Categories() {
             <CustomSelect
                attributeToChangue="category"
                options={categories}
-               select={extraOption}
                defaultOption={extraOption}
             />
             <InputSearch />

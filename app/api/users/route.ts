@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
       const headersList = headers();
       const authToken = headersList.get('authorization');
       const body = await req.json();
+      console.log(body);
       const newUser = serializedNewUser(body);
       console.log(newUser);
 
@@ -70,11 +71,10 @@ export async function PUT(req: NextRequest) {
       if (!authToken) {
          throw new Error('Access Denied, Token not provided.');
       }
-
       const users = await api(
          'api',
          'PUT',
-         '/users',
+         `/users/${body.id}}`,
          { Authorization: authToken },
          putUser
       );
