@@ -17,6 +17,13 @@ export default function ImagesDetail({ post }: Props) {
       { url: image.url + '1' },
       { url: image.url + '2' },
       { url: image.url + '3' },
+      { url: image.url + '4' },
+      { url: image.url + '5' },
+      { url: image.url + '6' },
+      { url: image.url + '7' },
+      { url: image.url + '8' },
+      { url: image.url + '9' },
+      { url: image.url + '10' },
    ];
    const [imageSelected, setImageSelected] = useState(post.coverImage);
 
@@ -31,12 +38,12 @@ export default function ImagesDetail({ post }: Props) {
                height={450}
             />
          </div>
-         <div className="flex flex-wrap pt-4  justify-center">
+         <div className="grid grid-cols-4 gap-4">
             {images.map((image, i) => {
                return (
                   <Image
                      key={i}
-                     className={`mb-2 mx-2 rounded-xl ${
+                     className={`rounded-xl ${
                         image.url === imageSelected ? 'contrast-50' : ''
                      }`}
                      src={`${image.url}`}
