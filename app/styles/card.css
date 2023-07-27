@@ -15,10 +15,22 @@
    width: 60%;
 }
 
-.card__body button {
+.card__body-details {
    width: 80%;
    padding: 0.8rem 0.5rem;
    font-size: 1rem;
+}
+
+.card__body-details--editable {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   gap: 2rem;
+   margin-right: 2rem;
+}
+
+.card__body-details--editable .btn-primary {
+   padding: 0.6rem 2.5rem;
 }
 
 .card__title {
@@ -72,7 +84,7 @@
       letter-spacing: 0.88px;
    }
 
-   .card__body button {
+   .card__body-details {
       border-radius: 5px;
       width: 80%;
       padding: 5px;
