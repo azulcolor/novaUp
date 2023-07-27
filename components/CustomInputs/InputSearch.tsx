@@ -18,7 +18,7 @@ export const InputSearch = () => {
          <input
             type="text"
             className="search-input"
-            placeholder="Buscar..."
+            placeholder="Buscar publicación..."
             onChange={(e) => handleSearchChangue(e.target.value)}
          />
          <i className="icon-right">
