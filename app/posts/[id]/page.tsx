@@ -1,5 +1,5 @@
 import { apiRequest } from '@/libs/axios-api';
-import PostDetail from '@/components/common/DetailPost';
+import PostDetail from '@/components/DetailsPost/DetailPost';
 import NotFound from '@/app/not-found';
 import ButtonBack from '@/components/common/ButtonBack';
 
