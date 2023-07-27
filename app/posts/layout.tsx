@@ -10,24 +10,5 @@ interface Props {
 }
 
 export default async function PostLayout({ children, params, searchParams }: Props) {
-   const categories = await apiRequest.getCategories();
-   const extraOption = {
-      id: 0,
-      name: 'Recientes',
-   };
-
-   return (
-      <>
-         <div className="post-layout">
-            <CustomSelect
-               attributeToChangue="category"
-               options={categories}
-               select={extraOption}
-               defaultOption={extraOption}
-            />
-            <InputSearch />
-         </div>
-         {children}
-      </>
-   );
+   return <>{children}</>;
 }
