@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import { url } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
 import { usePathname, useRouter } from 'next/navigation';
 import { ConfirmationModal } from './modals/ConfirmationDeleteModal';
@@ -46,7 +47,8 @@ export const Card = ({ post }: Props) => {
                      <div className="card__body-details--editable">
                         <ConfirmationModal
                            title={`¿Seguro que deseas eliminar el post "${post.title}"?`}
-                           target={post.id}>
+                           target={post.id}
+                        >
                            <CustomButton
                               title="Eliminar"
                               containerStyles="btn-danger"
