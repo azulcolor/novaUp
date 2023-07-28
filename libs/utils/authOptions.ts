@@ -21,9 +21,7 @@ export const authOptions: NextAuthOptions = {
             data?.account?.provider === 'google' &&
             data.user
          ) {
-            console.log(data?.account?.id_token);
             const auth = await apiRequest.login({ googleToken: data.account?.id_token });
-            console.log(auth);
             if (auth) {
                return true as any;
             }

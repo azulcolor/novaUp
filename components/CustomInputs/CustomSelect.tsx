@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
+import React, { useEffect, useRef } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+
 import { ICatalogGen } from '@/interfaces';
-import { useRouter, usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 
 interface Props {
    options: ICatalogGen[];
@@ -23,12 +24,10 @@ export const CustomSelect = ({
    disabled,
    containerStyles,
 }: Props) => {
+   const currentRefAttribute = useRef<HTMLInputElement>(null);
    const router = useRouter();
    const path = usePathname();
-
-   useEffect(() => {
-      if (onChangueValue) onChangueValue(attributeToChangue, options[0]);
-   }, [options]);
+   const searchParams = useSearchParams();
 
    const handleChangueValue = (id: number) => {
       if (!isChangueQuery && onChangueValue) {
@@ -40,9 +39,23 @@ export const CustomSelect = ({
       }
    };
 
+   useEffect(() => {
+      if (onChangueValue) onChangueValue(attributeToChangue, options[0]);
+   }, [options]);
+
+   useEffect(() => {
+      const currentAttribute = searchParams.get(attributeToChangue);
+      if (!currentAttribute && defaultOption) {
+         if (currentRefAttribute?.current?.value) {
+            currentRefAttribute.current.value = String(defaultOption.id);
+         }
+      }
+   }, [searchParams]);
+
    return (
       <div className={containerStyles}>
          <select
+            ref={currentRefAttribute as any}
             disabled={disabled}
             defaultValue={defaultOption ? defaultOption.id : 0}
             onChange={(e) => handleChangueValue(Number(e.target.value))}>
