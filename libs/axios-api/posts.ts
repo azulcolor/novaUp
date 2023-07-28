@@ -17,7 +17,7 @@ export const apiPosts = {
          .then((data) => data)
          .catch((e) => []),
 
-   getPostsPinned: async (): Promise<IPost> =>
+   getPostsPinned: async (): Promise<IPost[]> =>
       await api('next', 'GET', '/posts/pinned')
          .then((data) => data)
          .catch((e) => []),
