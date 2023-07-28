@@ -54,7 +54,7 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
          setDepartments(() => departments);
          setRoles(() => roles);
       })();
-   }, [user]);
+   }, []);
 
    return (
       <div className="modal-container">
