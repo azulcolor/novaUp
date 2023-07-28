@@ -60,9 +60,9 @@ export const Table = ({ users, data, itemsPage }: Props) => {
                         </td>
                         <td>
                            <ConfirmationModal
-                              title={`¿Seguro que quieres borrar ${
+                              title={`¿Seguro que quieres eliminar "${
                                  row['Titulo'] || row['Email']
-                              }?`}
+                              }?"`}
                               target={row['id']}>
                               <DeleteForeverIcon />
                            </ConfirmationModal>

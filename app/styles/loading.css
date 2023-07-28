@@ -43,3 +43,27 @@
       width: 100%;
    }
 }
+
+.skeleton-header {
+   width: 100%;
+   height: 120px;
+   background: linear-gradient(-90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+   background-size: 200% 100%;
+   animation: load 1.5s infinite linear;
+}
+
+.skeleton-content .skeleton-line {
+   height: 20px;
+   background: linear-gradient(-90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+   background-size: 200% 100%;
+   animation: load 1.5s infinite linear;
+}
+
+@keyframes load {
+   0% {
+      background-position: 200% 0;
+   }
+   100% {
+      background-position: -200% 0;
+   }
+}
