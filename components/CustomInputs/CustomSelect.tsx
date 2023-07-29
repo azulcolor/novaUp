@@ -55,6 +55,7 @@ export const CustomSelect = ({
    return (
       <div className={containerStyles}>
          <select
+            name={attributeToChangue}
             ref={currentRefAttribute as any}
             disabled={disabled}
             defaultValue={defaultOption ? defaultOption.id : 0}
@@ -64,7 +65,8 @@ export const CustomSelect = ({
             )}
             {options?.length > 0 &&
                options?.map((option, i) =>
-                  option?.id === defaultOption?.id ? null : (
+                  option?.id === defaultOption?.id ||
+                  option.name === defaultOption.name ? null : (
                      <option key={`${option.name}-${i}`} value={option.id}>
                         {option.name}
                      </option>

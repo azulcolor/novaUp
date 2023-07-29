@@ -1,27 +1,34 @@
 'use client';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface Props {
-   label: string;
+   label?: string;
+   children?: React.ReactNode;
+   placeholder: string;
    attributeToChangue: string;
    value: string;
-   onChangueValue: (attributeToChangue: string, value: string) => void;
+   onChangueValue: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const CustomInputText = ({
    label,
+   children,
+   placeholder,
    attributeToChangue,
    value,
    onChangueValue,
 }: Props) => {
    return (
       <div className="flex w-full justify-between">
-         <span>{label}:</span>
+         {label && <span>{label}:</span>}
          <input
+            name={attributeToChangue}
             type="text"
+            placeholder={placeholder}
             value={value}
-            onChange={(e) => onChangueValue(attributeToChangue, e.target.value)}
+            onChange={(e) => onChangueValue(e)}
          />
+         {children && children}
       </div>
    );
 };

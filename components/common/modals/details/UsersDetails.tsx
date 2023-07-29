@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 
@@ -42,6 +42,10 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
       }
    };
 
+   const handleChangueText = (e: ChangeEvent<HTMLInputElement>) => {
+      SetUser((prev: any) => ({ ...(prev || {}), [e.target.name]: e.target.value }));
+   };
+
    const handleChangueValue = (attribute: string, value: any) => {
       SetUser((prev: any) => ({ ...(prev || {}), [attribute]: value }));
    };
@@ -67,8 +71,9 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
                <CustomInputText
                   label="Email"
                   attributeToChangue="email"
+                  placeholder="Email"
                   value={user?.email || ''}
-                  onChangueValue={handleChangueValue}
+                  onChangueValue={handleChangueText}
                />
 
                <div className="flex justify-between">

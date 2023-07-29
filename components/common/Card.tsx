@@ -47,8 +47,7 @@ export const Card = ({ post }: Props) => {
                      <div className="card__body-details--editable">
                         <ConfirmationModal
                            title={`¿Seguro que deseas eliminar el post "${post.title}"?`}
-                           target={post.id}
-                        >
+                           target={post.id}>
                            <CustomButton
                               title="Eliminar"
                               containerStyles="btn-danger"

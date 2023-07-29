@@ -10,6 +10,14 @@ export const apiCatalogs = {
             false;
          }),
 
+   getTypesPost: async (): Promise<ICatalogGen[]> => [
+      { id: 1, name: 'Evento' },
+      { id: 2, name: 'Convocatoria interna' },
+      { id: 3, name: 'Convocatoria externa' },
+      { id: 4, name: 'Proyecto' },
+      { id: 5, name: 'Investigación' },
+   ],
+
    getDepartments: async (): Promise<ICatalogGen[]> =>
       await api('next', 'GET', '/catalogs/departments')
          .then((data) => data)

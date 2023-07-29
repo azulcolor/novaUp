@@ -14,7 +14,7 @@ export interface IPost {
    publishDate: string;
    eventDate: string;
    isApproved: boolean;
-   isCanceled: boolean;
+   isPinned: boolean;
    type: string;
    tags: string;
    comments: string;
@@ -23,7 +23,6 @@ export interface IPost {
 export interface IPostRequest {
    id: number;
    category: ICategory;
-   career: ICatalogGen;
    coverImage?: string;
    assets: IAssets[];
    isPinned: boolean;
@@ -33,10 +32,15 @@ export interface IPostRequest {
    publishDate: string;
    eventDate: string;
    isApproved: boolean;
-   isCanceled: boolean;
    type: string;
    tags: string;
    comments: string;
+}
+
+export interface IPostForm extends IPostRequest {
+   typeSelect: ICatalogGen; // temporal from form
+   currentTag: string; // temporal from form
+   tagsList: string[]; // temporal from form
 }
 
 export interface IAssets {

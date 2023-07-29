@@ -1,16 +1,13 @@
-'use client'
+'use client';
 import React from 'react';
-import { IPostRequest } from '@/interfaces';
+import { IPostForm } from '@/interfaces';
 
 interface Props {
-    formData: IPostRequest; 
-    setFormData: React.Dispatch<React.SetStateAction<IPostRequest>>;
+   formData: IPostForm;
+   setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
 }
 
 export const FormAddImage = (props: Props) => {
-   return (
-      <div>
-        add image
-      </div>
-   );
+   const { formData, setFormData } = props;
+   return <div>add image</div>;
 };
