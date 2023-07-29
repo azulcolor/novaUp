@@ -1,9 +1,18 @@
 import React from 'react';
+import { cookies } from 'next/headers';
 
-export default function AdminPosts() {
+import { Posts } from '@/components/common/Posts';
+
+import { apiRequest } from '@/libs/axios-api';
+
+export default async function AdminPosts() {
+   const cookieStore = cookies();
+   const token = cookieStore.get('nova-access-token')?.value || '';
+
+   const posts = await apiRequest.getPosts(token, false);
    return (
-      <div>
-         <h1>Posts</h1>
-      </div>
+      <>
+         <Posts posts={posts} />
+      </>
    );
 }

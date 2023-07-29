@@ -1,9 +1,12 @@
+@import './loading.css';
 @import './header.css';
 @import './admin.css';
 @import './inputs.css';
 @import './card.css';
 @import './categories.css';
 @import './formPost.css';
+@import './cardcarousel.css';
+@import './carousel.css';
 
 @tailwind base;
 @tailwind components;

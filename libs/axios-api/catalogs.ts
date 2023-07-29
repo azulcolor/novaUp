@@ -1,11 +1,14 @@
 import { api } from '@/libs/axios-api/axios';
-import { ICatalogGen } from '@/app/interfaces';
+import { ICatalogGen } from '@/interfaces';
 
 export const apiCatalogs = {
    getCategories: async (): Promise<ICatalogGen[]> =>
-      await api('next', 'POST', '/catalogs/categories')
+      await api('next', 'GET', '/catalogs/categories')
          .then((data) => data)
-         .catch((e) => false),
+         .catch((e) => {
+            console.log(e);
+            false;
+         }),
 
    getDepartments: async (): Promise<ICatalogGen[]> =>
       await api('next', 'GET', '/catalogs/departments')

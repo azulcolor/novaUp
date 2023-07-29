@@ -9,10 +9,9 @@ import { IUser } from '@/interfaces';
 interface Props {
    tabSelector: 'users' | 'posts';
    action: 'create' | 'edit';
-   user?: IUser;
 }
 
-export const SelectorDetails = ({ tabSelector, action, user }: Props) => {
+export const SelectorDetails = ({ tabSelector, action }: Props) => {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const router = useRouter();
 
@@ -35,11 +34,5 @@ export const SelectorDetails = ({ tabSelector, action, user }: Props) => {
       );
 
    if (isOpen && tabSelector === 'users')
-      return (
-         <UsersDetails
-            closeModal={() => setIsOpen(false)}
-            userData={user}
-            action={action}
-         />
-      );
+      return <UsersDetails closeModal={() => setIsOpen(false)} action={action} />;
 };

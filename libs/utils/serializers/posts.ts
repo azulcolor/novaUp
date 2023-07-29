@@ -1,4 +1,4 @@
-import { IPostRequest } from '@/app/interfaces';
+import { IPostRequest } from '@/interfaces';
 
 export const serializedPostUpdate = (data: IPostRequest) => ({
    id: data.id,

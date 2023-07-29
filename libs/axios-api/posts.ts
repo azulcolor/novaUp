@@ -1,5 +1,5 @@
 import { api } from '@/libs/axios-api/axios';
-import { IPost } from '@/app/interfaces';
+import { IPost } from '@/interfaces';
 
 export const apiPosts = {
    getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
@@ -17,7 +17,7 @@ export const apiPosts = {
          .then((data) => data)
          .catch((e) => []),
 
-   getPostsPinned: async (): Promise<IPost> =>
+   getPostsPinned: async (): Promise<IPost[]> =>
       await api('next', 'GET', '/posts/pinned')
          .then((data) => data)
          .catch((e) => []),

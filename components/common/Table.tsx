@@ -5,38 +5,41 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import { ConfirmationModal } from './modals/ConfirmationModal';
+import { ConfirmationModal } from './modals/ConfirmationDeleteModal';
+import { UserDetailsEditable } from './modals/details/UserDetailsEditable';
+import { IUser } from '@/interfaces';
 
 interface Props {
+   users: IUser[];
    data: any[];
    itemsPage: number;
 }
 
-export const Table = ({ data, itemsPage }: Props) => {
+export const Table = ({ users, data, itemsPage }: Props) => {
    const [currentPage, setCurrentPage] = useState(1);
    const headers = Object.keys(data[0] || {});
 
-   const totalPages = data.length;
-   const pages = Math.trunc(totalPages / itemsPage);
+   const pages = Math.trunc(data.length / itemsPage) + 1;
 
    const handleNextPage = () => {
-      if (currentPage >= totalPages) return;
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+      if (currentPage >= pages) return;
+      setCurrentPage((prevPage) => Math.min(prevPage + 1, data.length));
    };
 
    const handlePreviusPage = () => {
-      if (currentPage <= 0) return;
+      if (currentPage <= 1) return;
       setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
    };
 
    return (
-      <div>
+      <div className="admin-container__table">
          <table>
             <thead>
                <tr>
-                  {headers.map((header, index) => (
-                     <th key={index}>{header}</th>
-                  ))}
+                  {headers.map((header, index) =>
+                     header === 'id' ? null : <th key={index}>{header}</th>
+                  )}
+                  <th />
                   <th />
                </tr>
             </thead>
@@ -45,14 +48,21 @@ export const Table = ({ data, itemsPage }: Props) => {
                   .slice((currentPage - 1) * itemsPage, currentPage * itemsPage)
                   .map((row, index) => (
                      <tr key={index}>
-                        {headers.map((header, index) => (
-                           <td key={index}>{row[header]}</td>
-                        ))}
+                        {headers.map((header, index) =>
+                           header === 'id' ? null : <td key={index}>{row[header]}</td>
+                        )}
+                        <td>
+                           <UserDetailsEditable
+                              user={
+                                 users.find((user) => user.id === row.id) || ({} as any)
+                              }
+                           />
+                        </td>
                         <td>
                            <ConfirmationModal
-                              title={`¿Seguro que quieres borrar ${
+                              title={`¿Seguro que quieres eliminar "${
                                  row['Titulo'] || row['Email']
-                              }?`}
+                              }?"`}
                               target={row['id']}>
                               <DeleteForeverIcon />
                            </ConfirmationModal>
@@ -66,7 +76,10 @@ export const Table = ({ data, itemsPage }: Props) => {
                <ArrowBackIosIcon />
             </button>
             {Array.from({ length: pages || 1 }, (_, i) => (
-               <button key={`page-${i + 1}`} onClick={() => setCurrentPage(() => i + 1)}>
+               <button
+                  key={`page-${i + 1}`}
+                  onClick={() => setCurrentPage(() => i + 1)}
+                  className={currentPage === i + 1 ? 'border-b border-black' : ''}>
                   {i + 1}
                </button>
             ))}

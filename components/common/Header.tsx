@@ -1,30 +1,54 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { apiRequest } from '@/libs/axios-api';
-import { url } from '@/libs/utils/url';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter, usePathname } from 'next/navigation';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import Image from 'next/image';
+
+import { url } from '@/libs/utils/url';
+import { apiRequest } from '@/libs/axios-api';
+import jwt from 'jsonwebtoken';
 
 interface LinkItem {
    label: string;
+   path: string;
    action: () => void;
 }
 
 export const Header = () => {
    const router = useRouter();
+   const pathname = usePathname();
    const { data: session } = useSession();
 
    // next-auth need this for authenticate with external nova-up api
    useEffect(() => {
       (async () => {
          const token = getCookie('nova-access-token');
+         if (token) {
+            try {
+               const decoded = jwt.decode(String(token)) as any;
+               const now = Math.floor(Date.now() / 1000);
+               if (decoded && decoded.exp && now >= decoded.exp) {
+                  throw new Error('Token expired');
+               }
+            } catch {
+               deleteCookie('nova-access-token', {
+                  path: '/',
+                  sameSite: 'lax',
+                  secure: process.env.NODE_ENV !== 'development',
+               });
+               signOut();
+            }
+         }
+         console.log(session);
          if (session && !token) {
             const auth = await apiRequest.login({
                googleToken: (session as any)?.token?.token?.account?.id_token,
             });
+            console.log(auth);
             if (auth) {
                setCookie('nova-access-token', auth, {
                   httpOnly: false,
@@ -45,6 +69,7 @@ export const Header = () => {
    const handleSignOut = async () => {
       deleteCookie('nova-access-token', {
          path: '/',
+         sameSite: 'lax',
          secure: process.env.NODE_ENV !== 'development',
       });
       signOut();
@@ -53,14 +78,17 @@ export const Header = () => {
    const links: LinkItem[] = [
       {
          label: 'Principal',
+         path: '/',
          action: () => router.push(url.home()),
       },
       {
          label: 'Categorías',
+         path: '/posts',
          action: () => router.push(url.posts()),
       },
       {
          label: 'Administración',
+         path: '/admin',
          action: () => router.push(url.adminPosts()),
       },
    ];
@@ -72,14 +100,23 @@ export const Header = () => {
 
          <div className="header__nav-link">
             <ul>
-               {links.map((link) => (
-                  <li key={link.label} onClick={link.action}>
-                     {link.label}
-                  </li>
-               ))}
+               {links.map((link) =>
+                  link.path.includes('admin') && !session ? null : (
+                     <li
+                        key={link.label}
+                        onClick={link.action}
+                        className={
+                           pathname.split('/')[1] === link.path.split('/')[1]
+                              ? 'border-b'
+                              : ''
+                        }>
+                        {link.label}
+                     </li>
+                  )
+               )}
 
                {!session && <li onClick={() => signIn()}>Iniciar sesion</li>}
-               {session && <li onClick={() => signOut()}>Cerrar sesion</li>}
+               {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
             </ul>
          </div>
       </div>

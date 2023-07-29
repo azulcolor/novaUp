@@ -22,11 +22,13 @@
 
 .admin-container__table {
    overflow: auto;
-   position: relative;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
    width: 90vw;
    height: 75vh;
    padding: 5rem;
-   background: #ffff;
+   /* background: #ffff; */
    border-radius: 15px;
 }
 
@@ -34,6 +36,17 @@
    width: 100%;
    text-align: center;
    font-size: 1.3em;
+   border-radius: 8px;
+}
+
+.admin-container__table table thead {
+   background-color: #464b53;
+   color: #ffff;
+}
+
+.admin-container__table table tr {
+   transition: all 0.3s ease;
+   border-radius: 8px;
 }
 
 .admin-container__table table td {
@@ -58,8 +71,6 @@
 }
 
 .table-control {
-   position: absolute;
-   right: 50%;
    bottom: 2rem;
    display: flex;
    justify-content: center;
@@ -99,9 +110,11 @@
 
 .modal__control {
    display: flex;
-   justify-content: space-between;
+   justify-content: center;
+   flex-direction: column;
    width: 100%;
    padding: 2rem;
+   gap: 2rem;
 }
 
 .modal__control input {
