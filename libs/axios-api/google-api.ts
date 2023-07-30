@@ -1,13 +1,8 @@
+import { api } from '.';
+
 export const apiGoogle = {
-   getYoutubeSnippet: async (id: string) => {
-      return await fetch(
-         `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`
-      )
-         .then((res) => res.json())
+   getYoutubeSnippet: async (id: string) =>
+      await api('next', 'GET', `/youtube/${id}`)
          .then((data) => data)
-         .catch((e) => {
-            console.log(e);
-            false;
-         });
-   },
+         .catch((e) => false),
 };

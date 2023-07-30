@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { CustomInputText } from '@/components/CustomInputs/CustomInputText';
+import { Error } from '@/components/alerts/Error';
 
 import { IPostForm } from '@/interfaces';
 import { apiRequest } from '@/libs/axios-api';
@@ -23,16 +24,20 @@ export const FormAddLink = (props: Props) => {
    };
 
    const handleAddLink = async () => {
+      setErrorLink(() => '');
+
       let title = `video_${formData.videos.length + 1}}`;
       const urlMatch = currentLink.match(/src="([^"]+)"/);
 
       if (urlMatch) {
          const url = urlMatch[1];
-         const parts = url.split('/');
-         const videoId = parts[parts.length - 1];
+         const parts = url?.split('/');
+         const videoId = parts[parts?.length - 1];
 
          const snipeds = await apiRequest.getYoutubeSnippet(videoId);
-         title = snipeds?.items[0]?.snippet?.title;
+         if (snipeds?.items?.length > 0) {
+            title = snipeds?.items[0]?.snippet?.title;
+         }
          setFormData({
             ...formData,
             videos: [...formData.videos, { title, url: currentLink }],
@@ -58,6 +63,7 @@ export const FormAddLink = (props: Props) => {
          </CustomInputText>
 
          <div className="container__tags">
+            <Error message={errorLink} />
             {formData.videos?.map((link, index) => (
                <div key={index} className="custom-tag">
                   <p>{link.title}</p>

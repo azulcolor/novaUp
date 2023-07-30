@@ -1,13 +1,8 @@
 import { Card } from '@/components/common/Card';
 import { apiRequest } from '@/libs/axios-api';
 import Carousel from '@/components/common/Carousel';
-import { IPost } from '@/interfaces';
-import CarouselCard from '@/components/common/CardCarousel';
-interface Props {
-   latests: IPost[];
-}
 
-export default async function Home(props: Props) {
+export default async function Home() {
    const latests = await apiRequest.getPostsLatest(5);
    const pinned = await apiRequest.getPostsPinned();
 

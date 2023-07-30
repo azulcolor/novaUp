@@ -1,6 +1,5 @@
 import { apiRequest } from '@/libs/axios-api';
 import PostDetail from '@/components/DetailsPost/DetailPost';
-import NotFound from '@/app/not-found';
 import ButtonBack from '@/components/common/ButtonBack';
 
 interface Props {
@@ -16,7 +15,6 @@ export default async function Details({ params }: Props) {
          <div className="py-8 px-16">
             <ButtonBack />
             {post && <PostDetail post={post} />}
-            {!post && <NotFound />}
          </div>
       </>
    );
