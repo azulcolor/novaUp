@@ -3,11 +3,25 @@ import { IPost } from '@/interfaces';
 
 export const apiPosts = {
    getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
-      await api('next', 'GET', `/posts${status ? '?approved=true' : ''}`, {
-         Authorization: `Bearer ${token}`,
-      })
-         .then((data) => data)
+      await fetch(
+         `${process.env.NEXTAUTH_URL}/api/posts${status ? '?approved=true' : ''}`,
+         {
+            method: 'GET',
+            headers: {
+               'Content-Type': 'application/json',
+               Authorization: `Bearer ${token}`,
+            },
+            next: { revalidate: 60 },
+         }
+      )
+         .then((res) => res.json())
          .catch((e) => []),
+
+   // await api('next', 'GET', `/posts${status ? '?approved=true' : ''}`, {
+   //    Authorization: `Bearer ${token}`,
+   // })
+   //    .then((data) => data)
+   //    .catch((e) => []),
 
    getPostById: async (token: string, id: number): Promise<IPost> =>
       await api('next', 'GET', `/posts/${id}`, { Authorization: `Bearer ${token}` })
