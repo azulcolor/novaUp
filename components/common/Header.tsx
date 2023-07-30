@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -22,6 +22,10 @@ export const Header = () => {
    const router = useRouter();
    const pathname = usePathname();
    const { data: session } = useSession();
+   const [showMenu, setShowMenu] = useState(false);
+   const handleToggleMenu = () => {
+      setShowMenu(!showMenu);
+   };
 
    // next-auth need this for authenticate with external nova-up api
    useEffect(() => {
@@ -111,32 +115,73 @@ export const Header = () => {
       },
    ];
    return (
-      <div className="header">
-         <div className="header__logo">
-            <Image src={'/assets/images/logo.png'} alt="logo" width={160} height={90} />
-         </div>
+      <>
+         <div className="header">
+            <div className="header__logo">
+               <Image src={'/assets/images/logo.png'} alt="logo" width={160} height={90} />
+            </div>
+            <div className='header__nav'>
+               <div className='normal__mode'>
+                  <ul>
+                     {links.map((link) =>
+                        link.path.includes('admin') && !session ? null : (
+                           <li
+                              key={link.label}
+                              onClick={link.action}
+                              className={
+                                 pathname.split('/')[1] === link.path.split('/')[1]
+                                    ? 'border-b'
+                                    : ''
+                              }>
+                              {link.label}
+                           </li>
+                        )
+                     )}
 
-         <div className="header__nav-link">
-            <ul>
-               {links.map((link) =>
-                  link.path.includes('admin') && !session ? null : (
-                     <li
-                        key={link.label}
-                        onClick={link.action}
-                        className={
-                           pathname.split('/')[1] === link.path.split('/')[1]
-                              ? 'border-b'
-                              : ''
-                        }>
-                        {link.label}
-                     </li>
-                  )
-               )}
-
-               {!session && <li onClick={() => signIn()}>Iniciar sesion</li>}
-               {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
-            </ul>
+                     {!session && <li onClick={() => signIn()}>Iniciar sesion</li>}
+                     {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
+                  </ul>
+               </div>
+               <div className='hamburger__mode' onClick={handleToggleMenu}>
+                  <Image src={'/svg/hamburger-menu.svg'} alt="what" width={30} height={30} />
+               </div>
+            </div>
          </div>
-      </div>
+         {showMenu && (
+               <div className='hamburger-menu'>
+                  <ul>
+         
+                     {links.map((link) => (
+                        <li
+                           key={link.label}
+                           onClick={() => {
+                              link.action();
+                              setShowMenu(false);
+                           }}
+                           className={
+                              pathname.split('/')[1] === link.path.split('/')[1]
+                                 ? 'border-b'
+                                 : ''
+                           }
+                        >
+                           {link.label}
+                        </li>
+                     ))}
+                     {!session && (
+                        <li onClick={() => {
+                           signIn();
+                           setShowMenu(false); 
+                        }}>Iniciar sesión</li>
+                     )}
+                     {session && (
+                        <li onClick={() => {
+                           handleSignOut();
+                           setShowMenu(false);
+                        }}>Cerrar sesión</li>
+                     )}
+                  </ul>
+               </div>
+            )}
+      </>
    );
 };
