@@ -27,67 +27,6 @@ export const Header = () => {
       setShowMenu(!showMenu);
    };
 
-   // next-auth need this for authenticate with external nova-up api
-   useEffect(() => {
-      (async () => {
-         const token = getCookie('nova-access-token');
-         if (session && !token) {
-            const auth = await apiRequest.login({
-               googleToken: (session as any)?.token?.token?.account?.id_token,
-            });
-            console.log(auth);
-            if (auth) {
-               setCookie('nova-access-token', auth, {
-                  httpOnly: false,
-                  secure: process.env.NODE_ENV !== 'development',
-                  path: '/',
-                  maxAge: 60 * 60 * 24 * 7,
-                  sameSite: 'lax',
-               });
-            } else {
-               signOut();
-            }
-         }
-      })();
-   }, [session]);
-
-   useEffect(() => {
-      const token = getCookie('nova-access-token');
-      if (token && session) {
-         try {
-            const decoded = jwt.decode(String(token)) as any;
-            const now = Math.floor(Date.now() / 1000);
-            if (decoded && decoded.exp && now >= decoded.exp) {
-               throw new Error('Token expired');
-            } else if (!decoded) {
-               throw new Error('Invalid token');
-            }
-         } catch {
-            deleteCookie('nova-access-token', {
-               path: '/',
-               sameSite: 'lax',
-               secure: process.env.NODE_ENV !== 'development',
-            });
-            signOut();
-         }
-      }
-      const cookieError = getCookie('next-auth.session-token.0');
-      if (cookieError) {
-         for (let i = 0; i < 10; i++) {
-            deleteCookie(`next-auth.session-token.${i}`, {
-               path: '/',
-               sameSite: 'lax',
-               secure: process.env.NODE_ENV !== 'development',
-            });
-         }
-      }
-      router.prefetch(url.home());
-      router.prefetch(url.posts());
-      if (token) {
-         router.prefetch(url.adminPosts());
-      }
-   }, [pathname]);
-
    const handleSignOut = async () => {
       deleteCookie('nova-access-token', {
          path: '/',
@@ -114,6 +53,67 @@ export const Header = () => {
          action: () => router.push(url.adminPosts()),
       },
    ];
+
+   // next-auth need this for authenticate with external nova-up api
+   useEffect(() => {
+      (async () => {
+         const token = getCookie('nova-access-token');
+         if (session && !token) {
+            const auth = await apiRequest.login({
+               googleToken: (session as any)?.token?.token?.account?.id_token,
+            });
+            if (auth) {
+               setCookie('nova-access-token', auth, {
+                  httpOnly: false,
+                  secure: process.env.NODE_ENV !== 'development',
+                  path: '/',
+                  maxAge: 60 * 60 * 24 * 7,
+                  sameSite: 'lax',
+               });
+            } else {
+               signOut();
+            }
+         }
+      })();
+   }, [session]);
+
+   useEffect(() => {
+      const token = getCookie('nova-access-token');
+      if (token && session) {
+         try {
+            const decoded = jwt.decode(String(token)) as any;
+            const now = Math.floor(Date.now() / 1000);
+
+            if (decoded && decoded.exp && now >= decoded.exp) {
+               throw new Error('Token expired');
+            } else if (!decoded) {
+               throw new Error('Invalid token');
+            }
+         } catch {
+            handleSignOut();
+         }
+      }
+
+      const cookieError = getCookie('next-auth.session-token.0');
+
+      if (cookieError) {
+         for (let i = 0; i < 10; i++) {
+            deleteCookie(`next-auth.session-token.${i}`, {
+               path: '/',
+               sameSite: 'lax',
+               secure: process.env.NODE_ENV !== 'development',
+            });
+         }
+      }
+
+      router.prefetch(url.home());
+      router.prefetch(url.posts());
+
+      if (token) {
+         router.prefetch(url.adminPosts());
+      }
+   }, [pathname]);
+
    return (
       <>
          <div className="header">

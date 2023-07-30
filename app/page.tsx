@@ -10,7 +10,7 @@ export default async function Home() {
    const externalPosts = pinned.find((post) => post.type === 'Convocatoria externa');
 
    return (
-      <main className="">
+      <div>
          <div className="carousel">
             <Carousel items={latests as any} />
          </div>
@@ -26,6 +26,6 @@ export default async function Home() {
                <div></div>
             )}
          </div>
-      </main>
+      </div>
    );
 }
