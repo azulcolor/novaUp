@@ -10,7 +10,6 @@
    display: flex;
    justify-content: flex-start;
    flex-direction: unset;
-   gap: 2rem;
 }
 
 .admin-container {

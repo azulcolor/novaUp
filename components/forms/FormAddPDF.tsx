@@ -21,6 +21,14 @@ export const FormAddPDF = (props: Props) => {
       if (!e.target.files) return;
       setFilesError(() => '');
 
+      const validateType = Array.from(e.target.files).some(
+         (file) => file.type !== 'application/pdf'
+      );
+
+      if (validateType) {
+         setFilesError(() => 'Solo puedes subir archivos PDF');
+      }
+
       const currentSlots = formData.pdfs ? formData.pdfs.length : 0;
 
       if (currentSlots >= limit) {
@@ -28,7 +36,10 @@ export const FormAddPDF = (props: Props) => {
          return;
       }
 
-      const selectedFiles = Array.from(e.target.files).slice(0, limit - currentSlots); // Limitar a 10 archivos
+      const selectedFiles = Array.from(e.target.files)
+         .filter((file) => file.type === 'application/pdf')
+         .slice(0, limit - currentSlots); // Limitar a 10 archivos
+
       const validFiles = selectedFiles.filter((file) => file.size <= 2000000); // 2MB límite
 
       if (currentSlots + e.target.files.length > limit) {

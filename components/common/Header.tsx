@@ -75,6 +75,9 @@ export const Header = () => {
             });
          }
       }
+      router.prefetch(url.home());
+      router.prefetch(url.posts());
+      router.prefetch(url.adminPosts());
    }, [pathname]);
 
    const handleSignOut = async () => {

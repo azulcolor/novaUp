@@ -112,6 +112,10 @@ body {
    font-weight: bold;
 }
 
+.br-left {
+   border-radius: 0 0.5rem 0 0;
+}
+
 .btn-primary {
    background: var(--primary-color);
    color: var(--tertiary-color);

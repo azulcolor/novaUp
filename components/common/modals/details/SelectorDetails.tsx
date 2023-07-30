@@ -29,7 +29,7 @@ export const SelectorDetails = ({ tabSelector, action }: Props) => {
          <CustomButton
             title="Crear nuevo"
             handleClick={handleActionByTabSelector}
-            containerStyles="btn-primary"
+            containerStyles="btn-primary--tab br-left"
          />
       );
 
