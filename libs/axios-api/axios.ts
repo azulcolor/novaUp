@@ -1,14 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 export const axiosAPIClient = axios.create({
-   baseURL: `${process.env.NEXTAUTH_URL}/api`,
+   baseURL: `${process.env.NEXT_PUBLIC_URL_BASE}/api`,
    timeout: 5000,
    headers: { 'Content-Type': 'application/json' },
 });
 
 export const axiosAPIServer = axios.create({
    baseURL: process.env.NEXT_PUBLIC_URL_API,
-   timeout: 10000,
+   timeout: 5000,
    headers: { 'Content-Type': 'application/json' },
 });
 

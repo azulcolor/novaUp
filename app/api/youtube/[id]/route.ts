@@ -9,10 +9,6 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
       const res = await fetch(
          `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`
       );
-      console.log(
-         `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`
-      );
-      console.log(res);
       const data = await res.json();
       return NextResponse.json(data);
    } catch (error: any) {
