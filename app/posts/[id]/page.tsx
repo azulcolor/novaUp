@@ -12,7 +12,7 @@ export default async function Details({ params }: Props) {
    const post = await apiRequest.getPostById('', params.id);
    return (
       <>
-         <div className="py-8 px-16">
+         <div className="p-4 lg:px-16 lg:py-8">
             <ButtonBack />
             {post && <PostDetail post={post} />}
          </div>

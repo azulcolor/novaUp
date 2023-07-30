@@ -1,21 +1,80 @@
+'use client';
+
 import { IPost } from '@/interfaces';
-import ImagesDetail from './Images';
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface Props {
    post: IPost;
 }
 
+const image = {
+   url: 'https://fakeimg.pl/1600x900/ff6600/ba00ba?text=',
+};
+
 export default function PostDetail({ post }: Props) {
+   const images = [
+      { url: post.coverImage },
+      { url: image.url + '1' },
+      { url: image.url + '2' },
+      { url: image.url + '3' },
+      { url: image.url + '4' },
+      { url: image.url + '5' },
+      { url: image.url + '6' },
+      { url: image.url + '7' },
+      { url: image.url + '8' },
+      { url: image.url + '9' },
+      { url: image.url + '10' },
+   ];
+   const [imageSelected, setImageSelected] = useState(post.coverImage);
+
    return (
       <>
-         <div className="flex flex-col lg:flex-row">
-            <div className="flex-col p-4 basis-2/3">
-               <p className="text-4xl font-semibold mb-8 mt-2">{post.title}</p>
-               <p className=" pr-12 text-neutral-500 text-lg whitespace-pre-line">
+         <div className="post-detail-layout gap-4 lg:mt-8">
+            <div className="">
+               <p
+                  className="text-3xl 
+                  xl:text-4xl xl:mb-8
+                  font-semibold mb-2 
+                  mt-2"
+               >
+                  {post.title}
+               </p>
+            </div>
+
+            <div className="lg:row-span-2 xl:mt-10">
+               <Image
+                  className="rounded-xl h-full w-full"
+                  src={imageSelected || '/assets/images/logo.png'}
+                  alt="logo"
+                  width={800}
+                  height={450}
+               />
+            </div>
+            <div className="lg:row-span-3">
+               <p className="text-neutral-500 text-base xl:text-lg whitespace-pre-line lg:pr-12">
                   {post.description}
                </p>
             </div>
-            <ImagesDetail post={post} />
+            <div className="grid grid-cols-4 gap-4 px-2">
+               {images.map((image, i) => {
+                  return (
+                     <Image
+                        key={i}
+                        className={`rounded-xl w-full h-full max-h-28 ${
+                           image.url === imageSelected ? 'contrast-50' : ''
+                        }`}
+                        src={`${image.url}`}
+                        alt="other image"
+                        width={150}
+                        height={75}
+                        onClick={() => {
+                           setImageSelected(image.url);
+                        }}
+                     />
+                  );
+               })}
+            </div>
          </div>
          <div className="pt-8 flex justify-center">
             <iframe
