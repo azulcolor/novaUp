@@ -49,7 +49,7 @@ export const Header = () => {
 
    useEffect(() => {
       const token = getCookie('nova-access-token');
-      if (token) {
+      if (token && session) {
          try {
             const decoded = jwt.decode(String(token)) as any;
             const now = Math.floor(Date.now() / 1000);
