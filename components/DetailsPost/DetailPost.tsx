@@ -8,14 +8,12 @@ interface Props {
 export default function PostDetail({ post }: Props) {
    return (
       <>
-         <div className="flex flex-row">
-            <div className="flex flex-col p-4 w-3/5">
-               <div className="text-3xl font-semibold mb-8 mt-2">
-                  <p>{post.title}</p>
-               </div>
-               <div className="text-neutral-500 text-base">
-                  <p>{post.description}</p>
-               </div>
+         <div className="flex flex-col lg:flex-row">
+            <div className="flex-col p-4 basis-2/3">
+               <p className="text-4xl font-semibold mb-8 mt-2">{post.title}</p>
+               <p className=" pr-12 text-neutral-500 text-lg whitespace-pre-line">
+                  {post.description}
+               </p>
             </div>
             <ImagesDetail post={post} />
          </div>

@@ -29,7 +29,7 @@ export default function ImagesDetail({ post }: Props) {
 
    return (
       <div className="flex flex-col items-center p-4 mt-12">
-         <div className="pb-2">
+         <div className="pb-6">
             <Image
                className="rounded-xl h-full w-full"
                src={imageSelected || '/assets/images/logo.png'}
@@ -38,12 +38,12 @@ export default function ImagesDetail({ post }: Props) {
                height={450}
             />
          </div>
-         <div className="grid grid-cols-4 gap-4">
+         <div className="grid grid-cols-4 gap-4 px-4">
             {images.map((image, i) => {
                return (
                   <Image
                      key={i}
-                     className={`rounded-xl ${
+                     className={`rounded-xl w-full h-full max-h-28 ${
                         image.url === imageSelected ? 'contrast-50' : ''
                      }`}
                      src={`${image.url}`}
