@@ -38,9 +38,17 @@ export interface IPostRequest {
 }
 
 export interface IPostForm extends IPostRequest {
-   typeSelect: ICatalogGen; // temporal from form
-   currentTag: string; // temporal from form
-   tagsList: string[]; // temporal from form
+   typeSelect: ICatalogGen;
+   currentTag: string;
+   tagsList: string[];
+   images: File[];
+   pdfs: File[];
+   videos: IVideoForm[];
+}
+
+export interface IVideoForm {
+   title: string;
+   url: string;
 }
 
 export interface IAssets {

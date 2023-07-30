@@ -19,9 +19,8 @@ export const CustomTextarea = ({
    boldText,
    onChangueValue,
 }: Props) => {
-
    return (
-      <div className="flex w-full h-full justify-between">
+      <div className="flex w-full h-auto justify-between">
          <TextareaAutosize
             className="w-full h-full bg-background p-4 rounded-lg border border-borderLines no-underline focus-visible:outline-0"
             aria-label="Demo input"

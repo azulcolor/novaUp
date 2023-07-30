@@ -3,12 +3,14 @@
    flex-direction: row;
    width: 100%;
    height: auto;
+   padding-bottom: 2rem;
 }
 
 .container__text {
    display: flex;
    flex-direction: column;
    width: 55%;
+   height: auto;
    padding: 0 3%;
 }
 
@@ -26,7 +28,7 @@
    height: auto;
    padding: 3% 0;
    align-items: center;
-   justify-content: start;
+   justify-content: flex-start;
 }
 
 .container-indentifiers__body {
@@ -36,7 +38,7 @@
    height: auto;
    padding: 1% 0;
    align-items: center;
-   justify-content: start;
+   justify-content: flex-start;
    gap: 3%;
 }
 
@@ -45,7 +47,12 @@
    width: 100%;
    height: 10vh;
    align-items: center;
-   justify-content: start;
+   justify-content: flex-start;
+}
+
+.container__subtitle h3 {
+   font-size: 24px;
+   font-weight: 400;
 }
 
 .container__inputs {
@@ -62,9 +69,58 @@
    height: auto;
    flex-wrap: wrap;
    align-items: center;
-   justify-content: start;
+   justify-content: flex-start;
    margin-top: 2rem;
    gap: 1rem;
+}
+
+.container-form-files {
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   height: auto;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 1rem;
+}
+
+.form-files {
+   display: flex;
+   justify-content: flex-start;
+   flex-wrap: wrap;
+   flex-direction: row;
+   width: 100%;
+   height: auto;
+   gap: 1rem;
+}
+
+.file {
+   position: relative;
+   width: 10rem;
+}
+
+.file--pdf {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   padding: 0.5rem;
+   background: var(--tertiary-color);
+   border-radius: 8px;
+   gap: 1rem;
+}
+
+.file button {
+   position: absolute;
+   border-radius: 0 0 0 8px;
+   top: 0;
+   right: 0;
+   background: var(--tertiary-color);
+}
+
+.form-files img {
+   width: 100%;
+   height: 100%;
+   border-radius: 1rem;
 }
 
 .container__btns__multimedia {
@@ -75,5 +131,5 @@
    height: auto;
    padding: 4% 0;
    align-items: center;
-   justify-content: start;
+   justify-content: flex-start;
 }

@@ -121,7 +121,7 @@
    width: 70%;
    padding: 0.5rem;
    border-radius: 1rem;
-   background: #f4f4f4;
+   background: var(--input-background);
 }
 
 .modal__body {

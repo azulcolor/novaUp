@@ -16,6 +16,7 @@ import { ICatalogGen, IPost, IPostForm } from '@/interfaces';
 import { Error } from '../alerts/Error';
 import { CustomTag } from '../common/CustomTag';
 import { useRouter } from 'next/navigation';
+import CustomInputDate from '../CustomInputs/CustomInputDate';
 
 interface Props {
    post: IPost;
@@ -27,16 +28,12 @@ export default function FormPost(props: Props) {
    const { post, categories, typesPost } = props;
    const router = useRouter();
 
-   useEffect(() => {
-      console.log(post);
-   }, []);
-
    const [showForm, setShowForm] = useState('Image');
    const [descriptionError, setDescriptionError] = useState('');
    const [filesError, setFilesError] = useState('');
    const [formData, setFormData] = useState<IPostForm>({
       id: post.id || 0,
-      category: post.category || { id: 0, name: 'Deportes' },
+      category: post.category || { id: 0, name: 'Categorías' },
       coverImage: post.coverImage || '',
       assets: post.assets || [],
       isPinned: post.isPinned || false,
@@ -53,6 +50,9 @@ export default function FormPost(props: Props) {
       tags: post.tags || '',
       currentTag: '',
       tagsList: post.tags ? post.tags.split(',') : [],
+      images: [],
+      pdfs: [],
+      videos: [],
       comments: post.comments || '',
    });
 
@@ -88,6 +88,14 @@ export default function FormPost(props: Props) {
                <h3>Regresar</h3>
             </div>
             <div className="container__inputs">
+               <div>
+                  <CustomInputDate
+                     name="eventDate"
+                     onChange={handleInput}
+                     value={formData.eventDate}
+                     label="Fecha del evento"
+                  />
+               </div>
                <CustomTextarea
                   name={'title'}
                   value={formData.title}
@@ -112,8 +120,8 @@ export default function FormPost(props: Props) {
                />
                <Error
                   message={
-                     formData.title.length > 120
-                        ? `Excedio el limite de caracteres ${formData.title.length} de 120`
+                     formData.summary.length > 120
+                        ? `Excedio el limite de caracteres ${formData.summary.length} de 120`
                         : ''
                   }
                />
@@ -130,6 +138,7 @@ export default function FormPost(props: Props) {
             <div className="container__subtitle">
                <h3>Multimedia</h3>
             </div>
+
             <div className="">
                <p>Presiona el formato que deseas subir</p>
                <div className="container__btns__multimedia">
@@ -194,7 +203,10 @@ export default function FormPost(props: Props) {
                   attributeToChangue="currentTag"
                   value={formData.currentTag || ''}
                   onChangueValue={handleInput}>
-                  <button className="custom-text__btn" onClick={handleAddTag}>
+                  <button
+                     className="custom-text__btn"
+                     onClick={handleAddTag}
+                     disabled={formData.currentTag === ''}>
                      <AddIcon />
                   </button>
                </CustomInputText>

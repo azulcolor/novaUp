@@ -7,8 +7,9 @@
 select {
    padding: 0.7rem !important;
    color: title;
-   background: #f4f4f4;
+   background: var(--input-background);
    border-radius: 8px;
+   border: 1px solid #d2d2d2;
    width: 15vw;
 }
 
@@ -18,9 +19,35 @@ input {
    padding: 0.5rem !important;
 }
 
+button:disabled {
+   opacity: 0.5;
+}
+
+button:disabled:hover {
+   cursor: not-allowed;
+}
+
 .custom-text__btn {
    margin-right: auto;
    margin-left: 10px;
+}
+
+.custom-input-date {
+   display: flex;
+   align-items: center;
+   background: var(--input-background);
+   color: var(--subtitle-text);
+   padding: 0.29rem;
+   border-radius: 8px;
+}
+
+.custom-input-date-wrapper {
+   display: flex;
+   justify-content: flex-start;
+   gap: 5rem;
+   align-items: center;
+   color: var(--subtitle-text);
+   border-radius: 8px;
 }
 
 .custom-tag {
@@ -36,7 +63,7 @@ input {
 .search-container {
    display: flex;
    align-items: center;
-   background-color: #f4f4f4;
+   background: var(--input-background);
    padding: 0.29rem;
    border-radius: 8px;
 }

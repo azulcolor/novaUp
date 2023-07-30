@@ -58,13 +58,24 @@ export const Header = () => {
                   sameSite: 'lax',
                });
             } else {
-               setTimeout(() => {
-                  signOut();
-               }, 5000);
+               signOut();
             }
          }
       })();
    }, [session]);
+
+   useEffect(() => {
+      const cookieError = getCookie('next-auth.session-token.0');
+      if (cookieError) {
+         for (let i = 0; i < 10; i++) {
+            deleteCookie(`next-auth.session-token.${i}`, {
+               path: '/',
+               sameSite: 'lax',
+               secure: process.env.NODE_ENV !== 'development',
+            });
+         }
+      }
+   }, [pathname]);
 
    const handleSignOut = async () => {
       deleteCookie('nova-access-token', {
