@@ -22,6 +22,23 @@ export const FormAddImage = (props: Props) => {
       if (!e.target.files) return;
       setFilesError(() => '');
 
+      const acceptedTypes = [
+         'image/jpeg',
+         'image/png',
+         'image/jpg',
+         'image/gif',
+         'image/webp',
+         'image/svg+xml',
+         'image/apng',
+      ];
+      const validateType = Array.from(e.target.files).some(
+         (file) => file.type && !acceptedTypes.includes(file.type)
+      );
+
+      if (validateType) {
+         setFilesError(() => 'Solo puedes subir archivos de imagen');
+      }
+
       const currentSlots = formData.images ? formData.images.length : 0;
 
       if (currentSlots >= limit) {
@@ -29,7 +46,10 @@ export const FormAddImage = (props: Props) => {
          return;
       }
 
-      const selectedFiles = Array.from(e.target.files).slice(0, limit - currentSlots); // Limitar a 10 archivos
+      const selectedFiles = Array.from(e.target.files)
+         .filter((file) => file.type && acceptedTypes.includes(file.type))
+         .slice(0, limit - currentSlots); // Limitar a 10 archivos
+
       const validFiles = selectedFiles.filter((file) => file.size <= 5000000); // 5MB límite
 
       if (currentSlots + e.target.files.length > limit) {

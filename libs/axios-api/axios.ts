@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 export const axiosAPIClient = axios.create({
-   baseURL: 'http://localhost:3000/api',
+   baseURL: `${process.env.NEXTAUTH_URL}/api`,
    timeout: 5000,
    headers: { 'Content-Type': 'application/json' },
 });

@@ -27,23 +27,6 @@ export const Header = () => {
    useEffect(() => {
       (async () => {
          const token = getCookie('nova-access-token');
-         if (token) {
-            try {
-               const decoded = jwt.decode(String(token)) as any;
-               const now = Math.floor(Date.now() / 1000);
-               if (decoded && decoded.exp && now >= decoded.exp) {
-                  throw new Error('Token expired');
-               }
-            } catch {
-               deleteCookie('nova-access-token', {
-                  path: '/',
-                  sameSite: 'lax',
-                  secure: process.env.NODE_ENV !== 'development',
-               });
-               signOut();
-            }
-         }
-         console.log(session);
          if (session && !token) {
             const auth = await apiRequest.login({
                googleToken: (session as any)?.token?.token?.account?.id_token,
@@ -65,6 +48,25 @@ export const Header = () => {
    }, [session]);
 
    useEffect(() => {
+      const token = getCookie('nova-access-token');
+      if (token && session) {
+         try {
+            const decoded = jwt.decode(String(token)) as any;
+            const now = Math.floor(Date.now() / 1000);
+            if (decoded && decoded.exp && now >= decoded.exp) {
+               throw new Error('Token expired');
+            } else if (!decoded) {
+               throw new Error('Invalid token');
+            }
+         } catch {
+            deleteCookie('nova-access-token', {
+               path: '/',
+               sameSite: 'lax',
+               secure: process.env.NODE_ENV !== 'development',
+            });
+            signOut();
+         }
+      }
       const cookieError = getCookie('next-auth.session-token.0');
       if (cookieError) {
          for (let i = 0; i < 10; i++) {
@@ -77,7 +79,9 @@ export const Header = () => {
       }
       router.prefetch(url.home());
       router.prefetch(url.posts());
-      router.prefetch(url.adminPosts());
+      if (token) {
+         router.prefetch(url.adminPosts());
+      }
    }, [pathname]);
 
    const handleSignOut = async () => {

@@ -7,7 +7,7 @@ export const apiCatalogs = {
          .then((data) => data)
          .catch((e) => {
             console.log(e);
-            false;
+            [];
          }),
 
    getTypesPost: async (): Promise<ICatalogGen[]> => [
