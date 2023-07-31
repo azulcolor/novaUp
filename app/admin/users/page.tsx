@@ -1,6 +1,5 @@
 'use client';
 import React, { use, useEffect, useState } from 'react';
-import useSWR from 'swr';
 
 import { Table } from '@/components/common/Table';
 import { LoadingProgress } from '@/components/common/LoadingProgress';
