@@ -8,9 +8,8 @@ export default function ButtonBack() {
    return (
       <div className="flex">
          <svg
+            className="w-4 lg:w-5 lg:h-7"
             xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="22"
             viewBox="0 0 19 22"
             fill="none"
          >
@@ -22,7 +21,7 @@ export default function ButtonBack() {
          <CustomButton
             title="Regresar"
             handleClick={() => router.back()}
-            containerStyles="p-0 pl-1 text-orange-400 font-roboto font-bold"
+            containerStyles="p-0 pl-1 lg:text-2xl text-orange-400 font-roboto font-bold"
          />
       </div>
    );

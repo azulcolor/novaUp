@@ -2,31 +2,47 @@
 
 import { IPost } from '@/interfaces';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
    post: IPost;
 }
 
-const image = {
-   url: 'https://fakeimg.pl/1600x900/ff6600/ba00ba?text=',
-};
+const url = 'https://fakeimg.pl/1600x900/ff6600/ba00ba?text=';
 
 export default function PostDetail({ post }: Props) {
+   const [imageSelected, setImageSelected] = useState(post.coverImage);
+   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+   useEffect(() => {
+      const handleResize = () => {
+         setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight,
+         });
+      };
+      window.addEventListener('resize', handleResize);
+      handleResize();
+      return () => {
+         window.removeEventListener('resize', handleResize);
+      };
+   }, []);
+
+   const isMobile = windowSize.width <= 768;
+
    const images = [
       { url: post.coverImage },
-      { url: image.url + '1' },
-      { url: image.url + '2' },
-      { url: image.url + '3' },
-      { url: image.url + '4' },
-      { url: image.url + '5' },
-      { url: image.url + '6' },
-      { url: image.url + '7' },
-      { url: image.url + '8' },
-      { url: image.url + '9' },
-      { url: image.url + '10' },
+      { url: url + '1' },
+      { url: url + '2' },
+      { url: url + '3' },
+      { url: url + '4' },
+      { url: url + '5' },
+      { url: url + '6' },
+      { url: url + '7' },
+      { url: url + '8' },
+      { url: url + '9' },
+      { url: url + '10' },
    ];
-   const [imageSelected, setImageSelected] = useState(post.coverImage);
 
    return (
       <>
@@ -42,7 +58,7 @@ export default function PostDetail({ post }: Props) {
                </p>
             </div>
 
-            <div className="lg:row-span-2 xl:mt-10">
+            <div className="md:row-span-2 lg:row-span-2 md:mt-10 xl:mt-10">
                <Image
                   className="rounded-xl h-full w-full"
                   src={imageSelected || '/assets/images/logo.png'}
@@ -51,26 +67,26 @@ export default function PostDetail({ post }: Props) {
                   height={450}
                />
             </div>
-            <div className="lg:row-span-3">
-               <p className="text-neutral-500 text-base xl:text-lg whitespace-pre-line lg:pr-12">
+            <div className="md:row-span-2 lg:row-span-3">
+               <p className="text-neutral-500 text-base xl:text-lg 2xl:text-xl whitespace-pre-line lg:pr-12">
                   {post.description}
                </p>
             </div>
-            <div className="grid grid-cols-4 gap-4 px-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-2">
                {images.map((image, i) => {
                   return (
                      <Image
                         key={i}
-                        className={`rounded-xl w-full h-full max-h-28 ${
-                           image.url === imageSelected ? 'contrast-50' : ''
+                        className={`rounded-xl w-full h-full md:max-h-20 lg:max-h-28 ${
+                           image.url === imageSelected
+                              ? 'md:contrast-50 lg:contrast-50'
+                              : ''
                         }`}
                         src={`${image.url}`}
                         alt="other image"
-                        width={150}
-                        height={75}
-                        onClick={() => {
-                           setImageSelected(image.url);
-                        }}
+                        width={800}
+                        height={450}
+                        onClick={isMobile ? () => {} : () => setImageSelected(image.url)}
                      />
                   );
                })}
