@@ -3,20 +3,9 @@ import { IUser, IUserForm } from '@/interfaces';
 
 export const apiUsers = {
    getUSers: async (token: string): Promise<IUser[]> =>
-      await fetch(`${process.env.NEXTAUTH_URL}/api/users`, {
-         method: 'GET',
-         headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-         },
-         next: { revalidate: 60 },
-      })
-         .then((res) => res.json())
+      await api('next', 'GET', '/users', { Authorization: `Bearer ${token}` })
+         .then((data) => data)
          .catch((e) => []),
-
-   // await api('next', 'GET', '/users', { Authorization: `Bearer ${token}` })
-   //    .then((data) => data)
-   //    .catch((e) => []),
 
    newUser: async (token: string, user: IUserForm) =>
       await api('next', 'POST', '/users', { Authorization: `Bearer ${token}` }, user)

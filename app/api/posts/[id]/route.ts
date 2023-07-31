@@ -44,10 +44,11 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
 
       const authToken = headersList.get('authorization');
 
-      await api('api', 'DELETE', `/posts/${id}`, {
+      const res = await api('api', 'DELETE', `/posts/${id}`, {
          Authorization: authToken,
       });
-      return NextResponse.json({ message: 'Post deleted successfully.' });
+      console.log(res);
+      return NextResponse.json(true);
    } catch (error: any) {
       const formatedError = errorMessage(error, path, 'DELETE');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);

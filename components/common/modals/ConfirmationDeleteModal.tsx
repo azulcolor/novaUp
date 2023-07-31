@@ -31,9 +31,12 @@ export const ConfirmationModal = ({ title, children, target }: Props) => {
       if (pathname.includes('posts')) fetcher = 'posts';
       if (!token) return;
 
-      const response = await fetchers[fetcher](token as any, target);
+      const response = await fetchers[fetcher](String(token) as any, target);
       if (response) {
          router.refresh();
+         setIsOpen(() => false);
+      } else {
+         console.log('Error al eliminar el post');
       }
    };
 

@@ -16,12 +16,12 @@ export const apiPosts = {
       )
          .then((res) => res.json())
          .catch((e) => []),
-
-   // await api('next', 'GET', `/posts${status ? '?approved=true' : ''}`, {
-   //    Authorization: `Bearer ${token}`,
-   // })
-   //    .then((data) => data)
-   //    .catch((e) => []),
+   getPostsCrud: async (token: string, status: boolean = true): Promise<IPost[]> =>
+      await api('next', 'GET', `/posts${status ? '?approved=true' : ''}`, {
+         Authorization: `Bearer ${token}`,
+      })
+         .then((data) => data)
+         .catch((e) => []),
 
    getPostById: async (token: string, id: number): Promise<IPost> =>
       await api('next', 'GET', `/posts/${id}`, { Authorization: `Bearer ${token}` })

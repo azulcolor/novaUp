@@ -66,7 +66,7 @@ export const CustomSelect = ({
             {options?.length > 0 &&
                options?.map((option, i) =>
                   option?.id === defaultOption?.id ||
-                  option.name === defaultOption.name ? null : (
+                  option?.name === defaultOption?.name ? null : (
                      <option key={`${option.name}-${i}`} value={option.id}>
                         {option.name}
                      </option>

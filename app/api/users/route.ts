@@ -71,15 +71,15 @@ export async function PUT(req: NextRequest) {
       if (!authToken) {
          throw new Error('Access Denied, Token not provided.');
       }
-      const users = await api(
+      const user = await api(
          'api',
          'PUT',
          `/users/${body.id}}`,
          { Authorization: authToken },
          putUser
       );
-
-      return NextResponse.json(users);
+      console.log(user);
+      return NextResponse.json(user);
    } catch (error) {
       const formatedError = errorMessage(error, path, 'PUT');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);

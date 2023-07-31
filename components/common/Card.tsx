@@ -2,11 +2,13 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { getCookie } from 'cookies-next';
+
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
-import { url } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
 import { usePathname, useRouter } from 'next/navigation';
 import { ConfirmationModal } from './modals/ConfirmationDeleteModal';
+import { apiRequest } from '@/libs/axios-api';
 
 interface Props {
    post: IPost;

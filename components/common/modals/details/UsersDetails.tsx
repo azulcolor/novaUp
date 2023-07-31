@@ -10,6 +10,7 @@ import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
 
 import { ICatalogGen, IUser } from '@/interfaces';
 import { apiRequest } from '@/libs/axios-api';
+import { Error } from '@/components/alerts/Error';
 
 interface Props {
    closeModal: () => void;
@@ -21,9 +22,11 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
    const [user, SetUser] = useState<IUser>(data as IUser);
    const [departments, setDepartments] = useState<ICatalogGen[]>([]);
    const [roles, setRoles] = useState<ICatalogGen[]>([]);
+   const [stateMessage, setStateMessage] = useState<string>('');
    const router = useRouter();
 
    const handleSaveUser = async () => {
+      setStateMessage(() => '');
       const token = getCookie('nova-access-token')?.toString() || '';
       if (action === 'create') {
          const save = await apiRequest.newUser(token, user as any);
@@ -31,14 +34,18 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
          if (save && !save.error) {
             closeModal();
             router.refresh();
+            return;
          }
+         setStateMessage(() => 'Error al crear usuario, verifique el campo email');
       } else {
          const save = await apiRequest.putUser(token, user as any);
 
          if (save && !save.error) {
             closeModal();
             router.refresh();
+            return;
          }
+         setStateMessage(() => 'Error al guardar, verifique el campo email');
       }
    };
 
@@ -110,6 +117,7 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
                      handleClick={handleSaveUser}
                      containerStyles="btn-primary"
                   />
+                  <Error message={stateMessage} />
                </div>
             </div>
          </div>
