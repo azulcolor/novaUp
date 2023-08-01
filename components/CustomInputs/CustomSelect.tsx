@@ -40,7 +40,7 @@ export const CustomSelect = ({
    };
 
    useEffect(() => {
-      if (onChangueValue) onChangueValue(attributeToChangue, options[0]);
+      if (onChangueValue) onChangueValue(attributeToChangue, defaultOption || options[0]);
    }, [options]);
 
    useEffect(() => {

@@ -8,7 +8,6 @@ import { handlesearchItems } from '@/libs/utils/common-functions';
 
 interface Props {
    posts: IPost[];
-   reload?: () => void;
 }
 
 export const Posts = ({ posts }: Props) => {

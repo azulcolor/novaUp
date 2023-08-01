@@ -16,15 +16,11 @@ export default function AdminPosts() {
       (async () => {
          const token = getCookie('nova-access-token');
          const posts = await apiRequest.getPostsCrud(String(token), false);
+
          setPosts(() => posts);
          setIsLoading(() => false);
       })();
    }, []);
 
-   return (
-      <>
-         {isLoading && <LoadingProgress />}
-         {!isLoading && posts?.length && <Posts posts={posts} />}
-      </>
-   );
+   return <>{isLoading ? <LoadingProgress /> : <Posts posts={posts} />}</>;
 }

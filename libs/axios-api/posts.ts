@@ -4,7 +4,7 @@ import { IPost } from '@/interfaces';
 export const apiPosts = {
    getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
       await fetch(
-         `${process.env.NEXTAUTH_URL}/api/posts${status ? '?approved=true' : ''}`,
+         `${process.env.NEXT_PUBLIC_URL_BASE}/api/posts${status ? '?approved=true' : ''}`,
          {
             method: 'GET',
             headers: {
@@ -16,6 +16,7 @@ export const apiPosts = {
       )
          .then((res) => res.json())
          .catch((e) => []),
+
    getPostsCrud: async (token: string, status: boolean = true): Promise<IPost[]> =>
       await api('next', 'GET', `/posts${status ? '?approved=true' : ''}`, {
          Authorization: `Bearer ${token}`,
@@ -29,13 +30,25 @@ export const apiPosts = {
          .catch(() => {}),
 
    getPostsLatest: async (limit: number): Promise<IPost> =>
-      await api('next', 'GET', `/posts/latest?limit=${limit}`)
-         .then((data) => data)
+      await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/latest?limit=${limit}`, {
+         method: 'GET',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         next: { revalidate: 60 },
+      })
+         .then((res) => res.json())
          .catch((e) => []),
 
    getPostsPinned: async (): Promise<IPost[]> =>
-      await api('next', 'GET', '/posts/pinned')
-         .then((data) => data)
+      await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/pinned`, {
+         method: 'GET',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         next: { revalidate: 60 },
+      })
+         .then((res) => res.json())
          .catch((e) => []),
 
    newPost: async (token: string, post: IPost) =>

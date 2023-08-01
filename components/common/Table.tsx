@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -18,8 +19,16 @@ interface Props {
 export const Table = ({ users, data, itemsPage }: Props) => {
    const [currentPage, setCurrentPage] = useState(1);
    const headers = Object.keys(data[0] || {});
+   const [pages, setPages] = useState(1);
 
-   const pages = Math.trunc(data.length / itemsPage) + 1;
+   useEffect(() => {
+      const currentPages = Math.ceil(data.length / (itemsPage || 1));
+      setPages(currentPages);
+
+      if (currentPage > currentPages) {
+         setCurrentPage(currentPages);
+      }
+   }, [data, itemsPage]);
 
    const handleNextPage = () => {
       if (currentPage >= pages) return;

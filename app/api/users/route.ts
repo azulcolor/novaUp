@@ -74,7 +74,7 @@ export async function PUT(req: NextRequest) {
       const user = await api(
          'api',
          'PUT',
-         `/users/${body.id}}`,
+         `/users/${body.id}`,
          { Authorization: authToken },
          putUser
       );

@@ -1,16 +1,18 @@
 'use client';
 
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { CustomInputText } from '@/components/CustomInputs/CustomInputText';
 import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
 
+import { Error } from '@/components/alerts/Error';
+import MutateUsersContext from '@/context/MutateUsersContext';
+
 import { ICatalogGen, IUser } from '@/interfaces';
 import { apiRequest } from '@/libs/axios-api';
-import { Error } from '@/components/alerts/Error';
 
 interface Props {
    closeModal: () => void;
@@ -19,42 +21,54 @@ interface Props {
 }
 
 export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) => {
-   const [user, SetUser] = useState<IUser>(data as IUser);
+   const { setUsers } = useContext(MutateUsersContext);
+
+   const [user, setUser] = useState<IUser>(data as IUser);
    const [departments, setDepartments] = useState<ICatalogGen[]>([]);
    const [roles, setRoles] = useState<ICatalogGen[]>([]);
-   const [stateMessage, setStateMessage] = useState<string>('');
-   const router = useRouter();
+   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+   const fetchUsers = async (token: string) => (await apiRequest.getUSers(token)) || [];
 
    const handleSaveUser = async () => {
-      setStateMessage(() => '');
+      setIsLoading(() => true);
       const token = getCookie('nova-access-token')?.toString() || '';
       if (action === 'create') {
-         const save = await apiRequest.newUser(token, user as any);
+         const save = (await apiRequest.newUser(token, user as any)) as IUser;
 
          if (save && !save.error) {
+            const users = (await fetchUsers(token)) as IUser[];
+            setUsers(users);
+            toast.success(`Se ha creado el usuario ${save.email}`);
+
             closeModal();
-            router.refresh();
             return;
          }
-         setStateMessage(() => 'Error al crear usuario, verifique el campo email');
+
+         toast.error('Error al crear usuario, verifique el campo email');
       } else {
          const save = await apiRequest.putUser(token, user as any);
 
          if (save && !save.error) {
+            const users = await fetchUsers(token);
+            setUsers(users);
+            toast.success(`Se ha actualizado el usuario ${save.email}`);
+
             closeModal();
-            router.refresh();
             return;
          }
-         setStateMessage(() => 'Error al guardar, verifique el campo email');
+
+         toast.error('Error al guardar, verifique el campo email');
       }
+      setIsLoading(() => false);
    };
 
    const handleChangueText = (e: ChangeEvent<HTMLInputElement>) => {
-      SetUser((prev: any) => ({ ...(prev || {}), [e.target.name]: e.target.value }));
+      setUser((prev: any) => ({ ...(prev || {}), [e.target.name]: e.target.value }));
    };
 
    const handleChangueValue = (attribute: string, value: any) => {
-      SetUser((prev: any) => ({ ...(prev || {}), [attribute]: value }));
+      setUser((prev: any) => ({ ...(prev || {}), [attribute]: value }));
    };
 
    useEffect(() => {
@@ -116,8 +130,8 @@ export const UsersDetails = ({ closeModal, action, data = {} as IUser }: Props) 
                      title="Guardar"
                      handleClick={handleSaveUser}
                      containerStyles="btn-primary"
+                     isLoading={isLoading}
                   />
-                  <Error message={stateMessage} />
                </div>
             </div>
          </div>

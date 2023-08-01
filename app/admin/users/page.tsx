@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import React, { use, useEffect, useState } from 'react';
+import React, { use, useContext, useEffect, useState } from 'react';
 
 import { Table } from '@/components/common/Table';
 import { LoadingProgress } from '@/components/common/LoadingProgress';
@@ -7,9 +8,10 @@ import { LoadingProgress } from '@/components/common/LoadingProgress';
 import { apiRequest } from '@/libs/axios-api';
 import { getCookie } from 'cookies-next';
 import { IUser } from '@/interfaces';
+import MutateUsersContext from '@/context/MutateUsersContext';
 
 export default function AdminUsers() {
-   const [users, setUsers] = useState<IUser[]>([]);
+   const { users, setUsers } = useContext(MutateUsersContext);
    const [isLoading, setIsLoading] = useState<boolean>(true);
 
    useEffect(() => {
@@ -17,7 +19,7 @@ export default function AdminUsers() {
          const token = getCookie('nova-access-token');
          const users = await apiRequest.getUSers(String(token));
          console.log(users);
-         setUsers(() => users);
+         setUsers(users);
          setIsLoading(() => false);
       })();
    }, []);

@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import { CustomButton } from '../../CustomInputs/CustomButton';
-import { apiRequest } from '@/libs/axios-api';
-import { getCookie } from 'cookies-next';
+import React, { useContext, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { getCookie } from 'cookies-next';
+
+import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import MutateUsersContext from '@/context/MutateUsersContext';
+import { apiRequest } from '@/libs/axios-api';
+import { toast } from 'react-hot-toast';
 
 interface Props {
    title: string;
@@ -13,9 +16,10 @@ interface Props {
 }
 
 export const ConfirmationModal = ({ title, children, target }: Props) => {
-   const router = useRouter();
    const pathname = usePathname();
+   const { setUsers } = useContext(MutateUsersContext);
    const [isOpen, setIsOpen] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
 
    if (!isOpen) return <button onClick={() => setIsOpen(() => true)}>{children}</button>;
 
@@ -25,19 +29,28 @@ export const ConfirmationModal = ({ title, children, target }: Props) => {
    };
 
    const handleOnConfirmation = async () => {
+      setIsLoading(true);
       const token = getCookie('nova-access-token');
 
       let fetcher: 'users' | 'posts' = 'users';
+
       if (pathname.includes('posts')) fetcher = 'posts';
       if (!token) return;
 
       const response = await fetchers[fetcher](String(token) as any, target);
       if (response) {
-         router.refresh();
+         if (fetcher === 'users') {
+            const users = await apiRequest.getUSers(String(token) as any);
+            setUsers(users);
+
+            toast.success('Se ha eliminado el recurso correctamente');
+         }
+
          setIsOpen(() => false);
       } else {
-         console.log('Error al eliminar el post');
+         toast.error('Ocurrio un error al intentar eliminar el recurso');
       }
+      setIsLoading(false);
    };
 
    return (
@@ -54,6 +67,7 @@ export const ConfirmationModal = ({ title, children, target }: Props) => {
                   title="Confirmar"
                   handleClick={handleOnConfirmation}
                   containerStyles="btn-primary"
+                  isLoading={isLoading}
                />
             </div>
          </div>
