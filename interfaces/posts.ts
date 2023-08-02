@@ -38,7 +38,7 @@ export interface IPostRequest {
 }
 
 export interface IPostResources {
-   coverImage?: string | File;
+   coverImage: string | File;
    images: File[];
    pdfs: File[];
    videos: IVideoForm[];

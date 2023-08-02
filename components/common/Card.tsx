@@ -81,7 +81,7 @@ export const Card = ({ post }: Props) => {
                      : '/assets/images/image-not-found.png' ||
                        '/assets/images/logo-clasic.png'
                }
-               alt="logo"
+               alt={`{post.id}-cover-image`}
                width={500}
                height={480}
             />

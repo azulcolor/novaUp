@@ -20,6 +20,7 @@ import CustomInputDate from '../CustomInputs/CustomInputDate';
 import { serializedNewPost } from '@/libs/utils/serializers';
 import { apiRequest } from '@/libs/axios-api';
 import { getCookie } from 'cookies-next';
+import { urlApi } from '@/libs/utils/url';
 
 interface Props {
    post: IPost;
@@ -34,7 +35,9 @@ export default function FormPost(props: Props) {
    const [showForm, setShowForm] = useState('Image');
    const [isLoading, setIsLoading] = useState(false);
    const [resources, setResources] = useState<IPostResources>({
-      coverImage: post.coverImage || '',
+      coverImage: post.coverImage
+         ? `${urlApi}/${post.coverImage}`
+         : '/assets/images/image-not-found.png',
       images: [],
       videos: [],
       pdfs: [],

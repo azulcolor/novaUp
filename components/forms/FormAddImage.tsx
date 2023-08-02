@@ -108,16 +108,16 @@ export const FormAddImage = (props: Props) => {
                </button>
                <Image
                   src={
-                     formData.coverImage
-                        ? URL.createObjectURL(formData.coverImage as any)
-                        : '/assets/images/image-not-found.png'
+                     formData.coverImage instanceof File
+                        ? URL.createObjectURL(formData.coverImage)
+                        : formData.coverImage
                   }
-                  alt=""
-                  width={120}
-                  height={120}
+                  alt={`cover-image`}
+                  width={500}
+                  height={480}
                />
             </div>
-            {formData.images.map((file, index) => (
+            {formData.images.map((file, index: number) => (
                <div key={index} className="file">
                   <button onClick={() => handleDeleteImage(file.name)}>
                      <ClearIcon />

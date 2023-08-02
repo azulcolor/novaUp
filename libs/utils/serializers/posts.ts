@@ -7,11 +7,11 @@ export const serializedNewPost = (data: IPostForm) => {
       description: data.description,
       summary: data.summary,
       type: data.type || 'Evento',
-      tags: data.tagsList.reduce((acc, tag) => `${acc}${tag},`, '') || '',
+      tags: data?.tagsList?.join(',') || '',
       comments: data.comments || '',
       files: [...data.images, ...data.pdfs],
       coverImageFile: data.coverImage,
-      links: data.videos.reduce((acc, frame) => `${acc}${frame},`, ''),
+      links: data?.videos?.map((video) => video.url).join(',') || '',
    };
 
    return data.eventDate

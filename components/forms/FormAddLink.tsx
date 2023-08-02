@@ -40,6 +40,7 @@ export const FormAddLink = (props: Props) => {
             ...formData,
             videos: [...formData.videos, { title, url: currentLink }],
          });
+         setCurrentLink('');
       } else {
          toast.error('El link no es valido');
       }

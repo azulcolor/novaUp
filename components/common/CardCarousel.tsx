@@ -32,7 +32,7 @@ export default function CarouselCard({ post }: Props) {
          </div>
          <div className="cardcarousel__image">
             <Image
-               src={post.coverImage || '/assets/images/logo.png'}
+               src={post.coverImage || '/assets/images/image-not-found.png'}
                alt="logo"
                width={500}
                height={480}
