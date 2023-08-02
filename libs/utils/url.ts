@@ -6,3 +6,5 @@ export const url = {
    adminPostsEditable: (id: number) => `/admin/posts/${id}`,
    adminUsers: () => '/admin/users',
 };
+
+export const urlApi = process.env.NEXT_PUBLIC_URL_API || 'http://localhost:3000';

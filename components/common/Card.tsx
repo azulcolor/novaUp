@@ -9,6 +9,7 @@ import { IPost } from '@/interfaces';
 import { usePathname, useRouter } from 'next/navigation';
 import { ConfirmationModal } from './modals/ConfirmationDeleteModal';
 import { apiRequest } from '@/libs/axios-api';
+import { urlApi } from '@/libs/utils/url';
 
 interface Props {
    post: IPost;
@@ -76,7 +77,7 @@ export const Card = ({ post }: Props) => {
             <Image
                src={
                   post.coverImage.includes('/')
-                     ? post.coverImage
+                     ? `${urlApi}/${post.coverImage}`
                      : '/assets/images/image-not-found.png' ||
                        '/assets/images/logo-clasic.png'
                }
