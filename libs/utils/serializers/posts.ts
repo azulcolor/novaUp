@@ -1,33 +1,37 @@
-import { IPostRequest } from '@/interfaces';
+import { IPostForm, IPostRequest } from '@/interfaces';
+
+export const serializedNewPost = (data: IPostForm) => {
+   const baseObject = {
+      categoryId: data.category.id,
+      title: data.title,
+      description: data.description,
+      summary: data.summary,
+      type: data.type || 'Evento',
+      tags: data.tagsList.reduce((acc, tag) => `${acc}${tag},`, '') || '',
+      comments: data.comments || '',
+      files: [...data.images, ...data.pdfs],
+      coverImageFile: data.coverImage,
+      links: data.videos.reduce((acc, frame) => `${acc}${frame},`, ''),
+   };
+
+   return data.eventDate
+      ? {
+           ...baseObject,
+           eventDate: data.eventDate,
+        }
+      : baseObject;
+};
 
 export const serializedPostUpdate = (data: IPostRequest) => ({
    id: data.id,
    category: data.category,
    assets: data.assets || [],
-   isPinned: data?.type?.includes('Convocatoria')
-      ? data.isPinned || false
-      : false || false,
    title: data.title,
    description: data.description,
    summary: data.summary,
    publishDate: data.publishDate || new Date().toISOString(),
    eventDate: data.eventDate || new Date().toISOString(),
-   isApproved: data.isApproved || false,
-   type: data.type,
-   tags: data.tags || '',
-   comments: data.comments || '',
-});
-
-export const serializedNewPost = (data: IPostRequest) => ({
-   categoryId: data.category.id,
-   assets: data.assets || [],
-   title: data.title,
-   description: data.description,
-   summary: data.summary,
-   publishDate: data.publishDate || new Date().toISOString(),
-   eventDate: data.eventDate || new Date().toISOString(),
-   isApproved: data.isApproved || false,
-   type: data.type,
+   type: data.type || 'Evento',
    tags: data.tags || '',
    comments: data.comments || '',
 });

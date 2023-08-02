@@ -1,31 +1,29 @@
 'use client';
 import React, { ChangeEvent, useState } from 'react';
+import toast from 'react-hot-toast';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { CustomInputText } from '@/components/CustomInputs/CustomInputText';
 import { Error } from '@/components/alerts/Error';
 
-import { IPostForm } from '@/interfaces';
+import { IPostResources } from '@/interfaces';
 import { apiRequest } from '@/libs/axios-api';
 
 interface Props {
-   formData: IPostForm;
-   setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
+   formData: IPostResources;
+   setFormData: React.Dispatch<React.SetStateAction<IPostResources>>;
 }
 
 export const FormAddLink = (props: Props) => {
    const { formData, setFormData } = props;
    const [currentLink, setCurrentLink] = useState('');
-   const [errorLink, setErrorLink] = useState('');
 
    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
       setCurrentLink(() => e.target.value);
    };
 
    const handleAddLink = async () => {
-      setErrorLink(() => '');
-
       let title = `video_${formData.videos.length + 1}}`;
       const urlMatch = currentLink.match(/src="([^"]+)"/);
 
@@ -42,9 +40,8 @@ export const FormAddLink = (props: Props) => {
             ...formData,
             videos: [...formData.videos, { title, url: currentLink }],
          });
-         setCurrentLink(() => '');
       } else {
-         setErrorLink(() => 'El link no es valido');
+         toast.error('El link no es valido');
       }
    };
    return (
@@ -63,14 +60,13 @@ export const FormAddLink = (props: Props) => {
          </CustomInputText>
 
          <div className="container__tags">
-            <Error message={errorLink} />
             {formData.videos?.map((link, index) => (
                <div key={index} className="custom-tag">
                   <p>{link.title}</p>
                   <button
                      className="custom-tag__btn"
                      onClick={() => {
-                        setFormData((prev: IPostForm) => ({
+                        setFormData((prev: IPostResources) => ({
                            ...prev,
                            videos: prev.videos?.filter(
                               (linkFilter) => linkFilter !== link

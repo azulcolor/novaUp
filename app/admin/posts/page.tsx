@@ -1,26 +1,26 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 
 import { LoadingProgress } from '@/components/common/LoadingProgress';
 import { Posts } from '@/components/common/Posts';
 
 import { apiRequest } from '@/libs/axios-api';
-import { IPost } from '@/interfaces';
+import MutatePostsContext from '@/context/MutatePostsContext';
 
 export default function AdminPosts() {
-   const [posts, setPosts] = useState<IPost[]>([]);
+   const { posts, setPosts } = useContext(MutatePostsContext);
    const [isLoading, setIsLoading] = useState<boolean>(true);
 
    useEffect(() => {
       (async () => {
          const token = getCookie('nova-access-token');
-         const posts = await apiRequest.getPostsCrud(String(token), false);
+         const posts = await apiRequest.getPostsCrud(String(token));
 
-         setPosts(() => posts);
+         setPosts(posts);
          setIsLoading(() => false);
       })();
-   }, []);
+   }, [setPosts]);
 
    return <>{isLoading ? <LoadingProgress /> : <Posts posts={posts} />}</>;
 }

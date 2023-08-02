@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { use, useEffect, useState } from 'react';
@@ -11,14 +12,16 @@ import { SelectorDetails } from '@/components/common/modals/details/SelectorDeta
 import MutateUsersContext from '@/context/MutateUsersContext';
 
 import { url } from '@/libs/utils/url';
-import { IUser } from '@/interfaces';
+import { IPost, IUser } from '@/interfaces';
+import MutatePostsContext from '@/context/MutatePostsContext';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const router = useRouter();
    const pathname = usePathname();
    const { data: session } = useSession();
    const [users, setUsers] = useState<IUser[]>([]);
-   const [user, setUser] = useState<IUser>(null as any);
+   const [posts, setPosts] = useState<IPost[]>([]);
+   const [user, setUser] = useState<IUser>({} as any);
 
    const activeTab = pathname.toLowerCase().includes('post');
 
@@ -33,12 +36,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                router.prefetch(url.adminUsers());
             }
          }
+      } else {
+         setTimeout(() => {
+            if (!session) {
+               router.push(url.home());
+            }
+         }, 2000);
       }
-
-      if (!session) {
-         router.push(url.home());
-      }
-   }, [session, router, pathname]);
+   }, [session]);
 
    return (
       <>
@@ -76,8 +81,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         </div>
                      </nav>
                   )}
-
-                  {children}
+                  <MutatePostsContext.Provider value={{ posts, setPosts }}>
+                     {children}
+                  </MutatePostsContext.Provider>
                </section>
             )}
          </MutateUsersContext.Provider>

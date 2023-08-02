@@ -6,12 +6,12 @@ interface Props {
    name: string;
    label?: string;
    accept?: 'image/*' | 'application/pdf' | string;
-   error: string;
+   multiple?: boolean;
    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CustomFileInput = (props: Props) => {
-   const { name, label, accept, error, onChange } = props;
+   const { name, label, accept, multiple = true, onChange } = props;
    return (
       <div className="flex items-center w-full">
          <label htmlFor={name} className="cursor-pointer p-4">
@@ -23,11 +23,10 @@ const CustomFileInput = (props: Props) => {
             id={name}
             accept={accept}
             name={name}
-            multiple
+            multiple={multiple}
             className="hidden"
             onChange={onChange}
          />
-         <Error message={error} />
       </div>
    );
 };

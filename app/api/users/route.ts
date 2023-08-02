@@ -1,11 +1,12 @@
+import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
+
 import { api } from '@/libs/axios-api';
 import {
    errorMessage,
    serializedNewUser,
    serializedPutUser,
 } from '@/libs/utils/serializers';
-import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
 
 const path = '/api/users';
 

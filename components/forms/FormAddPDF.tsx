@@ -1,15 +1,16 @@
 'use client';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { Info } from '@/components/alerts/Info';
 import CustomFileInput from '@/components/CustomInputs/CustomFileInput';
 
-import { IPostForm } from '@/interfaces';
+import { IPostResources } from '@/interfaces';
 
 interface Props {
-   formData: IPostForm;
-   setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
+   formData: IPostResources;
+   setFormData: React.Dispatch<React.SetStateAction<IPostResources>>;
 }
 
 export const FormAddPDF = (props: Props) => {
@@ -19,20 +20,20 @@ export const FormAddPDF = (props: Props) => {
 
    const handleAddPDF = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!e.target.files) return;
-      setFilesError(() => '');
+      toast.error('');
 
       const validateType = Array.from(e.target.files).some(
          (file) => file.type !== 'application/pdf'
       );
 
       if (validateType) {
-         setFilesError(() => 'Solo puedes subir archivos PDF');
+         toast.error('Solo puedes subir archivos PDF');
       }
 
       const currentSlots = formData.pdfs ? formData.pdfs.length : 0;
 
       if (currentSlots >= limit) {
-         setFilesError(() => `Solo puedes subir un maximo de ${limit} archivos`);
+         toast.error(`Solo puedes subir un maximo de ${limit} archivos`);
          return;
       }
 
@@ -43,11 +44,11 @@ export const FormAddPDF = (props: Props) => {
       const validFiles = selectedFiles.filter((file) => file.size <= 2000000); // 2MB límite
 
       if (currentSlots + e.target.files.length > limit) {
-         setFilesError(() => `Solo puedes subir un maximo de ${limit} archivos`);
+         toast.error(`Solo puedes subir un maximo de ${limit} archivos`);
       }
 
       if (validFiles.length < selectedFiles.length) {
-         setFilesError(() => 'Algunos archivos son demasiado grandes');
+         toast.error('Algunos archivos son demasiado grandes');
       }
       // Almacenar los objetos File directamente en el estado
       setFormData({ ...formData, pdfs: [...formData.pdfs, ...validFiles] });
@@ -68,7 +69,6 @@ export const FormAddPDF = (props: Props) => {
             name="image"
             label="Cargar PDF's"
             onChange={handleAddPDF}
-            error={filesError}
             accept="application/pdf"
          />
 

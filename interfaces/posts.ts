@@ -23,24 +23,29 @@ export interface IPost {
 export interface IPostRequest {
    id: number;
    category: ICategory;
-   coverImage?: string;
    assets: IAssets[];
-   isPinned: boolean;
    title: string;
    description: string;
    summary: string;
    publishDate: string;
    eventDate: string;
-   isApproved: boolean;
    type: string;
+   typeSelect: ICatalogGen;
    tags: string;
    comments: string;
+   currentTag: string;
+   tagsList: string[];
+}
+
+export interface IPostResources {
+   coverImage?: string | File;
+   images: File[];
+   pdfs: File[];
+   videos: IVideoForm[];
 }
 
 export interface IPostForm extends IPostRequest {
-   typeSelect: ICatalogGen;
-   currentTag: string;
-   tagsList: string[];
+   coverImage?: string | File;
    images: File[];
    pdfs: File[];
    videos: IVideoForm[];

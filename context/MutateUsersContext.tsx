@@ -1,5 +1,6 @@
+import React from 'react';
+
 import { IUser } from '@/interfaces';
-import React, { Dispatch, SetStateAction } from 'react';
 
 interface IMutateUsersContext {
    users: IUser[];

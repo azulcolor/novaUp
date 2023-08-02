@@ -6,21 +6,23 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CustomFileInput from '@/components/CustomInputs/CustomFileInput';
 import { Info } from '@/components/alerts/Info';
 
-import { IPostForm } from '@/interfaces';
+import { IPostResources } from '@/interfaces';
+import { toast } from 'react-hot-toast';
 
 interface Props {
-   formData: IPostForm;
-   setFormData: React.Dispatch<React.SetStateAction<IPostForm>>;
+   formData: IPostResources;
+   setFormData: React.Dispatch<React.SetStateAction<IPostResources>>;
 }
 
 export const FormAddImage = (props: Props) => {
    const { formData, setFormData } = props;
-   const [filesError, setFilesError] = useState('');
    const limit = 10;
 
-   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const handleAddImage = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      isCoverImage = false
+   ) => {
       if (!e.target.files) return;
-      setFilesError(() => '');
 
       const acceptedTypes = [
          'image/jpeg',
@@ -36,13 +38,13 @@ export const FormAddImage = (props: Props) => {
       );
 
       if (validateType) {
-         setFilesError(() => 'Solo puedes subir archivos de imagen');
+         toast.error('Solo puedes subir archivos de imagen');
       }
 
       const currentSlots = formData.images ? formData.images.length : 0;
 
       if (currentSlots >= limit) {
-         setFilesError(() => `Solo puedes subir un maximo de ${limit} archivos`);
+         toast.error(`Solo puedes subir un maximo de ${limit} archivos`);
          return;
       }
 
@@ -53,14 +55,18 @@ export const FormAddImage = (props: Props) => {
       const validFiles = selectedFiles.filter((file) => file.size <= 5000000); // 5MB límite
 
       if (currentSlots + e.target.files.length > limit) {
-         setFilesError(() => 'Solo puedes subir un maximo de 10 archivos');
+         toast.error('Solo puedes subir un maximo de 10 archivos');
       }
 
       if (validFiles.length < selectedFiles.length) {
-         setFilesError(() => 'Algunos archivos son demasiado grandes');
+         toast.error('Algunos archivos son demasiado grandes');
       }
       // Almacenar los objetos File directamente en el estado
-      setFormData({ ...formData, images: [...formData.images, ...validFiles] });
+      if (isCoverImage) {
+         setFormData({ ...formData, coverImage: validFiles[0] });
+      } else {
+         setFormData({ ...formData, images: [...formData.images, ...validFiles] });
+      }
    };
 
    const handleDeleteImage = (name: string) => {
@@ -70,17 +76,47 @@ export const FormAddImage = (props: Props) => {
       });
    };
 
+   const handleDeleteCoverImage = () => {
+      setFormData({
+         ...formData,
+         coverImage: '',
+      });
+   };
+
    return (
       <div className="container-form-files">
          <Info message="Puedes subir hasta 10 imágenes, no mayores a 5MB" />
-         <CustomFileInput
-            name="image"
-            label="Cargar imagenes"
-            onChange={handleAddImage}
-            error={filesError}
-            accept="image/*"
-         />
+         <div className="flex flex-row justify-between w-full">
+            <CustomFileInput
+               name="cover-image"
+               label="Cargar Portada"
+               multiple={false}
+               onChange={(e) => handleAddImage(e, true)}
+               accept="image/*"
+            />
+            <CustomFileInput
+               name="image"
+               label="Cargar imagenes"
+               onChange={handleAddImage}
+               accept="image/*"
+            />
+         </div>
          <div className="form-files">
+            <div className="file">
+               <button onClick={handleDeleteCoverImage}>
+                  <ClearIcon />
+               </button>
+               <Image
+                  src={
+                     formData.coverImage
+                        ? URL.createObjectURL(formData.coverImage as any)
+                        : '/assets/images/image-not-found.png'
+                  }
+                  alt=""
+                  width={120}
+                  height={120}
+               />
+            </div>
             {formData.images.map((file, index) => (
                <div key={index} className="file">
                   <button onClick={() => handleDeleteImage(file.name)}>

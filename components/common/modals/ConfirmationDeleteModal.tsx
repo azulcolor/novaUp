@@ -6,6 +6,8 @@ import { getCookie } from 'cookies-next';
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import MutateUsersContext from '@/context/MutateUsersContext';
+import MutatePostsContext from '@/context/MutatePostsContext';
+
 import { apiRequest } from '@/libs/axios-api';
 import { toast } from 'react-hot-toast';
 
@@ -18,6 +20,7 @@ interface Props {
 export const ConfirmationModal = ({ title, children, target }: Props) => {
    const pathname = usePathname();
    const { setUsers } = useContext(MutateUsersContext);
+   const { setPosts } = useContext(MutatePostsContext);
    const [isOpen, setIsOpen] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 
@@ -42,9 +45,11 @@ export const ConfirmationModal = ({ title, children, target }: Props) => {
          if (fetcher === 'users') {
             const users = await apiRequest.getUSers(String(token) as any);
             setUsers(users);
-
-            toast.success('Se ha eliminado el recurso correctamente');
+         } else {
+            const posts = await apiRequest.getPostsCrud(String(token) as any);
+            setPosts(posts);
          }
+         toast.success('Se ha eliminado el recurso correctamente');
 
          setIsOpen(() => false);
       } else {

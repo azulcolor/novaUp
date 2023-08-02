@@ -64,16 +64,19 @@ export async function POST(req: NextRequest) {
       const headersList = headers();
       const authorization = headersList.get('authorization');
 
-      const data = await req.json();
-      const newPost = serializedNewPost(data);
+      const data = await req.formData();
+
+      console.log(data);
 
       const newPostApi = await api(
          'api',
          'POST',
          '/posts',
-         { Authorization: authorization },
-         newPost
+         { Authorization: authorization, 'Content-Type': 'multipart/form-data' },
+         data
       );
+
+      console.log(newPostApi);
 
       return NextResponse.json(newPostApi);
    } catch (error: any) {

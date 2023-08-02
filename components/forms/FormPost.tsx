@@ -12,11 +12,14 @@ import { FormAddImage } from '@/components/forms/FormAddImage';
 import { FormAddPDF } from '@/components/forms/FormAddPDF';
 import { FormAddLink } from '@/components/forms/FormAddLink';
 
-import { ICatalogGen, IPost, IPostForm } from '@/interfaces';
+import { ICatalogGen, IPost, IPostRequest, IPostResources } from '@/interfaces';
 import { Error } from '../alerts/Error';
 import { CustomTag } from '../common/CustomTag';
 import { useRouter } from 'next/navigation';
 import CustomInputDate from '../CustomInputs/CustomInputDate';
+import { serializedNewPost } from '@/libs/utils/serializers';
+import { apiRequest } from '@/libs/axios-api';
+import { getCookie } from 'cookies-next';
 
 interface Props {
    post: IPost;
@@ -29,30 +32,29 @@ export default function FormPost(props: Props) {
    const router = useRouter();
 
    const [showForm, setShowForm] = useState('Image');
-   const [descriptionError, setDescriptionError] = useState('');
-   const [filesError, setFilesError] = useState('');
-   const [formData, setFormData] = useState<IPostForm>({
+   const [resources, setResources] = useState<IPostResources>({
+      coverImage: post.coverImage || '',
+      images: [],
+      videos: [],
+      pdfs: [],
+   });
+
+   const [formData, setFormData] = useState<IPostRequest>({
       id: post.id || 0,
       category: post.category || { id: 0, name: 'Categorías' },
-      coverImage: post.coverImage || '',
       assets: post.assets || [],
-      isPinned: post.isPinned || false,
       title: post.title || '',
       description: post.description || '',
       summary: post.summary || '',
       publishDate: '',
       eventDate: '',
-      isApproved: false,
       typeSelect: post.type
          ? { id: 0, name: post.type }
          : { id: 0, name: 'Tipo de publicación' },
       type: post.type || '',
       tags: post.tags || '',
-      currentTag: '',
       tagsList: post.tags ? post.tags.split(',') : [],
-      images: [],
-      pdfs: [],
-      videos: [],
+      currentTag: '',
       comments: post.comments || '',
    });
 
@@ -60,21 +62,49 @@ export default function FormPost(props: Props) {
       const fieldName = e.target.name;
       const fieldValue = e.target.value;
 
-      setFormData((prevState: IPostForm) => ({
+      setFormData((prevState: IPostRequest) => ({
          ...prevState,
          [fieldName]: fieldValue,
       }));
    };
 
+   const handleChangueSelectInput = (attribute: string, value: ICatalogGen) => {
+      setFormData((prevState: IPostRequest) => ({
+         ...prevState,
+         [attribute]: value,
+      }));
+   };
+
    const handleAddTag = () => {
       if (formData.currentTag === '' || !formData.currentTag) return;
-      setFormData((prevState: IPostForm) => ({
+      setFormData((prevState: IPostRequest) => ({
          ...prevState,
          tagsList: [...(prevState.tagsList || []), prevState.currentTag || ''].filter(
             (tag) => tag !== ''
          ),
          currentTag: '',
       }));
+   };
+
+   const handleSubmit = async () => {
+      const token = getCookie('nova-access-token')?.toString() || '';
+      const preData = { ...formData, ...resources };
+      const data = serializedNewPost(preData);
+      const formDataNewPost = new FormData();
+
+      Object.keys(data).forEach((key) => {
+         const value = data[key as keyof typeof data];
+         if (value) {
+            formDataNewPost.append(key, String(value));
+         }
+      });
+
+      if (formData.id) {
+         console.log('update post axios');
+      } else {
+         const savePost = await apiRequest.newPost(token, formDataNewPost);
+         console.log(savePost);
+      }
    };
 
    const handleSelector = (slug: 'Image' | 'PDF' | 'Link') => setShowForm(slug);
@@ -167,15 +197,15 @@ export default function FormPost(props: Props) {
                   />
                </div>
                {showForm === 'Image' ? (
-                  <FormAddImage formData={formData} setFormData={setFormData} />
+                  <FormAddImage formData={resources} setFormData={setResources} />
                ) : null}
 
                {showForm === 'PDF' ? (
-                  <FormAddPDF formData={formData} setFormData={setFormData} />
+                  <FormAddPDF formData={resources} setFormData={setResources} />
                ) : null}
 
                {showForm === 'Link' ? (
-                  <FormAddLink formData={formData} setFormData={setFormData} />
+                  <FormAddLink formData={resources} setFormData={setResources} />
                ) : null}
             </div>
             <div className="container-identifiers">
@@ -188,11 +218,13 @@ export default function FormPost(props: Props) {
                      attributeToChangue="category"
                      defaultOption={formData.category}
                      options={categories}
+                     onChangueValue={handleChangueSelectInput}
                   />
                   <CustomSelect
                      attributeToChangue="typeSelect"
                      defaultOption={formData.typeSelect!}
                      options={typesPost}
+                     onChangueValue={handleChangueSelectInput}
                   />
                </div>
 
@@ -217,10 +249,10 @@ export default function FormPost(props: Props) {
                         key={index}
                         tag={tag}
                         onDelete={() => {
-                           setFormData((prev: IPostForm) => ({
+                           setFormData((prev: IPostRequest) => ({
                               ...prev,
                               tagsList: prev.tagsList?.filter(
-                                 (tagFilter) => tagFilter !== tag
+                                 (tagFilter: string) => tagFilter !== tag
                               ),
                            }));
                         }}
@@ -228,6 +260,7 @@ export default function FormPost(props: Props) {
                   ))}
                </div>
             </div>
+            <CustomButton title={'Crear publicación'} handleClick={handleSubmit} />
          </div>
       </div>
    );

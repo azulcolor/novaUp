@@ -17,8 +17,8 @@ export const apiPosts = {
          .then((res) => res.json())
          .catch((e) => []),
 
-   getPostsCrud: async (token: string, status: boolean = true): Promise<IPost[]> =>
-      await api('next', 'GET', `/posts${status ? '?approved=true' : ''}`, {
+   getPostsCrud: async (token: string): Promise<IPost[]> =>
+      await api('next', 'GET', '/posts', {
          Authorization: `Bearer ${token}`,
       })
          .then((data) => data)
@@ -51,8 +51,14 @@ export const apiPosts = {
          .then((res) => res.json())
          .catch((e) => []),
 
-   newPost: async (token: string, post: IPost) =>
-      await api('next', 'POST', '/posts', { Authorization: `Bearer ${token}` }, post)
+   newPost: async (token: string, post: any /* haven't interface */) =>
+      await api(
+         'next',
+         'POST',
+         '/posts',
+         { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+         post
+      )
          .then((data) => data)
          .catch((e) => false),
 

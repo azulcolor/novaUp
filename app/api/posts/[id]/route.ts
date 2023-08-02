@@ -24,6 +24,10 @@ export async function GET(
          `/posts/${id}${limit ? '?limit=' + limit : ''}`
       );
 
+      if (posts.error) {
+         throw new Error(posts.error);
+      }
+
       return NextResponse.json(posts);
    } catch (error: any) {
       const formatedError = errorMessage(error, path, 'GET');

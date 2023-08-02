@@ -20,6 +20,7 @@ export default async function PostsPage() {
                attributeToChangue="category"
                options={categories}
                defaultOption={extraOption}
+               isChangueQuery={true}
             />
             <InputSearch />
          </div>
