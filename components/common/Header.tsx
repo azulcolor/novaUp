@@ -79,7 +79,7 @@ export const Header = () => {
 
    useEffect(() => {
       const token = getCookie('nova-access-token');
-      if (token && session) {
+      if (token) {
          try {
             const decoded = jwt.decode(String(token)) as any;
             const now = Math.floor(Date.now() / 1000);
@@ -118,10 +118,15 @@ export const Header = () => {
       <>
          <div className="header">
             <div className="header__logo">
-               <Image src={'/assets/images/logo.png'} alt="logo" width={160} height={90} />
+               <Image
+                  src={'/assets/images/logo.png'}
+                  alt="logo"
+                  width={160}
+                  height={90}
+               />
             </div>
-            <div className='header__nav'>
-               <div className='normal__mode'>
+            <div className="header__nav">
+               <div className="normal__mode">
                   <ul>
                      {links.map((link) =>
                         link.path.includes('admin') && !session ? null : (
@@ -142,46 +147,55 @@ export const Header = () => {
                      {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
                   </ul>
                </div>
-               <div className='hamburger__mode' onClick={handleToggleMenu}>
-                  <Image src={'/svg/hamburger-menu.svg'} alt="what" width={30} height={30} />
+               <div className="hamburger__mode" onClick={handleToggleMenu}>
+                  <Image
+                     src={'/svg/hamburger-menu.svg'}
+                     alt="what"
+                     width={30}
+                     height={30}
+                  />
                </div>
             </div>
          </div>
          {showMenu && (
-               <div className='hamburger-menu'>
-                  <ul>
-         
-                     {links.map((link) => (
-                        <li
-                           key={link.label}
-                           onClick={() => {
-                              link.action();
-                              setShowMenu(false);
-                           }}
-                           className={
-                              pathname.split('/')[1] === link.path.split('/')[1]
-                                 ? 'border-b'
-                                 : ''
-                           }
-                        >
-                           {link.label}
-                        </li>
-                     ))}
-                     {!session && (
-                        <li onClick={() => {
+            <div className="hamburger-menu">
+               <ul>
+                  {links.map((link) => (
+                     <li
+                        key={link.label}
+                        onClick={() => {
+                           link.action();
+                           setShowMenu(false);
+                        }}
+                        className={
+                           pathname.split('/')[1] === link.path.split('/')[1]
+                              ? 'border-b'
+                              : ''
+                        }>
+                        {link.label}
+                     </li>
+                  ))}
+                  {!session && (
+                     <li
+                        onClick={() => {
                            signIn();
-                           setShowMenu(false); 
-                        }}>Iniciar sesión</li>
-                     )}
-                     {session && (
-                        <li onClick={() => {
+                           setShowMenu(false);
+                        }}>
+                        Iniciar sesión
+                     </li>
+                  )}
+                  {session && (
+                     <li
+                        onClick={() => {
                            handleSignOut();
                            setShowMenu(false);
-                        }}>Cerrar sesión</li>
-                     )}
-                  </ul>
-               </div>
-            )}
+                        }}>
+                        Cerrar sesión
+                     </li>
+                  )}
+               </ul>
+            </div>
+         )}
       </>
    );
 };

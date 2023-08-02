@@ -77,6 +77,7 @@ export async function POST(req: NextRequest) {
       );
 
       console.log(newPostApi);
+      console.log(newPostApi[0]);
 
       return NextResponse.json(newPostApi);
    } catch (error: any) {

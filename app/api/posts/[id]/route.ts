@@ -24,7 +24,7 @@ export async function GET(
          `/posts/${id}${limit ? '?limit=' + limit : ''}`
       );
 
-      if (posts.error) {
+      if (posts?.error) {
          throw new Error(posts.error);
       }
 

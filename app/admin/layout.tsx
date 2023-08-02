@@ -60,7 +60,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                  activeTab ? 'btn-primary--tab' : 'btn-secondary--tab'
                               }
                            />
-                           {user?.role.id === 1 && (
+                           {user && user?.role?.id === 1 && (
                               <CustomButton
                                  title="Usuarios"
                                  handleClick={() => router.push(url.adminUsers())}

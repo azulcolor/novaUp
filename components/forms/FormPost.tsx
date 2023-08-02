@@ -32,6 +32,7 @@ export default function FormPost(props: Props) {
    const router = useRouter();
 
    const [showForm, setShowForm] = useState('Image');
+   const [isLoading, setIsLoading] = useState(false);
    const [resources, setResources] = useState<IPostResources>({
       coverImage: post.coverImage || '',
       images: [],
@@ -87,6 +88,7 @@ export default function FormPost(props: Props) {
    };
 
    const handleSubmit = async () => {
+      setIsLoading(true);
       const token = getCookie('nova-access-token')?.toString() || '';
       const preData = { ...formData, ...resources };
       const data = serializedNewPost(preData);
@@ -94,8 +96,18 @@ export default function FormPost(props: Props) {
 
       Object.keys(data).forEach((key) => {
          const value = data[key as keyof typeof data];
+
          if (value) {
-            formDataNewPost.append(key, String(value));
+            if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
+               // Si es un array de archivos, los agregamos uno por uno
+               value.forEach((file) => formDataNewPost.append(key, file));
+            } else if (value instanceof File) {
+               // Si es un archivo individual
+               formDataNewPost.append(key, value);
+            } else {
+               // Otros valores se convierten a cadena
+               formDataNewPost.append(key, String(value));
+            }
          }
       });
 
@@ -105,6 +117,7 @@ export default function FormPost(props: Props) {
          const savePost = await apiRequest.newPost(token, formDataNewPost);
          console.log(savePost);
       }
+      setIsLoading(false);
    };
 
    const handleSelector = (slug: 'Image' | 'PDF' | 'Link') => setShowForm(slug);
@@ -260,7 +273,12 @@ export default function FormPost(props: Props) {
                   ))}
                </div>
             </div>
-            <CustomButton title={'Crear publicación'} handleClick={handleSubmit} />
+            <CustomButton
+               title={'Crear publicación'}
+               handleClick={handleSubmit}
+               containerStyles="bg-primary w-1/3"
+               isLoading={isLoading}
+            />
          </div>
       </div>
    );
