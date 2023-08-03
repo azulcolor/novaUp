@@ -4,6 +4,7 @@ import { IPost } from '@/interfaces';
 import { urlApi } from '@/libs/utils/url';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { ImageComponent } from '../common/ImageComponent';
 
 interface Props {
    post: IPost;
@@ -17,6 +18,7 @@ export default function PostDetail({ post }: Props) {
    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
    const images = post.assets.filter((asset) => asset.type === assets.Imagen);
    images.unshift({ id: 0, name: post.coverImage, type: assets.Imagen });
+   const defailtImg = 'assets/53/images/baloncesto-original.jpg';
 
    useEffect(() => {
       const handleResize = () => {
@@ -32,7 +34,6 @@ export default function PostDetail({ post }: Props) {
       };
    }, []);
    const isMobile = windowSize.width <= 768;
-
    return (
       <>
          <div className="post-detail-layout gap-4 lg:mt-8">
@@ -46,13 +47,12 @@ export default function PostDetail({ post }: Props) {
                </p>
             </div>
 
-            <div className="md:row-span-2 md:mt-10">
-               <Image
-                  className="rounded-xl w-full h-auto"
-                  src={`${urlApi}/${imageSelected}` || '/assets/images/logo.png'}
-                  alt="logo"
-                  width={828}
-                  height={466}
+            <div className="w-full h-auto mx-auto md:row-span-2 md:mt-10">
+               <ImageComponent
+                  src={`${urlApi}/${imageSelected}`}
+                  w={828}
+                  h={466}
+                  containerStyles="cover-image rounded-xl w-auto m-auto"
                />
             </div>
             <div className="md:row-span-2 lg:row-span-3">
@@ -68,23 +68,24 @@ export default function PostDetail({ post }: Props) {
             </div>
             <div
                className="
-            grid grid-cols-1 gap-4 px-2
+            grid grid-cols-1 gap-4 px-2 mx-auto
             md:grid-cols-2 
             lg:grid-cols-4"
             >
                {images.map((image, i) => {
                   return (
-                     <Image
+                     <ImageComponent
                         key={i}
-                        className={`
-                        rounded-xl w-full h-full 
-                        md:max-h-20 lg:max-h-28 
-                        ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
                         src={`${urlApi}/${image.name}`}
-                        alt="other image"
-                        width={828}
-                        height={466}
-                        onClick={isMobile ? () => {} : () => setImageSelected(image.name)}
+                        w={828}
+                        h={466}
+                        containerStyles={`
+                  rounded-xl w-full h-full 
+                  md:max-h-20 lg:max-h-28 
+                  ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
+                        handleClick={
+                           isMobile ? () => {} : () => setImageSelected(image.name)
+                        }
                      />
                   );
                })}
