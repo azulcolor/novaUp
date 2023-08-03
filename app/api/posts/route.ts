@@ -3,11 +3,7 @@ import { IPostRequest, IUser } from '@/interfaces/';
 import jwt from 'jsonwebtoken';
 import { headers } from 'next/headers';
 import { NextResponse, NextRequest } from 'next/server';
-import {
-   errorMessage,
-   serializedNewPost,
-   serializedPostUpdate,
-} from '@/libs/utils/serializers';
+import { errorMessage, serializedPostUpdate } from '@/libs/utils/serializers';
 
 const path = '/api/posts';
 

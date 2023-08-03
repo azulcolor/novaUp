@@ -1,6 +1,7 @@
 'use client';
 
 import { IPost } from '@/interfaces';
+import { urlApi } from '@/libs/utils/url';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +12,7 @@ interface Props {
 const url = 'https://fakeimg.pl/1600x900/ff6600/ba00ba?text=';
 
 export default function PostDetail({ post }: Props) {
-   const [imageSelected, setImageSelected] = useState(post.coverImage);
+   const [imageSelected, setImageSelected] = useState(`${urlApi}/${post.coverImage}`);
    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
    useEffect(() => {
@@ -31,7 +32,7 @@ export default function PostDetail({ post }: Props) {
    const isMobile = windowSize.width <= 768;
 
    const images = [
-      { url: post.coverImage },
+      { url: `${urlApi}/${post.coverImage}` },
       { url: url + '1' },
       { url: url + '2' },
       { url: url + '3' },
@@ -52,8 +53,7 @@ export default function PostDetail({ post }: Props) {
                   className="text-3xl 
                   xl:text-4xl xl:mb-8
                   font-semibold mb-2 
-                  mt-2"
-               >
+                  mt-2">
                   {post.title}
                </p>
             </div>
@@ -99,8 +99,7 @@ export default function PostDetail({ post }: Props) {
                height="487"
                src="https://www.youtube.com/embed/zaKnUdYUCHM"
                title="YouTube video player"
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            ></iframe>
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
          </div>
       </>
    );

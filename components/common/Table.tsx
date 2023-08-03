@@ -72,7 +72,8 @@ export const Table = ({ users, data, itemsPage }: Props) => {
                               title={`¿Seguro que quieres eliminar "${
                                  row['Titulo'] || row['Email']
                               }?"`}
-                              target={row['id']}>
+                              target={row['id']}
+                              fetcher="users">
                               <DeleteForeverIcon />
                            </ConfirmationModal>
                         </td>

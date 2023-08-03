@@ -1,6 +1,8 @@
 'use client';
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -12,15 +14,22 @@ import { FormAddImage } from '@/components/forms/FormAddImage';
 import { FormAddPDF } from '@/components/forms/FormAddPDF';
 import { FormAddLink } from '@/components/forms/FormAddLink';
 
-import { ICatalogGen, IPost, IPostRequest, IPostResources } from '@/interfaces';
+import {
+   ICatalogGen,
+   IPost,
+   IPostCurrentResources,
+   IPostRequest,
+   IPostResources,
+} from '@/interfaces';
+
 import { Error } from '../alerts/Error';
 import { CustomTag } from '../common/CustomTag';
-import { useRouter } from 'next/navigation';
 import CustomInputDate from '../CustomInputs/CustomInputDate';
 import { serializedNewPost } from '@/libs/utils/serializers';
 import { apiRequest } from '@/libs/axios-api';
-import { getCookie } from 'cookies-next';
 import { urlApi } from '@/libs/utils/url';
+import { getTitleVideos } from '@/libs/utils/common-functions';
+import { toast } from 'react-hot-toast';
 
 interface Props {
    post: IPost;
@@ -34,9 +43,14 @@ export default function FormPost(props: Props) {
 
    const [showForm, setShowForm] = useState('Image');
    const [isLoading, setIsLoading] = useState(false);
+   const [currentFiles, setCurrentFiles] = useState<IPostCurrentResources>({
+      images: post?.assets?.filter((asset) => asset.type === 'Imagen') || [],
+      videos: [],
+      pdfs: [],
+   });
    const [resources, setResources] = useState<IPostResources>({
-      coverImage: post.coverImage
-         ? `${urlApi}/${post.coverImage}`
+      coverImage: post?.coverImage
+         ? `${urlApi}/${post?.coverImage}`
          : '/assets/images/image-not-found.png',
       images: [],
       videos: [],
@@ -83,7 +97,7 @@ export default function FormPost(props: Props) {
       if (formData.currentTag === '' || !formData.currentTag) return;
       setFormData((prevState: IPostRequest) => ({
          ...prevState,
-         tagsList: [...(prevState.tagsList || []), prevState.currentTag || ''].filter(
+         tagsList: [...(prevState.tagsList || []), prevState.currentTag || '']?.filter(
             (tag) => tag !== ''
          ),
          currentTag: '',
@@ -118,6 +132,10 @@ export default function FormPost(props: Props) {
          console.log('update post axios');
       } else {
          const savePost = await apiRequest.newPost(token, formDataNewPost);
+         if (savePost.status === 'Success') {
+            toast.success('Publicación guardada');
+            router.push('/admin/posts');
+         }
          console.log(savePost);
       }
       setIsLoading(false);
@@ -125,6 +143,20 @@ export default function FormPost(props: Props) {
 
    const handleSelector = (slug: 'Image' | 'PDF' | 'Link') => setShowForm(slug);
    const handleBack = () => router.back();
+
+   useEffect(() => {
+      (async () => {
+         if (post && post.id !== 0 && post.assets?.length) {
+            const videos = ((await getTitleVideos(
+               post.assets?.filter((asset) => asset.type === 'Enlace')
+            )) || []) as any;
+            setCurrentFiles((prevState) => ({
+               ...prevState,
+               videos,
+            }));
+         }
+      })();
+   }, [post]);
 
    return (
       <div className="form__post">
@@ -213,7 +245,12 @@ export default function FormPost(props: Props) {
                   />
                </div>
                {showForm === 'Image' ? (
-                  <FormAddImage formData={resources} setFormData={setResources} />
+                  <FormAddImage
+                     currentFiles={currentFiles}
+                     setCurrentFiles={setCurrentFiles}
+                     formData={resources}
+                     setFormData={setResources}
+                  />
                ) : null}
 
                {showForm === 'PDF' ? (
@@ -276,12 +313,14 @@ export default function FormPost(props: Props) {
                   ))}
                </div>
             </div>
-            <CustomButton
-               title={'Crear publicación'}
-               handleClick={handleSubmit}
-               containerStyles="bg-primary w-1/3"
-               isLoading={isLoading}
-            />
+            <div>
+               <CustomButton
+                  title={formData.id === 0 ? 'Crear publicación' : 'Guardar'}
+                  handleClick={handleSubmit}
+                  containerStyles="btn-primary px-5"
+                  isLoading={isLoading}
+               />
+            </div>
          </div>
       </div>
    );

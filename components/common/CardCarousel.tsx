@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { IPost } from '@/interfaces';
-import { url } from '@/libs/utils/url';
+import { url, urlApi } from '@/libs/utils/url';
 
 interface Props {
    post: IPost;
@@ -32,7 +32,9 @@ export default function CarouselCard({ post }: Props) {
          </div>
          <div className="cardcarousel__image">
             <Image
-               src={post.coverImage || '/assets/images/image-not-found.png'}
+               src={
+                  `${urlApi}/${post.coverImage}` || '/assets/images/image-not-found.png'
+               }
                alt="logo"
                width={500}
                height={480}

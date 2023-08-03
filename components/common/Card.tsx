@@ -50,7 +50,8 @@ export const Card = ({ post }: Props) => {
                      <div className="card__body-details--editable">
                         <ConfirmationModal
                            title={`¿Seguro que deseas eliminar el post "${post.title}"?`}
-                           target={post.id}>
+                           target={post.id}
+                           fetcher="posts">
                            <CustomButton
                               title="Eliminar"
                               containerStyles="btn-danger"
@@ -81,7 +82,7 @@ export const Card = ({ post }: Props) => {
                      : '/assets/images/image-not-found.png' ||
                        '/assets/images/logo-clasic.png'
                }
-               alt={`{post.id}-cover-image`}
+               alt={`${post.id}-cover-image`}
                width={500}
                height={480}
             />

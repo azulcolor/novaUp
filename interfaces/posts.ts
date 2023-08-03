@@ -37,8 +37,14 @@ export interface IPostRequest {
    tagsList: string[];
 }
 
+export interface IPostCurrentResources {
+   images: IAssets[];
+   pdfs: IAssets[];
+   videos: IVideoForm[];
+}
+
 export interface IPostResources {
-   coverImage: string | File;
+   coverImage?: string | File;
    images: File[];
    pdfs: File[];
    videos: IVideoForm[];
@@ -60,6 +66,7 @@ export interface IAssets {
    id: number;
    name: string;
    type: string;
+   title?: string;
 }
 
 export interface ICategory {

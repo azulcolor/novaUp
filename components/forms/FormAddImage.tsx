@@ -6,16 +6,20 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CustomFileInput from '@/components/CustomInputs/CustomFileInput';
 import { Info } from '@/components/alerts/Info';
 
-import { IPostResources } from '@/interfaces';
+import { IPostCurrentResources, IPostResources } from '@/interfaces';
 import { toast } from 'react-hot-toast';
+import { ConfirmationModal } from '../common/modals/ConfirmationDeleteModal';
+import { urlApi } from '@/libs/utils/url';
 
 interface Props {
+   currentFiles: IPostCurrentResources;
+   setCurrentFiles: React.Dispatch<React.SetStateAction<IPostCurrentResources>>;
    formData: IPostResources;
    setFormData: React.Dispatch<React.SetStateAction<IPostResources>>;
 }
 
 export const FormAddImage = (props: Props) => {
-   const { formData, setFormData } = props;
+   const { currentFiles, setCurrentFiles, formData, setFormData } = props;
    const limit = 10;
 
    const handleAddImage = (
@@ -108,15 +112,37 @@ export const FormAddImage = (props: Props) => {
                </button>
                <Image
                   src={
-                     formData.coverImage instanceof File
+                     formData?.coverImage instanceof File
                         ? URL.createObjectURL(formData.coverImage)
-                        : formData.coverImage
+                        : formData.coverImage || '/assets/images/image-not-found.png'
                   }
                   alt={`cover-image`}
                   width={500}
                   height={480}
                />
             </div>
+            {currentFiles.images.map((file, index: number) => (
+               <div key={index} className="file">
+                  <ConfirmationModal
+                     title="¿Seguro que deseas eliminar esta imagen?"
+                     target={file.id}
+                     fetcher="delete-asset"
+                     extraReloadFunc={() =>
+                        setCurrentFiles((prev) => ({
+                           ...prev,
+                           images: prev.images.filter((f) => f.id !== file.id),
+                        }))
+                     }>
+                     <ClearIcon />
+                  </ConfirmationModal>
+                  <Image
+                     src={`${urlApi}/${file.name}`}
+                     alt={`image-${index}`}
+                     width={500}
+                     height={480}
+                  />
+               </div>
+            ))}
             {formData.images.map((file, index: number) => (
                <div key={index} className="file">
                   <button onClick={() => handleDeleteImage(file.name)}>
@@ -125,8 +151,8 @@ export const FormAddImage = (props: Props) => {
                   <Image
                      src={URL.createObjectURL(file)}
                      alt=""
-                     width={120}
-                     height={120}
+                     width={500}
+                     height={480}
                   />
                </div>
             ))}

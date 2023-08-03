@@ -1,3 +1,6 @@
+import { IAssets } from '@/interfaces';
+import { apiRequest } from '../axios-api';
+
 // search functional received array u object and string to search and return array with items that match the search
 export const handlesearchItems = (items: any[], searchText: string) => {
    const words = searchText.toLowerCase().split(' ');
@@ -30,3 +33,25 @@ export const handlesearchItems = (items: any[], searchText: string) => {
       });
    });
 };
+
+export const getTitleVideos = async (videos: IAssets[]) =>
+   videos.map(async (video, index) => {
+      const urlMatch = video.name.match(/src="([^"]+)"/);
+
+      if (urlMatch) {
+         const url = urlMatch[1];
+         const parts = url?.split('/');
+         const videoId = parts[parts?.length - 1];
+
+         const snipeds = await apiRequest.getYoutubeSnippet(videoId);
+         const title = snipeds?.items[0]?.snippet?.title;
+         return {
+            ...video,
+            title,
+         };
+      }
+      return {
+         ...video,
+         title: `Video ${index + 1}`,
+      };
+   });
