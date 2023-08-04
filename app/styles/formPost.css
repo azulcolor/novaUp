@@ -109,7 +109,7 @@
    gap: 1rem;
 }
 
-.file button {
+.file .file__delete {
    position: absolute;
    border-radius: 0 0 0 8px;
    top: 0;
@@ -126,7 +126,6 @@
 .container__btns__multimedia {
    display: flex;
    flex-direction: row;
-   column-gap: 4%;
    width: 100%;
    height: auto;
    padding: 4% 0;

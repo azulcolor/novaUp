@@ -20,6 +20,7 @@ import {
    IPostCurrentResources,
    IPostRequest,
    IPostResources,
+   IUser,
 } from '@/interfaces';
 
 import { Error } from '../alerts/Error';
@@ -27,18 +28,20 @@ import { CustomTag } from '../common/CustomTag';
 import CustomInputDate from '../CustomInputs/CustomInputDate';
 import { serializedNewPost } from '@/libs/utils/serializers';
 import { apiRequest } from '@/libs/axios-api';
-import { urlApi } from '@/libs/utils/url';
+import { url, urlApi } from '@/libs/utils/url';
 import { getTitleVideos } from '@/libs/utils/common-functions';
 import { toast } from 'react-hot-toast';
+import { FormApproved } from './FormApproved';
 
 interface Props {
    post: IPost;
    categories: ICatalogGen[];
    typesPost: ICatalogGen[];
+   user: IUser | false;
 }
 
 export default function FormPost(props: Props) {
-   const { post, categories, typesPost } = props;
+   const { post, categories, typesPost, user } = props;
    const router = useRouter();
 
    const [showForm, setShowForm] = useState('Image');
@@ -48,6 +51,7 @@ export default function FormPost(props: Props) {
       videos: [],
       pdfs: [],
    });
+
    const [resources, setResources] = useState<IPostResources>({
       coverImage: post?.coverImage
          ? `${urlApi}/${post?.coverImage}`
@@ -141,8 +145,21 @@ export default function FormPost(props: Props) {
       setIsLoading(false);
    };
 
+   const handlePinned = async () => {
+      setIsLoading(true);
+      const token = getCookie('nova-access-token')?.toString() || '';
+      const pinnedPost = await apiRequest.pinnedPost(token, post.id);
+      if (pinnedPost.status === 'Success') {
+         toast.success('Publicación fijada');
+         router.refresh();
+      } else {
+         toast.error('Error al fijar publicación');
+      }
+      setIsLoading(false);
+   };
+
    const handleSelector = (slug: 'Image' | 'PDF' | 'Link') => setShowForm(slug);
-   const handleBack = () => router.back();
+   const handleBack = () => router.push(url.adminPosts());
 
    useEffect(() => {
       (async () => {
@@ -166,13 +183,34 @@ export default function FormPost(props: Props) {
                <h3>Regresar</h3>
             </div>
             <div className="container__inputs">
-               <div>
+               <div className="flex w-full justify-between">
                   <CustomInputDate
                      name="eventDate"
                      onChange={handleInput}
                      value={formData.eventDate}
                      label="Fecha del evento"
                   />
+                  {typeof post?.id === 'number' && post?.id !== 0 && (
+                     <FormApproved
+                        status={post?.isApproved}
+                        target={post?.id}
+                        user={user}
+                        currentComments={post?.comments}
+                     />
+                  )}
+                  {post?.isApproved &&
+                     post?.category?.id === 8 &&
+                     post?.type?.toLocaleLowerCase()?.includes('convocatoria') && (
+                        <CustomButton
+                           title={post?.isPinned ? 'Fijada' : 'Fijar'}
+                           containerStyles={
+                              post?.isPinned ? 'btn-secondary' : 'btn-primary'
+                           }
+                           disabled={post?.isPinned}
+                           handleClick={handlePinned}
+                           isLoading={isLoading}
+                        />
+                     )}
                </div>
                <CustomTextarea
                   name={'title'}
@@ -224,7 +262,8 @@ export default function FormPost(props: Props) {
                      title={'Imagen'}
                      handleClick={() => handleSelector('Image')}
                      containerStyles={
-                        'w-1/5 py-2 h-auto bg-primary rounded-lg text-background'
+                        'w-1/5 py-2 h-auto btn-left--tab ' +
+                        (showForm === 'Image' ? 'btn-primary--tab' : 'btn-secondary--tab')
                      }
                   />
 
@@ -232,7 +271,8 @@ export default function FormPost(props: Props) {
                      title={'PDF'}
                      handleClick={() => handleSelector('PDF')}
                      containerStyles={
-                        'w-1/5 py-2 h-auto bg-secondary rounded-lg text-background'
+                        'w-1/5 py-2 h-auto ' +
+                        (showForm === 'PDF' ? 'btn-primary--tab' : 'btn-secondary--tab')
                      }
                   />
 
@@ -240,7 +280,8 @@ export default function FormPost(props: Props) {
                      title={'Link'}
                      handleClick={() => handleSelector('Link')}
                      containerStyles={
-                        'w-1/5 py-2 h-auto bg-redBtn rounded-lg text-background'
+                        'w-1/5 py-2 h-auto btn-right--tab ' +
+                        (showForm === 'Link' ? 'btn-primary--tab' : 'btn-secondary--tab')
                      }
                   />
                </div>

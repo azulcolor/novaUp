@@ -6,7 +6,7 @@ export const serializedNewPost = (data: IPostForm) => {
       title: data.title,
       description: data.description,
       summary: data.summary,
-      type: data.type || 'Evento',
+      type: data?.typeSelect?.name || 'Convocatoria interna',
       tags: data?.tagsList?.join(',') || '',
       comments: data.comments || '',
       files: [...data.images, ...data.pdfs],
