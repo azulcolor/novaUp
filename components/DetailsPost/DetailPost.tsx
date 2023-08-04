@@ -1,6 +1,6 @@
 'use client';
 
-import { IPost } from '@/interfaces';
+import { IAssets, IPost } from '@/interfaces';
 import { urlApi } from '@/libs/utils/url';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -9,18 +9,47 @@ import { ImageComponent } from '../common/ImageComponent';
 interface Props {
    post: IPost;
 }
-enum assets {
+enum Assets {
    Imagen = 'Imagen',
+   Enlace = 'Enlace',
+   File = 'File',
 }
 
+const moocAsset: IAssets[] = [
+   { id: 1001, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: Assets.Enlace },
+   { id: 1002, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: Assets.Enlace },
+   { id: 1003, name: 'https://www.youtube.com/embed/SqrV4fs2qJk', type: Assets.Enlace },
+   {
+      id: 1004,
+      name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
+      type: Assets.File,
+   },
+   {
+      id: 1005,
+      name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
+      type: Assets.File,
+   },
+   {
+      id: 1006,
+      name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
+      type: Assets.File,
+   },
+];
+
 export default function PostDetail({ post }: Props) {
+   post.assets ? post.assets.concat(moocAsset) : (post.assets = moocAsset);
    const [imageSelected, setImageSelected] = useState(post.coverImage);
    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-   const images = post.assets
-      ? post.assets.filter((asset) => asset.type === assets.Imagen)
-      : [];
-   images.unshift({ id: 0, name: post.coverImage, type: assets.Imagen });
-   const defailtImg = 'assets/53/images/baloncesto-original.jpg';
+   const assets = post.assets
+      ? {
+           images: post.assets.filter((asset) => asset.type === Assets.Imagen),
+           videos: moocAsset.filter((asset) => asset.type === Assets.Enlace),
+           pdf: moocAsset.filter((asset) => asset.type === Assets.File),
+        }
+      : { images: [], videos: [], pdf: [] };
+
+   assets.images.unshift({ id: 0, name: post.coverImage, type: Assets.Imagen });
+   console.log(assets);
 
    useEffect(() => {
       const handleResize = () => {
@@ -74,7 +103,7 @@ export default function PostDetail({ post }: Props) {
             md:grid-cols-2 
             lg:grid-cols-4"
             >
-               {images.map((image, i) => {
+               {assets.images.map((image, i) => {
                   return (
                      <ImageComponent
                         key={i}
@@ -93,18 +122,53 @@ export default function PostDetail({ post }: Props) {
                })}
             </div>
          </div>
-         <div className="pt-8 flex justify-center">
-            <iframe
-               className="
-               h-60 
-               md:w-1/2
-               lg:h-96"
-               width="800"
-               height="487"
-               src="https://www.youtube.com/embed/zaKnUdYUCHM"
-               title="YouTube video player"
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            ></iframe>
+         <div className="pt-8 flex flex-wrap justify-start">
+            {assets.videos.map((video) => {
+               return (
+                  <div
+                     key={video.id}
+                     className="
+                  py-2 md:p-4
+                  w-full
+                  h-auto
+                  lg:w-1/2
+                  "
+                  >
+                     <iframe
+                        className="video__post mx-auto"
+                        width="800"
+                        height="500"
+                        src={video.name}
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                     ></iframe>
+                  </div>
+               );
+            })}
+         </div>
+         <div className="pt-8 flex flex-wrap justify-start">
+            {assets.pdf.map((pdf) => {
+               return (
+                  <div
+                     key={pdf.id}
+                     className="
+                  py-2 md:p-4
+                  w-full
+                  h-auto
+                  lg:w-1/2
+                  "
+                  >
+                     <iframe
+                        className="video__post mx-auto"
+                        width="800"
+                        height="500"
+                        src={pdf.name}
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                     ></iframe>
+                  </div>
+               );
+            })}
          </div>
       </>
    );
