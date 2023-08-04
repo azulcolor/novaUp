@@ -16,7 +16,9 @@ enum assets {
 export default function PostDetail({ post }: Props) {
    const [imageSelected, setImageSelected] = useState(post.coverImage);
    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-   const images = post.assets.filter((asset) => asset.type === assets.Imagen);
+   const images = post.assets
+      ? post.assets.filter((asset) => asset.type === assets.Imagen)
+      : [];
    images.unshift({ id: 0, name: post.coverImage, type: assets.Imagen });
    const defailtImg = 'assets/53/images/baloncesto-original.jpg';
 
@@ -47,18 +49,18 @@ export default function PostDetail({ post }: Props) {
                </p>
             </div>
 
-            <div className="w-full h-auto mx-auto md:row-span-2 md:mt-10">
+            <div className="w-full h-full mx-auto md:row-span-2 md:mt-10">
                <ImageComponent
                   src={`${urlApi}/${imageSelected}`}
-                  w={828}
-                  h={466}
-                  containerStyles="cover-image rounded-xl w-auto m-auto"
+                  w={1600}
+                  h={900}
+                  containerStyles="cover__image rounded-xl object-cover"
                />
             </div>
             <div className="md:row-span-2 lg:row-span-3">
                <p
                   className="
-               text-neutral-500 text-base whitespace-pre-line
+               text-neutral-500 text-base whitespace-pre-line text-justify
                lg:pr-12
                xl:text-lg 
                2xl:text-xl"

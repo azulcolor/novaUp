@@ -38,7 +38,7 @@ export const ImageComponent = ({
          height={h}
          onError={handleImageError}
          className={containerStyles}
-         onClick={handleClick}
+         onClick={image !== defaultImg ? handleClick : () => {}}
       />
    );
 };
