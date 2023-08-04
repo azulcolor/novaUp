@@ -34,7 +34,14 @@ button:disabled:hover {
    background: var(--primary-color) !important;
    color: var(--tertiary-color);
    transition: background-color 0.3s ease;
+}
+
+.btn-left--tab {
    border-radius: 0.5rem 0 0 0;
+}
+
+.btn-right--tab {
+   border-radius: 0 0.5rem 0 0;
 }
 
 .btn-primary--tab:hover {

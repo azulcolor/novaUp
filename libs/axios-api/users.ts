@@ -1,5 +1,6 @@
 import { api } from '@/libs/axios-api';
-import { IUser, IUserForm } from '@/interfaces';
+import jwt from 'jsonwebtoken';
+import { INovaJWTDecode, IUser, IUserForm } from '@/interfaces';
 
 export const apiUsers = {
    getUSers: async (token: string): Promise<IUser[]> =>
@@ -23,4 +24,13 @@ export const apiUsers = {
       })
          .then(() => true)
          .catch(() => false),
+
+   getCurrentUser: (token: string) => {
+      try {
+         const decode = jwt.decode(token) as any as INovaJWTDecode;
+         return decode;
+      } catch (error) {
+         return false;
+      }
+   },
 };

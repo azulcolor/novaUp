@@ -8,7 +8,7 @@ import { Info } from '@/components/alerts/Info';
 
 import { IPostCurrentResources, IPostResources } from '@/interfaces';
 import { toast } from 'react-hot-toast';
-import { ConfirmationModal } from '../common/modals/ConfirmationDeleteModal';
+import { ConfirmationModal } from '../common/modals/ConfirmationModal';
 import { urlApi } from '@/libs/utils/url';
 
 interface Props {
@@ -107,7 +107,7 @@ export const FormAddImage = (props: Props) => {
          </div>
          <div className="form-files">
             <div className="file">
-               <button onClick={handleDeleteCoverImage}>
+               <button className="file__delete" onClick={handleDeleteCoverImage}>
                   <ClearIcon />
                </button>
                <Image
@@ -145,7 +145,9 @@ export const FormAddImage = (props: Props) => {
             ))}
             {formData.images.map((file, index: number) => (
                <div key={index} className="file">
-                  <button onClick={() => handleDeleteImage(file.name)}>
+                  <button
+                     className="file__delete"
+                     onClick={() => handleDeleteImage(file.name)}>
                      <ClearIcon />
                   </button>
                   <Image

@@ -27,18 +27,24 @@ export const ConfirmationModal = ({
    fetcher,
    extraReloadFunc,
 }: Props) => {
-   const router = useRouter();
    const { setUsers } = useContext(MutateUsersContext);
    const { setPosts } = useContext(MutatePostsContext);
    const [isOpen, setIsOpen] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 
-   if (!isOpen) return <button onClick={() => setIsOpen(() => true)}>{children}</button>;
+   if (!isOpen)
+      return (
+         <button
+            className={fetcher === 'delete-asset' ? 'file__delete' : ''}
+            onClick={() => setIsOpen(() => true)}>
+            {children}
+         </button>
+      );
 
    const fetchers = {
       users: async (token: string, id: number) => await apiRequest.deleteUser(token, id),
       posts: async (token: string, id: number) => await apiRequest.deletePost(token, id),
-      'delete-asset': async (token: string, id: number) => {}, //await apiRequest.deleteAsset(token, id),
+      'delete-asset': async (token: string, id: number) => true, //await apiRequest.deleteAsset(token, id),
    };
 
    const reload = {

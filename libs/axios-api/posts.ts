@@ -84,4 +84,20 @@ export const apiPosts = {
          .catch((e) => {
             return [];
          }),
+
+   pinnedPost: async (token: string, id: number) =>
+      await api('next', 'PATCH', `/posts/pin/${id}`, {
+         Authorization: `Bearer ${token}`,
+      }),
+
+   setStatusPost: async (token: string, id: number, comments: string) =>
+      await api(
+         'next',
+         'PATCH',
+         `/posts/approved/${id}`,
+         {
+            Authorization: `Bearer ${token}`,
+         },
+         { comments }
+      ),
 };
