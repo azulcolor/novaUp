@@ -52,7 +52,7 @@ export default function FormPost(props: Props) {
    const [isLoading, setIsLoading] = useState(false);
    const [currentFiles, setCurrentFiles] = useState<IPostCurrentResources>({
       images: post?.assets?.filter((asset) => asset.type === 'Imagen') || [],
-      pdfs: post?.assets?.filter((asset) => asset.type === 'PDF') || [],
+      pdfs: post?.assets?.filter((asset) => asset.type === 'Pdf') || [],
       videos: [],
    });
 
@@ -121,9 +121,10 @@ export default function FormPost(props: Props) {
 
          if (setPost.status === 'Success') {
             const formDataNewAssets = new FormData();
+            console.log(resources);
             const serializedAssets = serializedAssetsByPost(resources);
             Object.keys(serializedAssets).forEach((key) => {
-               const value = resources[key as keyof typeof resources];
+               const value = serializedAssets[key as keyof typeof serializedAssets];
 
                if (value) {
                   if (
@@ -142,6 +143,7 @@ export default function FormPost(props: Props) {
                   }
                }
             });
+            console.log(formDataNewAssets);
 
             const assets = await apiRequest.setAssetsPost(
                token,
@@ -208,9 +210,9 @@ export default function FormPost(props: Props) {
    useEffect(() => {
       (async () => {
          if (post && post.id !== 0 && post.assets?.length) {
-            const videos = ((await getTitleVideos(
-               post.assets?.filter((asset) => asset.type === 'Enlace')
-            )) || []) as any;
+            const videos = (await getTitleVideos(
+               post.assets?.filter((asset) => asset.type === 'Enlace') || []
+            )) as any;
             setCurrentFiles((prevState) => ({
                ...prevState,
                videos,
@@ -274,14 +276,14 @@ export default function FormPost(props: Props) {
                <CustomTextarea
                   name={'summary'}
                   value={formData.summary}
-                  minRows={3}
+                  minRows={2}
                   onChangueValue={handleInput}
                   placeholder={'Descripción corta'}
                />
                <Error
                   message={
-                     formData.summary.length > 120
-                        ? `Excedio el limite de caracteres ${formData.summary.length} de 120`
+                     formData.summary.length > 110
+                        ? `Excedio el limite de caracteres ${formData.summary.length} de 110`
                         : ''
                   }
                />

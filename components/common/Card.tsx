@@ -84,6 +84,7 @@ export const Card = ({ post }: Props) => {
                alt={`${post.id}-cover-image`}
                w={500}
                h={480}
+               addLoader={true}
             />
          </div>
       </div>

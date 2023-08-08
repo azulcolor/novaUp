@@ -7,8 +7,10 @@ export default async function Home() {
    const pinned = await apiRequest.getPostsPinned();
    console.log(pinned);
 
-   const internalPosts = pinned?.find((post) => post.type === 'Convocatoria interna');
-   const externalPosts = pinned?.find((post) => post.type === 'Convocatoria externa');
+   const internalPosts =
+      pinned?.find((post) => post.type === 'Convocatoria interna') || null;
+   const externalPosts =
+      pinned?.find((post) => post.type === 'Convocatoria externa') || null;
 
    return (
       <div>

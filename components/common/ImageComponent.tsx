@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+import { HammondLoader } from './HammondLoader';
+
 interface Props {
    src: string;
    handleClick?: () => void;
@@ -11,6 +13,7 @@ interface Props {
    defaultImg?: string;
    w: number;
    h: number;
+   addLoader?: boolean;
 }
 
 export const ImageComponent = ({
@@ -21,26 +24,42 @@ export const ImageComponent = ({
    defaultImg = '/assets/images/image-not-found.png',
    w,
    h,
+   addLoader = false,
 }: Props) => {
    const [image, setImage] = useState(src);
+   const [loading, setLoading] = useState(true);
 
    const handleImageError = () => {
       setImage(defaultImg);
+      setLoading(false);
+   };
+
+   const handleImageLoad = () => {
+      setTimeout(() => {
+         setLoading(() => false);
+      }, 500);
    };
 
    useEffect(() => {
       setImage(src);
+
+      handleImageLoad();
    }, [src]);
 
    return (
-      <Image
-         src={image}
-         alt={alt}
-         width={w}
-         height={h}
-         onError={handleImageError}
-         className={containerStyles}
-         onClick={image !== defaultImg && handleClick ? handleClick : () => {}}
-      />
+      <div
+         className={`w-full h-full ${containerStyles}`}
+         onClick={image !== defaultImg && handleClick ? handleClick : () => {}}>
+         {loading && addLoader && <HammondLoader />}{' '}
+         <Image
+            src={image}
+            alt={alt}
+            width={w}
+            height={h}
+            onError={handleImageError}
+            onLoad={handleImageLoad}
+            className={loading ? 'hidden' : ''}
+         />
+      </div>
    );
 };

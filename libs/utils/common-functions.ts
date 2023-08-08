@@ -35,7 +35,7 @@ export const handlesearchItems = (items: any[], searchText: string) => {
 };
 
 export const getTitleVideos = async (videos: IAssets[]) =>
-   videos.map(async (video, index) => {
+   await videos.map(async (video, index) => {
       const urlMatch = video.name.match(/src="([^"]+)"/);
 
       if (urlMatch) {

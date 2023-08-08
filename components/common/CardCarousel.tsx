@@ -40,6 +40,7 @@ export default function CarouselCard({ post }: Props) {
                alt="logo"
                w={500}
                h={480}
+               addLoader={true}
             />
          </div>
       </div>

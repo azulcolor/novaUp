@@ -8,6 +8,7 @@
 @import './cardcarousel.css';
 @import './carousel.css';
 @import 'detailPost.css';
+@import './hammond.css';
 
 @tailwind base;
 @tailwind components;
