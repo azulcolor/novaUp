@@ -1,14 +1,15 @@
 'use client';
+import { useEffect, useState } from 'react';
+
+import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { IAssets, IPost } from '@/interfaces';
 import { urlApi } from '@/libs/utils/url';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { ImageComponent } from '../common/ImageComponent';
 
 interface Props {
    post: IPost;
 }
+
 enum Assets {
    Imagen = 'Imagen',
    Enlace = 'Enlace',
@@ -72,8 +73,7 @@ export default function PostDetail({ post }: Props) {
                <p
                   className="
                   text-3xl font-semibold mb-2 mt-2
-                  xl:text-4xl xl:mb-8"
-               >
+                  xl:text-4xl xl:mb-8">
                   {post.title}
                </p>
             </div>
@@ -92,8 +92,7 @@ export default function PostDetail({ post }: Props) {
                text-neutral-500 text-base whitespace-pre-line text-justify
                lg:pr-12
                xl:text-lg 
-               2xl:text-xl"
-               >
+               2xl:text-xl">
                   {post.description}
                </p>
             </div>
@@ -101,8 +100,7 @@ export default function PostDetail({ post }: Props) {
                className="
             grid grid-cols-1 gap-4 px-2 mx-auto
             md:grid-cols-2 
-            lg:grid-cols-4"
-            >
+            lg:grid-cols-4">
                {assets.images.map((image, i) => {
                   return (
                      <ImageComponent
@@ -132,16 +130,14 @@ export default function PostDetail({ post }: Props) {
                   w-full
                   h-auto
                   lg:w-1/2
-                  "
-                  >
+                  ">
                      <iframe
                         className="video__post mx-auto"
                         width="800"
                         height="500"
                         src={video.name}
                         title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                     ></iframe>
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                   </div>
                );
             })}
@@ -156,16 +152,14 @@ export default function PostDetail({ post }: Props) {
                   w-full
                   h-auto
                   lg:w-1/2
-                  "
-                  >
+                  ">
                      <iframe
                         className="video__post mx-auto"
                         width="800"
                         height="500"
                         src={pdf.name}
                         title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                     ></iframe>
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
                   </div>
                );
             })}

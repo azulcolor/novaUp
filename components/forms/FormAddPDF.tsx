@@ -5,16 +5,19 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 import { Info } from '@/components/alerts/Info';
 import CustomFileInput from '@/components/CustomInputs/CustomFileInput';
+import { ConfirmationModal } from '@/components/common/modals/ConfirmationModal';
 
-import { IPostResources } from '@/interfaces';
+import { IPostCurrentResources, IPostResources } from '@/interfaces';
 
 interface Props {
+   currentFiles: IPostCurrentResources;
+   setCurrentFiles: React.Dispatch<React.SetStateAction<IPostCurrentResources>>;
    formData: IPostResources;
    setFormData: React.Dispatch<React.SetStateAction<IPostResources>>;
 }
 
 export const FormAddPDF = (props: Props) => {
-   const { formData, setFormData } = props;
+   const { currentFiles, setCurrentFiles, formData, setFormData } = props;
    const [filesError, setFilesError] = useState('');
    const limit = 5;
 
@@ -73,6 +76,25 @@ export const FormAddPDF = (props: Props) => {
          />
 
          <div className="form-files">
+            {currentFiles.pdfs.map((file, index) => (
+               <div className="file--pdf" key={index}>
+                  <div>
+                     <span className="file-name">{file.name}</span>
+                  </div>
+                  <ConfirmationModal
+                     title="¿Seguro que deseas eliminar este documento?"
+                     target={file.id}
+                     fetcher="delete-asset"
+                     extraReloadFunc={() =>
+                        setCurrentFiles((prev) => ({
+                           ...prev,
+                           pdfs: prev.pdfs.filter((f) => f.id !== file.id),
+                        }))
+                     }>
+                     <ClearIcon />
+                  </ConfirmationModal>
+               </div>
+            ))}
             {formData.pdfs.map((file, index) => (
                <div className="file--pdf" key={index}>
                   <div>

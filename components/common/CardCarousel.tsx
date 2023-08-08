@@ -1,7 +1,9 @@
 import React from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import { ImageComponent } from '@/components/common/ImageComponent';
+
 import { IPost } from '@/interfaces';
 import { url, urlApi } from '@/libs/utils/url';
 
@@ -31,13 +33,13 @@ export default function CarouselCard({ post }: Props) {
             </div>
          </div>
          <div className="cardcarousel__image">
-            <Image
+            <ImageComponent
                src={
                   `${urlApi}/${post.coverImage}` || '/assets/images/image-not-found.png'
                }
                alt="logo"
-               width={500}
-               height={480}
+               w={500}
+               h={480}
             />
          </div>
       </div>

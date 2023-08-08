@@ -37,10 +37,21 @@ export interface IPostRequest {
    tagsList: string[];
 }
 
+export interface IPostPatch {
+   categoryId: number;
+   title: string;
+   description: string;
+   summary: string;
+   eventDate?: string;
+   type: string;
+   tags: string;
+   comments: string;
+}
+
 export interface IPostCurrentResources {
    images: IAssets[];
    pdfs: IAssets[];
-   videos: IVideoForm[];
+   videos: IVideoFormCurrent[];
 }
 
 export interface IPostResources {
@@ -55,6 +66,10 @@ export interface IPostForm extends IPostRequest {
    images: File[];
    pdfs: File[];
    videos: IVideoForm[];
+}
+
+export interface IVideoFormCurrent extends IVideoForm {
+   id: number;
 }
 
 export interface IVideoForm {

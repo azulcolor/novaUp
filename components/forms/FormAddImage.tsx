@@ -1,14 +1,14 @@
 'use client';
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React from 'react';
+import { toast } from 'react-hot-toast';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import CustomFileInput from '@/components/CustomInputs/CustomFileInput';
 import { Info } from '@/components/alerts/Info';
+import { ConfirmationModal } from '@/components/common/modals/ConfirmationModal';
+import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { IPostCurrentResources, IPostResources } from '@/interfaces';
-import { toast } from 'react-hot-toast';
-import { ConfirmationModal } from '../common/modals/ConfirmationModal';
 import { urlApi } from '@/libs/utils/url';
 
 interface Props {
@@ -110,15 +110,15 @@ export const FormAddImage = (props: Props) => {
                <button className="file__delete" onClick={handleDeleteCoverImage}>
                   <ClearIcon />
                </button>
-               <Image
+               <ImageComponent
                   src={
                      formData?.coverImage instanceof File
                         ? URL.createObjectURL(formData.coverImage)
                         : formData.coverImage || '/assets/images/image-not-found.png'
                   }
                   alt={`cover-image`}
-                  width={500}
-                  height={480}
+                  w={500}
+                  h={480}
                />
             </div>
             {currentFiles.images.map((file, index: number) => (
@@ -135,11 +135,11 @@ export const FormAddImage = (props: Props) => {
                      }>
                      <ClearIcon />
                   </ConfirmationModal>
-                  <Image
+                  <ImageComponent
                      src={`${urlApi}/${file.name}`}
                      alt={`image-${index}`}
-                     width={500}
-                     height={480}
+                     w={500}
+                     h={480}
                   />
                </div>
             ))}
@@ -150,11 +150,11 @@ export const FormAddImage = (props: Props) => {
                      onClick={() => handleDeleteImage(file.name)}>
                      <ClearIcon />
                   </button>
-                  <Image
+                  <ImageComponent
                      src={URL.createObjectURL(file)}
                      alt=""
-                     width={500}
-                     height={480}
+                     w={500}
+                     h={480}
                   />
                </div>
             ))}

@@ -3,6 +3,7 @@ import React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
+import { ImageComponent } from '../common/ImageComponent';
 
 export const InputSearch = () => {
    const router = useRouter();
@@ -13,7 +14,7 @@ export const InputSearch = () => {
    return (
       <div className="search-container">
          <i className="icon-left">
-            <Image src="/svg/Student.svg" width={24} height={24} alt="student-svg" />
+            <ImageComponent src="/svg/Student.svg" w={24} h={24} alt="student-svg" />
          </i>
          <input
             type="text"

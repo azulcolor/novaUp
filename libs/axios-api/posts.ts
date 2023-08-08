@@ -1,5 +1,5 @@
 import { api } from '@/libs/axios-api/axios';
-import { IPost } from '@/interfaces';
+import { IPost, IPostPatch, IPostResources } from '@/interfaces';
 
 export const apiPosts = {
    getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
@@ -62,8 +62,25 @@ export const apiPosts = {
          .then((data) => data)
          .catch((e) => false),
 
-   putPost: async (token: string, post: IPost) =>
-      await api('next', 'PUT', '/posts', { Authorization: `Bearer ${token}` }, post)
+   setPost: async (token: string, post: IPostPatch, id: number) =>
+      await api(
+         'next',
+         'PATCH',
+         `/posts/${id}`,
+         { Authorization: `Bearer ${token}` },
+         post
+      )
+         .then((data) => data)
+         .catch((e) => false),
+
+   setAssetsPost: async (token: string, files: any, id: number) =>
+      await api(
+         'next',
+         'POST',
+         `/posts/${id}/assets`,
+         { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+         files
+      )
          .then((data) => data)
          .catch((e) => false),
 

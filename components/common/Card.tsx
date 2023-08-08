@@ -1,13 +1,14 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
-import { IPost } from '@/interfaces';
-import { usePathname, useRouter } from 'next/navigation';
-import { ConfirmationModal } from './modals/ConfirmationModal';
+import { ConfirmationModal } from '@/components/common/modals/ConfirmationModal';
+import { ImageComponent } from '@/components/common/ImageComponent';
+
 import { urlApi } from '@/libs/utils/url';
+import { IPost } from '@/interfaces';
 
 interface Props {
    post: IPost;
@@ -35,15 +36,15 @@ export const Card = ({ post }: Props) => {
             <div>
                {pathname.includes('admin') ? (
                   <div className="flex justify-between">
-                     <Image
+                     <ImageComponent
                         src={
                            post.isApproved
                               ? '/svg/post-approved.svg'
                               : '/svg/post-pending.svg'
                         }
                         alt="status"
-                        width={30}
-                        height={30}
+                        w={30}
+                        h={30}
                      />
                      <div className="card__body-details--editable">
                         <ConfirmationModal
@@ -73,7 +74,7 @@ export const Card = ({ post }: Props) => {
             </div>
          </div>
          <div className="card__image">
-            <Image
+            <ImageComponent
                src={
                   post.coverImage.includes('/')
                      ? `${urlApi}/${post.coverImage}`
@@ -81,8 +82,8 @@ export const Card = ({ post }: Props) => {
                        '/assets/images/logo-clasic.png'
                }
                alt={`${post.id}-cover-image`}
-               width={500}
-               height={480}
+               w={500}
+               h={480}
             />
          </div>
       </div>

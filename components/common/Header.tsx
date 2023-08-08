@@ -6,11 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-import Image from 'next/image';
 
 import { url } from '@/libs/utils/url';
 import { apiRequest } from '@/libs/axios-api';
 import jwt from 'jsonwebtoken';
+import { ImageComponent } from './ImageComponent';
 
 interface LinkItem {
    label: string;
@@ -118,11 +118,11 @@ export const Header = () => {
       <>
          <div className="header">
             <div className="header__logo">
-               <Image
+               <ImageComponent
                   src={'/assets/images/logo.png'}
                   alt="logo"
-                  width={160}
-                  height={90}
+                  w={160}
+                  h={90}
                />
             </div>
             <div className="header__nav">
@@ -148,11 +148,11 @@ export const Header = () => {
                   </ul>
                </div>
                <div className="hamburger__mode" onClick={handleToggleMenu}>
-                  <Image
+                  <ImageComponent
                      src={'/svg/hamburger-menu.svg'}
                      alt="what"
-                     width={30}
-                     height={30}
+                     w={30}
+                     h={30}
                   />
                </div>
             </div>

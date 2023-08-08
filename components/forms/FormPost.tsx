@@ -26,7 +26,11 @@ import {
 import { Error } from '../alerts/Error';
 import { CustomTag } from '../common/CustomTag';
 import CustomInputDate from '../CustomInputs/CustomInputDate';
-import { serializedNewPost } from '@/libs/utils/serializers';
+import {
+   serializedAssetsByPost,
+   serializedNewPost,
+   serializedPostUpdate,
+} from '@/libs/utils/serializers';
 import { apiRequest } from '@/libs/axios-api';
 import { url, urlApi } from '@/libs/utils/url';
 import { getTitleVideos } from '@/libs/utils/common-functions';
@@ -48,8 +52,8 @@ export default function FormPost(props: Props) {
    const [isLoading, setIsLoading] = useState(false);
    const [currentFiles, setCurrentFiles] = useState<IPostCurrentResources>({
       images: post?.assets?.filter((asset) => asset.type === 'Imagen') || [],
+      pdfs: post?.assets?.filter((asset) => asset.type === 'PDF') || [],
       videos: [],
-      pdfs: [],
    });
 
    const [resources, setResources] = useState<IPostResources>({
@@ -111,36 +115,76 @@ export default function FormPost(props: Props) {
    const handleSubmit = async () => {
       setIsLoading(true);
       const token = getCookie('nova-access-token')?.toString() || '';
-      const preData = { ...formData, ...resources };
-      const data = serializedNewPost(preData);
-      const formDataNewPost = new FormData();
-
-      Object.keys(data).forEach((key) => {
-         const value = data[key as keyof typeof data];
-
-         if (value) {
-            if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
-               // Si es un array de archivos, los agregamos uno por uno
-               value.forEach((file) => formDataNewPost.append(key, file));
-            } else if (value instanceof File) {
-               // Si es un archivo individual
-               formDataNewPost.append(key, value);
-            } else {
-               // Otros valores se convierten a cadena
-               formDataNewPost.append(key, String(value));
-            }
-         }
-      });
-
       if (formData.id) {
-         console.log('update post axios');
+         const data = serializedPostUpdate(formData);
+         const setPost = await apiRequest.setPost(token, data, formData.id);
+
+         if (setPost.status === 'Success') {
+            const formDataNewAssets = new FormData();
+            const serializedAssets = serializedAssetsByPost(resources);
+            Object.keys(serializedAssets).forEach((key) => {
+               const value = resources[key as keyof typeof resources];
+
+               if (value) {
+                  if (
+                     Array.isArray(value) &&
+                     value.length > 0 &&
+                     value[0] instanceof File
+                  ) {
+                     // Si es un array de archivos, los agregamos uno por uno
+                     value.forEach((file) => formDataNewAssets.append(key, file as any));
+                  } else if (value instanceof File) {
+                     // Si es un archivo individual
+                     formDataNewAssets.append(key, value);
+                  } else {
+                     // Otros valores se convierten a cadena
+                     formDataNewAssets.append(key, value.toString());
+                  }
+               }
+            });
+
+            const assets = await apiRequest.setAssetsPost(
+               token,
+               formDataNewAssets,
+               formData.id
+            );
+
+            if (assets?.status === 'Success') {
+               toast.success('Publicación actualizada');
+               router.push('/admin/posts');
+            }
+         } else {
+            toast.error('Error al actualizar publicación');
+         }
       } else {
+         const preData = { ...formData, ...resources };
+         const data = serializedNewPost(preData);
+         const formDataNewPost = new FormData();
+
+         Object.keys(data).forEach((key) => {
+            const value = data[key as keyof typeof data];
+
+            if (value) {
+               if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
+                  // Si es un array de archivos, los agregamos uno por uno
+                  value.forEach((file) => formDataNewPost.append(key, file));
+               } else if (value instanceof File) {
+                  // Si es un archivo individual
+                  formDataNewPost.append(key, value);
+               } else {
+                  // Otros valores se convierten a cadena
+                  formDataNewPost.append(key, String(value));
+               }
+            }
+         });
+
          const savePost = await apiRequest.newPost(token, formDataNewPost);
          if (savePost.status === 'Success') {
             toast.success('Publicación guardada');
             router.push('/admin/posts');
+         } else {
+            toast.error('Error al guardar publicación');
          }
-         console.log(savePost);
       }
       setIsLoading(false);
    };
@@ -295,11 +339,21 @@ export default function FormPost(props: Props) {
                ) : null}
 
                {showForm === 'PDF' ? (
-                  <FormAddPDF formData={resources} setFormData={setResources} />
+                  <FormAddPDF
+                     currentFiles={currentFiles}
+                     setCurrentFiles={setCurrentFiles}
+                     formData={resources}
+                     setFormData={setResources}
+                  />
                ) : null}
 
                {showForm === 'Link' ? (
-                  <FormAddLink formData={resources} setFormData={setResources} />
+                  <FormAddLink
+                     currentFiles={currentFiles}
+                     setCurrentFiles={setCurrentFiles}
+                     formData={resources}
+                     setFormData={setResources}
+                  />
                ) : null}
             </div>
             <div className="container-identifiers">

@@ -1,6 +1,7 @@
 import { IPost } from '@/interfaces';
 import { api } from '@/libs/axios-api';
 import { errorMessage } from '@/libs/utils/serializers';
+import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 const path = '/api/posts/[id]';
@@ -31,6 +32,30 @@ export async function GET(
       return NextResponse.json(posts);
    } catch (error: any) {
       const formatedError = errorMessage(error, path, 'GET');
+      if (process.env.NODE_ENV === 'development') console.log(formatedError);
+
+      return NextResponse.json(formatedError);
+   }
+}
+
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+   try {
+      const id = context.params.id;
+      const headersList = headers();
+      const authorization = headersList.get('authorization');
+      const data = await req.json();
+
+      const updatedPostApi = await api(
+         'api',
+         'PATCH',
+         `/posts/${id}`,
+         { Authorization: authorization },
+         data
+      );
+
+      return NextResponse.json(updatedPostApi);
+   } catch (error: any) {
+      const formatedError = errorMessage(error, path, 'PUT');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
       return NextResponse.json(formatedError);

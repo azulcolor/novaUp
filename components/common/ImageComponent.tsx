@@ -7,6 +7,7 @@ interface Props {
    src: string;
    handleClick?: () => void;
    containerStyles?: string;
+   alt?: string;
    defaultImg?: string;
    w: number;
    h: number;
@@ -16,7 +17,8 @@ export const ImageComponent = ({
    src,
    handleClick,
    containerStyles = '',
-   defaultImg = 'http://localhost:3000/assets/images/image-not-found_2.png',
+   alt = 'Imagen Original',
+   defaultImg = '/assets/images/image-not-found.png',
    w,
    h,
 }: Props) => {
@@ -33,12 +35,12 @@ export const ImageComponent = ({
    return (
       <Image
          src={image}
-         alt="Imagen Original"
+         alt={alt}
          width={w}
          height={h}
          onError={handleImageError}
          className={containerStyles}
-         onClick={image !== defaultImg ? handleClick : () => {}}
+         onClick={image !== defaultImg && handleClick ? handleClick : () => {}}
       />
    );
 };

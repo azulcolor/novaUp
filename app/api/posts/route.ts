@@ -83,27 +83,3 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(formatedError);
    }
 }
-
-export async function PUT(req: NextRequest) {
-   try {
-      const headersList = headers();
-      const authorization = headersList.get('authorization');
-      const data = await req.json();
-
-      const updatedPost = serializedPostUpdate(data);
-      const updatedPostApi = await api(
-         'api',
-         'PUT',
-         '/posts',
-         { Authorization: authorization },
-         updatedPost
-      );
-
-      return NextResponse.json(updatedPost);
-   } catch (error: any) {
-      const formatedError = errorMessage(error, path, 'PUT');
-      if (process.env.NODE_ENV === 'development') console.log(formatedError);
-
-      return NextResponse.json(formatedError);
-   }
-}

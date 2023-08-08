@@ -5,18 +5,20 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { CustomInputText } from '@/components/CustomInputs/CustomInputText';
-import { Error } from '@/components/alerts/Error';
 
-import { IPostResources } from '@/interfaces';
+import { IPostCurrentResources, IPostResources } from '@/interfaces';
 import { apiRequest } from '@/libs/axios-api';
+import { ConfirmationModal } from '../common/modals/ConfirmationModal';
 
 interface Props {
+   currentFiles: IPostCurrentResources;
+   setCurrentFiles: React.Dispatch<React.SetStateAction<IPostCurrentResources>>;
    formData: IPostResources;
    setFormData: React.Dispatch<React.SetStateAction<IPostResources>>;
 }
 
 export const FormAddLink = (props: Props) => {
-   const { formData, setFormData } = props;
+   const { currentFiles, setCurrentFiles, formData, setFormData } = props;
    const [currentLink, setCurrentLink] = useState('');
 
    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +63,23 @@ export const FormAddLink = (props: Props) => {
          </CustomInputText>
 
          <div className="container__tags">
+            {currentFiles.videos?.map((link, index) => (
+               <div key={index} className="custom-tag">
+                  <p>{link.title}</p>
+                  <ConfirmationModal
+                     title="¿Seguro que deseas eliminar este video?"
+                     target={link.id}
+                     fetcher="delete-asset"
+                     extraReloadFunc={() =>
+                        setCurrentFiles((prev) => ({
+                           ...prev,
+                           videos: prev.videos.filter((f) => f.id !== link.id),
+                        }))
+                     }>
+                     <ClearIcon />
+                  </ConfirmationModal>
+               </div>
+            ))}
             {formData.videos?.map((link, index) => (
                <div key={index} className="custom-tag">
                   <p>{link.title}</p>
