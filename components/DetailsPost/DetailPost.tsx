@@ -50,7 +50,6 @@ export default function PostDetail({ post }: Props) {
       : { images: [], videos: [], pdf: [] };
 
    assets.images.unshift({ id: 0, name: post.coverImage, type: Assets.Imagen });
-   console.log(assets);
 
    useEffect(() => {
       const handleResize = () => {
@@ -78,14 +77,15 @@ export default function PostDetail({ post }: Props) {
                </p>
             </div>
 
-            <div className="w-full h-full mx-auto md:row-span-2 md:mt-10">
+            
                <ImageComponent
                   src={`${urlApi}/${imageSelected}`}
                   w={1600}
                   h={900}
-                  containerStyles="cover__image rounded-xl object-cover"
+                  containerStyles="mx-auto md:row-span-2 md:mt-10"
+                  imageStyle='cover__image rounded-xl object-cover'
                />
-            </div>
+            
             <div className="md:row-span-2 lg:row-span-3">
                <p
                   className="
@@ -108,13 +108,15 @@ export default function PostDetail({ post }: Props) {
                         src={`${urlApi}/${image.name}`}
                         w={828}
                         h={466}
-                        containerStyles={`
-                  rounded-xl w-full h-full 
-                  md:max-h-20 lg:max-h-28 
-                  ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
-                        handleClick={
-                           isMobile ? () => {} : () => setImageSelected(image.name)
-                        }
+                        containerStyles=''
+                        imageStyle={`
+                        rounded-xl w-full h-full 
+                        md:max-h-20 lg:max-h-28 
+                        ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
+                              handleClick={
+                                 isMobile ? () => {} : () => setImageSelected(image.name)
+                              }
+                        addLoader={true}
                      />
                   );
                })}

@@ -9,6 +9,7 @@ interface Props {
    src: string;
    handleClick?: () => void;
    containerStyles?: string;
+   imageStyle?: string;
    alt?: string;
    defaultImg?: string;
    w: number;
@@ -20,6 +21,7 @@ export const ImageComponent = ({
    src,
    handleClick,
    containerStyles = '',
+   imageStyle = '',
    alt = 'Imagen Original',
    defaultImg = '/assets/images/image-not-found.png',
    w,
@@ -58,7 +60,7 @@ export const ImageComponent = ({
             height={h}
             onError={handleImageError}
             onLoad={handleImageLoad}
-            className={loading ? 'hidden' : ''}
+            className={loading ? 'hidden' : imageStyle}
          />
       </div>
    );
