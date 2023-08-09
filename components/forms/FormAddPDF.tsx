@@ -79,7 +79,7 @@ export const FormAddPDF = (props: Props) => {
             {currentFiles.pdfs.map((file, index) => (
                <div className="file--pdf" key={index}>
                   <div>
-                     <span className="file-name">{file.name}</span>
+                     <span className="file-name">{file.name.split('/').pop()}</span>
                   </div>
                   <ConfirmationModal
                      title="¿Seguro que deseas eliminar este documento?"

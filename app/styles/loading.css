@@ -3,9 +3,6 @@
    left: 50%;
    position: absolute;
    transform: translate(-50%, -50%);
-}
-
-.progress-loader {
    width: 20%;
    height: 1rem;
    background: rgba(157, 157, 179, 0.25);
