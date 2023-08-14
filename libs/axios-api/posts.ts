@@ -14,7 +14,10 @@ export const apiPosts = {
             next: { revalidate: 60 },
          }
       )
-         .then((res) => res.json())
+         .then((res) => {
+            if (res.status < 400) return res.json();
+            else return [];
+         })
          .catch((e) => []),
 
    getPostsCrud: async (token: string): Promise<IPost[]> =>
@@ -37,7 +40,10 @@ export const apiPosts = {
          },
          next: { revalidate: 60 },
       })
-         .then((res) => res.json())
+         .then((res) => {
+            if (res.status < 400) return res.json();
+            else return [];
+         })
          .catch((e) => []),
 
    getPostsPinned: async (): Promise<IPost[]> =>
@@ -48,7 +54,10 @@ export const apiPosts = {
          },
          next: { revalidate: 60 },
       })
-         .then((res) => res.json())
+         .then((res) => {
+            if (res.status < 400) return res.json();
+            else return [];
+         })
          .catch((e) => []),
 
    newPost: async (token: string, post: any /* haven't interface */) =>
