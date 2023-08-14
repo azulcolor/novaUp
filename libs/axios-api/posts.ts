@@ -15,7 +15,8 @@ export const apiPosts = {
          }
       )
          .then(async (res) => {
-            if (Array.isArray(await res.json())) return res.json();
+            const data = await res.json();
+            if (Array.isArray(data)) return data;
             else return [];
          })
          .catch((e) => []),
@@ -32,7 +33,7 @@ export const apiPosts = {
          .then((data) => data)
          .catch(() => {}),
 
-   getPostsLatest: async (limit: number): Promise<IPost> =>
+   getPostsLatest: async (limit: number): Promise<IPost[]> =>
       await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/latest?limit=${limit}`, {
          method: 'GET',
          headers: {
@@ -41,7 +42,8 @@ export const apiPosts = {
          next: { revalidate: 60 },
       })
          .then(async (res) => {
-            if (Array.isArray(await res.json())) return res.json();
+            const data = await res.json();
+            if (Array.isArray(data)) return data;
             else return [];
          })
          .catch((e) => []),
@@ -55,7 +57,8 @@ export const apiPosts = {
          next: { revalidate: 60 },
       })
          .then(async (res) => {
-            if (Array.isArray(await res.json())) return res.json();
+            const data = await res.json();
+            if (Array.isArray(data)) return data;
             else return [];
          })
          .catch((e) => []),
