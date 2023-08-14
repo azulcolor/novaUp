@@ -146,7 +146,9 @@ export const Header = () => {
                         )
                      )}
 
-                     {!session && <li onClick={() => signIn()}>Iniciar sesion</li>}
+                     {!session && (
+                        <li onClick={() => signIn('google')}>Iniciar sesion</li>
+                     )}
                      {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
                   </ul>
                </div>
@@ -181,7 +183,7 @@ export const Header = () => {
                   {!session && (
                      <li
                         onClick={() => {
-                           signIn();
+                           signIn('google');
                            setShowMenu(false);
                         }}>
                         Iniciar sesión
