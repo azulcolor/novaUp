@@ -42,7 +42,7 @@ export default function Carousel(props: Props) {
       <div id="default-carousel" className="relative w-100" data-carousel="slide">
          {/* Carousel wrapper */}
          <div className="flex justify-center w-full overflow-hidden rounded-lg md: p-6">
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
                <div
                   key={index}
                   className={`hidden duration-700 ease-in-out ${

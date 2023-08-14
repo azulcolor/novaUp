@@ -17,7 +17,7 @@ export default async function Home() {
    return (
       <div>
          <div className="carousel">
-            <Carousel items={latests as any} />
+            <Carousel items={(latests as any) || []} />
          </div>
          <div className="post-container">
             {internalPosts ? (
