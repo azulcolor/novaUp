@@ -2,14 +2,17 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ClearIcon from '@mui/icons-material/Clear';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { Info } from '@/components/alerts/Info';
 import CustomFileInput from '@/components/CustomInputs/CustomFileInput';
 import { ConfirmationModal } from '@/components/common/modals/ConfirmationModal';
 
 import { IPostCurrentResources, IPostResources } from '@/interfaces';
+import { FrameViewerModal } from '../common/modals/FrameViewerModal';
 
 interface Props {
+   id: number;
    currentFiles: IPostCurrentResources;
    setCurrentFiles: React.Dispatch<React.SetStateAction<IPostCurrentResources>>;
    formData: IPostResources;
@@ -17,13 +20,11 @@ interface Props {
 }
 
 export const FormAddPDF = (props: Props) => {
-   const { currentFiles, setCurrentFiles, formData, setFormData } = props;
-   const [filesError, setFilesError] = useState('');
+   const { id, currentFiles, setCurrentFiles, formData, setFormData } = props;
    const limit = 5;
 
    const handleAddPDF = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!e.target.files) return;
-      toast.error('');
 
       const validateType = Array.from(e.target.files).some(
          (file) => file.type !== 'application/pdf'
@@ -75,15 +76,18 @@ export const FormAddPDF = (props: Props) => {
             accept="application/pdf"
          />
 
-         <div className="form-files">
+         <div className="form-files flex-col">
             {currentFiles.pdfs.map((file, index) => (
                <div className="file--pdf" key={index}>
-                  <div>
-                     <span className="file-name">{file.name.split('/').pop()}</span>
+                  <div className="flex">
+                     <FrameViewerModal file={file}>
+                        <VisibilityIcon />
+                     </FrameViewerModal>
+                     <span className="file-name ml-5">{file.name.split('/').pop()}</span>
                   </div>
                   <ConfirmationModal
                      title="¿Seguro que deseas eliminar este documento?"
-                     target={file.id}
+                     target={{ id, name: file.name }}
                      fetcher="delete-asset"
                      extraReloadFunc={() =>
                         setCurrentFiles((prev) => ({
@@ -97,8 +101,19 @@ export const FormAddPDF = (props: Props) => {
             ))}
             {formData.pdfs.map((file, index) => (
                <div className="file--pdf" key={index}>
-                  <div>
-                     <span className="file-name">{file.name}</span>
+                  <div className="flex">
+                     <FrameViewerModal
+                        file={
+                           {
+                              ...file,
+                              id: index,
+                              tempPath: URL.createObjectURL(file),
+                              type: 'Pdf',
+                           } as any
+                        }>
+                        <VisibilityIcon />
+                     </FrameViewerModal>
+                     <span className="file-name ml-5 mr-5">{file.name}</span>
                      <span className="file-size">
                         ({(file.size / 1000000).toFixed(2)}MB)
                      </span>

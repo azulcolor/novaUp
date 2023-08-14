@@ -34,7 +34,7 @@ export async function GET(
       const formatedError = errorMessage(error, path, 'GET');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
-      return NextResponse.json(formatedError);
+      return NextResponse.json(formatedError, { status: formatedError.status });
    }
 }
 
@@ -58,7 +58,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
       const formatedError = errorMessage(error, path, 'PUT');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
-      return NextResponse.json(formatedError);
+      return NextResponse.json(formatedError, { status: formatedError.status });
    }
 }
 
@@ -82,6 +82,6 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
       const formatedError = errorMessage(error, path, 'DELETE');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
-      return NextResponse.json(formatedError);
+      return NextResponse.json(formatedError, { status: formatedError.status });
    }
 }

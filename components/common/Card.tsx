@@ -9,6 +9,8 @@ import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { urlApi } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
+import { FrameViewerModal } from './modals/FrameViewerModal';
+import { type } from 'os';
 
 interface Props {
    post: IPost;
@@ -74,18 +76,25 @@ export const Card = ({ post }: Props) => {
             </div>
          </div>
          <div className="card__image">
-            <ImageComponent
-               src={
-                  post.coverImage.includes('/')
-                     ? `${urlApi}/${post.coverImage}`
-                     : '/assets/images/image-not-found.png' ||
-                       '/assets/images/logo-clasic.png'
-               }
-               alt={`${post.id}-cover-image`}
-               w={500}
-               h={480}
-               addLoader={true}
-            />
+            <FrameViewerModal
+               file={{
+                  ...post,
+                  name: post.coverImage,
+                  type: 'Imagen',
+               }}
+               isImage>
+               <ImageComponent
+                  src={
+                     post.coverImage.includes('/')
+                        ? `${urlApi}/${post.coverImage}`
+                        : '/assets/images/image-not-found.png'
+                  }
+                  alt={`${post.id}-cover-image`}
+                  w={500}
+                  h={480}
+                  addLoader={true}
+               />
+            </FrameViewerModal>
          </div>
       </div>
    );

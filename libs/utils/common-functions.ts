@@ -34,15 +34,11 @@ export const handlesearchItems = (items: any[], searchText: string) => {
    });
 };
 
-export const getTitleVideos = async (videos: IAssets[]) =>
-   await videos.map(async (video, index) => {
-      const urlMatch = video.name.match(/src="([^"]+)"/);
+export const getTitleVideos = (videos: IAssets[]) =>
+   videos.map(async (video, index) => {
+      const videoId = extractYouTubeID(video.name);
 
-      if (urlMatch) {
-         const url = urlMatch[1];
-         const parts = url?.split('/');
-         const videoId = parts[parts?.length - 1];
-
+      if (videoId) {
          const snipeds = await apiRequest.getYoutubeSnippet(videoId);
          const title = snipeds?.items[0]?.snippet?.title;
          return {
@@ -55,3 +51,24 @@ export const getTitleVideos = async (videos: IAssets[]) =>
          title: `Video ${index + 1}`,
       };
    });
+
+export const extractYouTubeID = (url: string) => {
+   const regexes = [
+      /https?:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/, // Formato estándar
+      /https?:\/\/www\.youtube\.com\/live\/([a-zA-Z0-9_-]{11})\?feature=share/, // Formato de en vivo
+      /https?:\/\/youtu\.be\/([a-zA-Z0-9_-]{11})/, // Formato corto
+      /https?:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/, // Formato embed
+      /src="https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})"/,
+   ];
+
+   for (let regex of regexes) {
+      const match = url.match(regex);
+      if (match) return match[1];
+   }
+
+   return null;
+};
+
+export const getEmbedLinkFromYouTubeID = (videoId: string) => {
+   return `https://www.youtube.com/embed/${videoId}`;
+};

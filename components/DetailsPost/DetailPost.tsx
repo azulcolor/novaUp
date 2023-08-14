@@ -13,7 +13,7 @@ interface Props {
 enum Assets {
    Imagen = 'Imagen',
    Enlace = 'Enlace',
-   File = 'File',
+   File = 'Pdf',
 }
 
 const moocAsset: IAssets[] = [
@@ -77,15 +77,14 @@ export default function PostDetail({ post }: Props) {
                </p>
             </div>
 
-            
-               <ImageComponent
-                  src={`${urlApi}/${imageSelected}`}
-                  w={1600}
-                  h={900}
-                  containerStyles="mx-auto md:row-span-2 md:mt-10"
-                  imageStyle='cover__image rounded-xl object-cover'
-               />
-            
+            <ImageComponent
+               src={`${urlApi}/${imageSelected}`}
+               w={1600}
+               h={900}
+               containerStyles="mx-auto md:row-span-2 md:mt-10"
+               imageStyle="cover__image rounded-xl object-cover"
+            />
+
             <div className="md:row-span-2 lg:row-span-3">
                <p
                   className="
@@ -108,14 +107,14 @@ export default function PostDetail({ post }: Props) {
                         src={`${urlApi}/${image.name}`}
                         w={828}
                         h={466}
-                        containerStyles=''
+                        containerStyles=""
                         imageStyle={`
                         rounded-xl w-full h-full 
                         md:max-h-20 lg:max-h-28 
                         ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
-                              handleClick={
-                                 isMobile ? () => {} : () => setImageSelected(image.name)
-                              }
+                        handleClick={
+                           isMobile ? () => {} : () => setImageSelected(image.name)
+                        }
                         addLoader={true}
                      />
                   );

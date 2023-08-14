@@ -96,6 +96,7 @@
 }
 
 .modal {
+   color: var(--subtitle-text);
    z-index: 55;
    width: 30vw;
    padding: 2rem;

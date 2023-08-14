@@ -12,6 +12,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
       const data = await req.formData();
       const headersList = headers();
       const authorization = headersList.get('authorization');
+      console.log(data);
 
       const newAssets = await api(
          'api',
@@ -27,5 +28,33 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
       return NextResponse.json(formatedError);
+   }
+}
+
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+   try {
+      const { id } = context.params;
+      const headersList = headers();
+      const searchParams = new URLSearchParams(req.nextUrl.searchParams);
+      const name = searchParams.get('name');
+      const authorization = headersList.get('authorization');
+      const deletedAssets = await api(
+         'api',
+         'DELETE',
+         `/posts/${id}/assets?name=${name}`,
+         {
+            Authorization: authorization,
+         }
+      );
+      console.log(deletedAssets);
+
+      if (deletedAssets.status === 'Success')
+         return NextResponse.json(deletedAssets, { status: 200 });
+      else return NextResponse.json({ error: deletedAssets.message }, { status: 400 });
+   } catch (error) {
+      const formatedError = errorMessage(error, path, 'DELETE');
+      if (process.env.NODE_ENV === 'development') console.log(formatedError);
+
+      return NextResponse.json(formatedError, { status: formatedError.status });
    }
 }

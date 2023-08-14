@@ -49,6 +49,7 @@ export interface IPostPatch {
 }
 
 export interface IPostCurrentResources {
+   coverImage: string;
    images: IAssets[];
    pdfs: IAssets[];
    videos: IVideoFormCurrent[];
@@ -74,15 +75,18 @@ export interface IVideoFormCurrent extends IVideoForm {
 
 export interface IVideoForm {
    title: string;
+   name?: string;
    url: string;
 }
 
 export interface IAssets {
    id: number;
    name: string;
-   type: string;
+   type: typeAsset;
    title?: string;
 }
+
+export type typeAsset = 'Imagen' | 'Pdf' | 'Enlace';
 
 export interface ICategory {
    id: number;

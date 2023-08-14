@@ -85,6 +85,7 @@ button:disabled:hover {
 
 .custom-tag {
    display: flex;
+   flex-direction: row;
    justify-content: space-between;
    color: var(--tertiary-color);
    border-radius: 8px;

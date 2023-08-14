@@ -1,5 +1,5 @@
 import { api } from '@/libs/axios-api/axios';
-import { IPost, IPostPatch, IPostResources } from '@/interfaces';
+import { ICatalogGen, IPost, IPostPatch, IPostResources } from '@/interfaces';
 
 export const apiPosts = {
    getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
@@ -86,6 +86,13 @@ export const apiPosts = {
 
    deletePost: async (token: string, id: number) =>
       await api('next', 'DELETE', `/posts/${id}`, { Authorization: `Bearer ${token}` })
+         .then(() => true)
+         .catch((e) => false),
+
+   deleteAssetsPost: async (token: string, target: ICatalogGen) =>
+      await api('next', 'DELETE', `/posts/${target.id}/assets?name=${target.name}`, {
+         Authorization: `Bearer ${token}`,
+      })
          .then(() => true)
          .catch((e) => false),
 

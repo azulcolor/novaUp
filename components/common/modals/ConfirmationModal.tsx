@@ -10,12 +10,12 @@ import MutatePostsContext from '@/context/MutatePostsContext';
 
 import { apiRequest } from '@/libs/axios-api';
 import { toast } from 'react-hot-toast';
-import { IFetcherSelector } from '@/interfaces';
+import { ICatalogGen, IFetcherSelector } from '@/interfaces';
 
 interface Props {
    title: string;
    children: React.ReactNode;
-   target: number;
+   target: any;
    fetcher: IFetcherSelector;
    extraReloadFunc?: () => void;
 }
@@ -35,6 +35,7 @@ export const ConfirmationModal = ({
    if (!isOpen)
       return (
          <button
+            id="action-danger"
             className={fetcher === 'delete-asset' ? 'file__delete' : ''}
             onClick={() => setIsOpen(() => true)}>
             {children}
@@ -44,7 +45,8 @@ export const ConfirmationModal = ({
    const fetchers = {
       users: async (token: string, id: number) => await apiRequest.deleteUser(token, id),
       posts: async (token: string, id: number) => await apiRequest.deletePost(token, id),
-      'delete-asset': async (token: string, id: number) => true, //await apiRequest.deleteAsset(token, id),
+      'delete-asset': async (token: string, target: ICatalogGen) =>
+         await apiRequest.deleteAssetsPost(token, target),
    };
 
    const reload = {

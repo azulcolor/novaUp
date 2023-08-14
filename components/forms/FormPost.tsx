@@ -51,6 +51,9 @@ export default function FormPost(props: Props) {
    const [showForm, setShowForm] = useState('Image');
    const [isLoading, setIsLoading] = useState(false);
    const [currentFiles, setCurrentFiles] = useState<IPostCurrentResources>({
+      coverImage: post?.coverImage
+         ? post?.coverImage
+         : '/assets/images/image-not-found.png',
       images: post?.assets?.filter((asset) => asset.type === 'Imagen') || [],
       pdfs: post?.assets?.filter((asset) => asset.type === 'Pdf') || [],
       videos: [],
@@ -58,7 +61,7 @@ export default function FormPost(props: Props) {
 
    const [resources, setResources] = useState<IPostResources>({
       coverImage: post?.coverImage
-         ? `${urlApi}/${post?.coverImage}`
+         ? post?.coverImage
          : '/assets/images/image-not-found.png',
       images: [],
       videos: [],
@@ -143,7 +146,6 @@ export default function FormPost(props: Props) {
                   }
                }
             });
-            console.log(formDataNewAssets);
 
             const assets = await apiRequest.setAssetsPost(
                token,
@@ -210,12 +212,11 @@ export default function FormPost(props: Props) {
    useEffect(() => {
       (async () => {
          if (post && post.id !== 0 && post.assets?.length) {
-            const videos = (await getTitleVideos(
-               post.assets?.filter((asset) => asset.type === 'Enlace') || []
-            )) as any;
+            const videos = post.assets?.filter((asset) => asset.type === 'Enlace') || [];
+            const videosWithTitle = (await Promise.all(getTitleVideos(videos))) as any;
             setCurrentFiles((prevState) => ({
                ...prevState,
-               videos,
+               videos: videosWithTitle,
             }));
          }
       })();
@@ -333,6 +334,7 @@ export default function FormPost(props: Props) {
                </div>
                {showForm === 'Image' ? (
                   <FormAddImage
+                     id={formData.id}
                      currentFiles={currentFiles}
                      setCurrentFiles={setCurrentFiles}
                      formData={resources}
@@ -342,6 +344,7 @@ export default function FormPost(props: Props) {
 
                {showForm === 'PDF' ? (
                   <FormAddPDF
+                     id={formData.id}
                      currentFiles={currentFiles}
                      setCurrentFiles={setCurrentFiles}
                      formData={resources}
@@ -351,6 +354,7 @@ export default function FormPost(props: Props) {
 
                {showForm === 'Link' ? (
                   <FormAddLink
+                     id={formData.id}
                      currentFiles={currentFiles}
                      setCurrentFiles={setCurrentFiles}
                      formData={resources}

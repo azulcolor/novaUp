@@ -10,8 +10,10 @@ import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { IPostCurrentResources, IPostResources } from '@/interfaces';
 import { urlApi } from '@/libs/utils/url';
+import { FrameViewerModal } from '../common/modals/FrameViewerModal';
 
 interface Props {
+   id: number;
    currentFiles: IPostCurrentResources;
    setCurrentFiles: React.Dispatch<React.SetStateAction<IPostCurrentResources>>;
    formData: IPostResources;
@@ -19,7 +21,7 @@ interface Props {
 }
 
 export const FormAddImage = (props: Props) => {
-   const { currentFiles, setCurrentFiles, formData, setFormData } = props;
+   const { id, currentFiles, setCurrentFiles, formData, setFormData } = props;
    const limit = 10;
 
    const handleAddImage = (
@@ -107,40 +109,53 @@ export const FormAddImage = (props: Props) => {
          </div>
          <div className="form-files">
             <div className="file">
-               <button className="file__delete" onClick={handleDeleteCoverImage}>
-                  <ClearIcon />
-               </button>
-               <ImageComponent
-                  src={
-                     formData?.coverImage instanceof File
-                        ? URL.createObjectURL(formData.coverImage)
-                        : formData.coverImage || '/assets/images/image-not-found.png'
-                  }
-                  alt={`cover-image`}
-                  w={500}
-                  h={480}
-               />
-            </div>
-            {currentFiles.images.map((file, index: number) => (
-               <div key={index} className="file">
-                  <ConfirmationModal
-                     title="¿Seguro que deseas eliminar esta imagen?"
-                     target={file.id}
-                     fetcher="delete-asset"
-                     extraReloadFunc={() =>
-                        setCurrentFiles((prev) => ({
-                           ...prev,
-                           images: prev.images.filter((f) => f.id !== file.id),
-                        }))
-                     }>
+               <FrameViewerModal
+                  file={{
+                     id,
+                     name:
+                        formData.coverImage instanceof File
+                           ? URL.createObjectURL(formData.coverImage)
+                           : currentFiles.coverImage,
+                     type: 'Imagen',
+                  }}
+                  isImage>
+                  <button className="file__delete" onClick={handleDeleteCoverImage}>
                      <ClearIcon />
-                  </ConfirmationModal>
+                  </button>
                   <ImageComponent
-                     src={`${urlApi}/${file.name}`}
-                     alt={`image-${index}`}
+                     src={
+                        formData?.coverImage instanceof File
+                           ? URL.createObjectURL(formData.coverImage)
+                           : `${urlApi}/${currentFiles.coverImage}`
+                     }
+                     alt={`cover-image`}
                      w={500}
                      h={480}
                   />
+               </FrameViewerModal>
+            </div>
+            {currentFiles.images.map((file, index: number) => (
+               <div key={index} className="file">
+                  <FrameViewerModal file={file} key={index} isImage>
+                     <ConfirmationModal
+                        title="¿Seguro que deseas eliminar esta imagen?"
+                        target={{ id, name: file.name }}
+                        fetcher="delete-asset"
+                        extraReloadFunc={() =>
+                           setCurrentFiles((prev) => ({
+                              ...prev,
+                              images: prev.images.filter((f) => f.id !== file.id),
+                           }))
+                        }>
+                        <ClearIcon />
+                     </ConfirmationModal>
+                     <ImageComponent
+                        src={`${urlApi}/${file.name}`}
+                        alt={`image-${index}`}
+                        w={500}
+                        h={480}
+                     />
+                  </FrameViewerModal>
                </div>
             ))}
             {formData.images.map((file, index: number) => (

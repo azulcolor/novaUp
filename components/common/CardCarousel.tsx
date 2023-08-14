@@ -6,6 +6,7 @@ import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { IPost } from '@/interfaces';
 import { url, urlApi } from '@/libs/utils/url';
+import { FrameViewerModal } from './modals/FrameViewerModal';
 
 interface Props {
    post: IPost;
@@ -33,15 +34,20 @@ export default function CarouselCard({ post }: Props) {
             </div>
          </div>
          <div className="cardcarousel__image">
-            <ImageComponent
-               src={
-                  `${urlApi}/${post.coverImage}` || '/assets/images/image-not-found.png'
-               }
-               alt="logo"
-               w={500}
-               h={480}
-               addLoader={true}
-            />
+            <FrameViewerModal
+               file={{ id: post.id, name: post.coverImage, type: 'Image' }}
+               isImage>
+               <ImageComponent
+                  src={
+                     `${urlApi}/${post.coverImage}` ||
+                     '/assets/images/image-not-found.png'
+                  }
+                  alt="logo"
+                  w={500}
+                  h={480}
+                  addLoader={true}
+               />
+            </FrameViewerModal>
          </div>
       </div>
    );
