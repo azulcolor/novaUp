@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { ImageComponent } from '@/components/common/ImageComponent';
+import { FrameViewerModal } from '@/components/common/modals/FrameViewerModal';
 
 import { IPost } from '@/interfaces';
 import { url, urlApi } from '@/libs/utils/url';
-import { FrameViewerModal } from './modals/FrameViewerModal';
 
 interface Props {
    post: IPost;

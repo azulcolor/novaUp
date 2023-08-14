@@ -10,7 +10,7 @@ import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { url } from '@/libs/utils/url';
 import { apiRequest } from '@/libs/axios-api';
 import jwt from 'jsonwebtoken';
-import { ImageComponent } from './ImageComponent';
+import { ImageComponent } from '@/components/common/ImageComponent';
 
 interface LinkItem {
    label: string;

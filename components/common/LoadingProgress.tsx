@@ -1,5 +1,5 @@
 import React from 'react';
-import { HammondLoader } from './HammondLoader';
+import { HammondLoader } from '@/components/common/HammondLoader';
 
 export const LoadingProgress = () => {
    return (

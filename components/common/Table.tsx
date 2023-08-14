@@ -6,8 +6,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import { ConfirmationModal } from './modals/ConfirmationModal';
-import { UserDetailsEditable } from './modals/details/UserDetailsEditable';
+import { ConfirmationModal } from '@/components/common/modals/ConfirmationModal';
+import { UserDetailsEditable } from '@/components/common/modals/details/UserDetailsEditable';
 import { IUser } from '@/interfaces';
 
 interface Props {

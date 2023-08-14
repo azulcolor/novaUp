@@ -1,4 +1,4 @@
-import { ICatalogGen } from './common';
+import { ICatalogGen } from '@/interfaces/common';
 
 export interface IUserRoles {
    role: 'ad' | 'su' | 'ed';

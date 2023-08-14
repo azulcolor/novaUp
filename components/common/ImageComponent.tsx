@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-import { HammondLoader } from './HammondLoader';
+import { HammondLoader } from '@/components/common/HammondLoader';
 
 interface Props {
    src: string;

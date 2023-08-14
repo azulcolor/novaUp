@@ -6,11 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { ConfirmationModal } from '@/components/common/modals/ConfirmationModal';
 import { ImageComponent } from '@/components/common/ImageComponent';
+import { FrameViewerModal } from '@/components/common/modals/FrameViewerModal';
 
 import { urlApi } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
-import { FrameViewerModal } from './modals/FrameViewerModal';
-import { type } from 'os';
 
 interface Props {
    post: IPost;

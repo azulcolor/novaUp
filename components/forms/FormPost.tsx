@@ -3,6 +3,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -23,19 +24,19 @@ import {
    IUser,
 } from '@/interfaces';
 
-import { Error } from '../alerts/Error';
-import { CustomTag } from '../common/CustomTag';
-import CustomInputDate from '../CustomInputs/CustomInputDate';
+import { Error } from '@/components/alerts/Error';
+import { CustomTag } from '@/components/common/CustomTag';
+import CustomInputDate from '@/components/CustomInputs/CustomInputDate';
+import { FormApproved } from '@/components/forms/FormApproved';
+
+import { apiRequest } from '@/libs/axios-api';
+import { url, urlApi } from '@/libs/utils/url';
+import { getTitleVideos } from '@/libs/utils/common-functions';
 import {
    serializedAssetsByPost,
    serializedNewPost,
    serializedPostUpdate,
 } from '@/libs/utils/serializers';
-import { apiRequest } from '@/libs/axios-api';
-import { url, urlApi } from '@/libs/utils/url';
-import { getTitleVideos } from '@/libs/utils/common-functions';
-import { toast } from 'react-hot-toast';
-import { FormApproved } from './FormApproved';
 
 interface Props {
    post: IPost;
