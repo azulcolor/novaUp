@@ -15,7 +15,7 @@ export const apiPosts = {
          }
       )
          .then((res) => {
-            if (res.status < 400) return res.json();
+            if (res.status < 400 && Array.isArray(res.json())) return res.json();
             else return [];
          })
          .catch((e) => []),
@@ -41,7 +41,7 @@ export const apiPosts = {
          next: { revalidate: 60 },
       })
          .then((res) => {
-            if (res.status < 400) return res.json();
+            if (res.status < 400 && Array.isArray(res.json())) return res.json();
             else return [];
          })
          .catch((e) => []),
@@ -55,7 +55,7 @@ export const apiPosts = {
          next: { revalidate: 60 },
       })
          .then((res) => {
-            if (res.status < 400) return res.json();
+            if (res.status < 400 && Array.isArray(res.json())) return res.json();
             else return [];
          })
          .catch((e) => []),
