@@ -18,7 +18,6 @@ export default function AdminUsers() {
       (async () => {
          const token = getCookie('nova-access-token');
          const users = await apiRequest.getUSers(String(token));
-         console.log(users);
          setUsers(users);
          setIsLoading(() => false);
       })();

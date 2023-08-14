@@ -37,9 +37,7 @@ export async function POST(req: NextRequest) {
       const headersList = headers();
       const authToken = headersList.get('authorization');
       const body = await req.json();
-      console.log(body);
       const newUser = serializedNewUser(body);
-      console.log(newUser);
 
       if (!authToken) {
          throw new Error('Access Denied, Token not provided.');
@@ -79,7 +77,6 @@ export async function PUT(req: NextRequest) {
          { Authorization: authToken },
          putUser
       );
-      console.log(user);
       return NextResponse.json(user);
    } catch (error) {
       const formatedError = errorMessage(error, path, 'PUT');

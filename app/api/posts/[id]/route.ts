@@ -76,7 +76,6 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
       const res = await api('api', 'DELETE', `/posts/${id}`, {
          Authorization: authToken,
       });
-      console.log(res);
       return NextResponse.json(true);
    } catch (error: any) {
       const formatedError = errorMessage(error, path, 'DELETE');

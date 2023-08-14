@@ -5,7 +5,6 @@ import Carousel from '@/components/common/Carousel';
 export default async function Home() {
    const latests = await apiRequest.getPostsLatest(5);
    const pinned = await apiRequest.getPostsPinned();
-   console.log(pinned);
 
    const internalPosts =
       pinned?.find((post) => post.type === 'Convocatoria interna') || null;

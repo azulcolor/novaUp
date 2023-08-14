@@ -12,7 +12,6 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
       const data = await req.formData();
       const headersList = headers();
       const authorization = headersList.get('authorization');
-      console.log(data);
 
       const newAssets = await api(
          'api',
@@ -46,7 +45,6 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
             Authorization: authorization,
          }
       );
-      console.log(deletedAssets);
 
       if (deletedAssets.status === 'Success')
          return NextResponse.json(deletedAssets, { status: 200 });

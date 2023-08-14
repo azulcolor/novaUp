@@ -125,7 +125,6 @@ export default function FormPost(props: Props) {
 
          if (setPost.status === 'Success') {
             const formDataNewAssets = new FormData();
-            console.log(resources);
             const serializedAssets = serializedAssetsByPost(resources);
             Object.keys(serializedAssets).forEach((key) => {
                const value = serializedAssets[key as keyof typeof serializedAssets];

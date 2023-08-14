@@ -62,8 +62,6 @@ export async function POST(req: NextRequest) {
 
       const data = await req.formData();
 
-      console.log(data);
-
       const newPostApi = await api(
          'api',
          'POST',
@@ -71,9 +69,6 @@ export async function POST(req: NextRequest) {
          { Authorization: authorization, 'Content-Type': 'multipart/form-data' },
          data
       );
-
-      console.log(newPostApi);
-      console.log(newPostApi[0]);
 
       return NextResponse.json(newPostApi);
    } catch (error: any) {

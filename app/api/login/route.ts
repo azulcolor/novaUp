@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
    try {
       const body = await req.json();
       const loginRes = await api('api', 'POST', '/auth/login', '', body);
-      console.log(loginRes);
 
       return NextResponse.json(loginRes.accessToken);
    } catch (error) {
