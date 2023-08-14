@@ -11,6 +11,7 @@ import { url } from '@/libs/utils/url';
 import { apiRequest } from '@/libs/axios-api';
 import jwt from 'jsonwebtoken';
 import { ImageComponent } from '@/components/common/ImageComponent';
+import Link from 'next/link';
 
 interface LinkItem {
    label: string;
@@ -118,12 +119,14 @@ export const Header = () => {
       <>
          <div className="header">
             <div className="header__logo">
-               <ImageComponent
-                  src={'/assets/images/logo.png'}
-                  alt="logo"
-                  w={160}
-                  h={90}
-               />
+               <Link href={url.home()}>
+                  <ImageComponent
+                     src={'/assets/images/logo.png'}
+                     alt="logo"
+                     w={160}
+                     h={90}
+                  />
+               </Link>
             </div>
             <div className="header__nav">
                <div className="normal__mode">
