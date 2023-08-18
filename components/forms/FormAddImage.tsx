@@ -134,12 +134,12 @@ export const FormAddImage = (props: Props) => {
                   />
                </FrameViewerModal>
             </div>
-            {currentFiles.images.map((file, index: number) => (
+            {currentFiles.images?.map((file, index: number) => (
                <div key={index} className="file">
                   <FrameViewerModal file={file} key={index} isImage>
                      <ConfirmationModal
                         title="¿Seguro que deseas eliminar esta imagen?"
-                        target={{ id, name: file.name }}
+                        target={file.id}
                         fetcher="delete-asset"
                         extraReloadFunc={() =>
                            setCurrentFiles((prev) => ({
@@ -158,7 +158,7 @@ export const FormAddImage = (props: Props) => {
                   </FrameViewerModal>
                </div>
             ))}
-            {formData.images.map((file, index: number) => (
+            {formData.images?.map((file, index: number) => (
                <div key={index} className="file">
                   <button
                      className="file__delete"

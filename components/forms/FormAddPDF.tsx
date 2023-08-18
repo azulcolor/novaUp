@@ -77,7 +77,7 @@ export const FormAddPDF = (props: Props) => {
          />
 
          <div className="form-files flex-col">
-            {currentFiles.pdfs.map((file, index) => (
+            {currentFiles.pdfs?.map((file, index) => (
                <div className="file--pdf" key={index}>
                   <div className="flex">
                      <FrameViewerModal file={file}>
@@ -87,7 +87,7 @@ export const FormAddPDF = (props: Props) => {
                   </div>
                   <ConfirmationModal
                      title="¿Seguro que deseas eliminar este documento?"
-                     target={{ id, name: file.name }}
+                     target={file.id}
                      fetcher="delete-asset"
                      extraReloadFunc={() =>
                         setCurrentFiles((prev) => ({
@@ -99,7 +99,7 @@ export const FormAddPDF = (props: Props) => {
                   </ConfirmationModal>
                </div>
             ))}
-            {formData.pdfs.map((file, index) => (
+            {formData.pdfs?.map((file, index) => (
                <div className="file--pdf" key={index}>
                   <div className="flex">
                      <FrameViewerModal

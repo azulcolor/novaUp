@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
@@ -16,6 +18,7 @@ import { FormAddPDF } from '@/components/forms/FormAddPDF';
 import { FormAddLink } from '@/components/forms/FormAddLink';
 
 import {
+   IAssets,
    ICatalogGen,
    IPost,
    IPostCurrentResources,
@@ -34,76 +37,46 @@ import { url, urlApi } from '@/libs/utils/url';
 import { getTitleVideos } from '@/libs/utils/common-functions';
 import {
    serializedAssetsByPost,
+   serializedCurrentFiles,
+   serializedCurrentResources,
+   serializedFormDataPost,
    serializedNewPost,
    serializedPostUpdate,
 } from '@/libs/utils/serializers';
+import { usePostData } from '@/hooks/useGetPostById';
 
 interface Props {
-   post: IPost;
+   id: number;
    categories: ICatalogGen[];
    typesPost: ICatalogGen[];
    user: IUser | false;
 }
 
 export default function FormPost(props: Props) {
-   const { post, categories, typesPost, user } = props;
+   const { id, categories, typesPost, user } = props;
    const router = useRouter();
+   const post = usePostData(id);
 
    const [showForm, setShowForm] = useState('Image');
    const [isLoading, setIsLoading] = useState(false);
-   const [currentFiles, setCurrentFiles] = useState<IPostCurrentResources>({
-      coverImage: post?.coverImage
-         ? post?.coverImage
-         : '/assets/images/image-not-found.png',
-      images: post?.assets?.filter((asset) => asset.type === 'Imagen') || [],
-      pdfs: post?.assets?.filter((asset) => asset.type === 'Pdf') || [],
-      videos: [],
-   });
-
-   const [resources, setResources] = useState<IPostResources>({
-      coverImage: post?.coverImage
-         ? post?.coverImage
-         : '/assets/images/image-not-found.png',
-      images: [],
-      videos: [],
-      pdfs: [],
-   });
-
-   const [formData, setFormData] = useState<IPostRequest>({
-      id: post.id || 0,
-      category: post.category || { id: 0, name: 'Categorías' },
-      assets: post.assets || [],
-      title: post.title || '',
-      description: post.description || '',
-      summary: post.summary || '',
-      publishDate: '',
-      eventDate: '',
-      typeSelect: post.type
-         ? { id: 0, name: post.type }
-         : { id: 0, name: 'Tipo de publicación' },
-      type: post.type || '',
-      tags: post.tags || '',
-      tagsList: post.tags ? post.tags.split(',') : [],
-      currentTag: '',
-      comments: post.comments || '',
-   });
+   const [currentFiles, setCurrentFiles] = useState<IPostCurrentResources>({} as any);
+   const [resources, setResources] = useState<IPostResources>({} as any);
+   const [formData, setFormData] = useState<IPostRequest>({} as any);
 
    const handleInput = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const fieldName = e.target.name;
       const fieldValue = e.target.value;
-
       setFormData((prevState: IPostRequest) => ({
          ...prevState,
          [fieldName]: fieldValue,
       }));
    };
 
-   const handleChangueSelectInput = (attribute: string, value: ICatalogGen) => {
+   const handleChangueSelectInput = (attribute: string, value: ICatalogGen) =>
       setFormData((prevState: IPostRequest) => ({
          ...prevState,
          [attribute]: value,
       }));
-   };
 
    const handleAddTag = () => {
       if (formData.currentTag === '' || !formData.currentTag) return;
@@ -208,16 +181,24 @@ export default function FormPost(props: Props) {
 
    const handleSelector = (slug: 'Image' | 'PDF' | 'Link') => setShowForm(slug);
    const handleBack = () => router.push(url.adminPosts());
+   const useFilteredAssets = (type: string, assets?: IAssets[]) =>
+      assets?.filter((asset) => asset.type === type) || [];
 
    useEffect(() => {
       (async () => {
-         if (post && post.id !== 0 && post.assets?.length) {
-            const videos = post.assets?.filter((asset) => asset.type === 'Enlace') || [];
-            const videosWithTitle = (await Promise.all(getTitleVideos(videos))) as any;
-            setCurrentFiles((prevState) => ({
-               ...prevState,
-               videos: videosWithTitle,
-            }));
+         if (post.id) {
+            setFormData(serializedFormDataPost(post));
+            setResources(serializedCurrentResources(post));
+            setCurrentFiles(serializedCurrentFiles(post));
+            if (post && post.id !== 0 && post.assets?.length) {
+               const videos =
+                  post.assets?.filter((asset) => asset.type === 'Enlace') || [];
+               const videosWithTitle = (await Promise.all(getTitleVideos(videos))) as any;
+               setCurrentFiles((prevState) => ({
+                  ...prevState,
+                  videos: videosWithTitle,
+               }));
+            }
          }
       })();
    }, [post]);
@@ -237,7 +218,7 @@ export default function FormPost(props: Props) {
                      value={formData.eventDate}
                      label="Fecha del evento"
                   />
-                  {typeof post?.id === 'number' && post?.id !== 0 && (
+                  {typeof post.id === 'number' && post.id !== 0 && (
                      <FormApproved
                         status={post?.isApproved}
                         target={post?.id}
@@ -246,12 +227,12 @@ export default function FormPost(props: Props) {
                      />
                   )}
                   {post?.isApproved &&
-                     post?.category?.id === 8 &&
-                     post?.type?.toLocaleLowerCase()?.includes('convocatoria') && (
+                     post.category?.id === 8 &&
+                     post.type?.toLocaleLowerCase()?.includes('convocatoria') && (
                         <CustomButton
                            title={post?.isPinned ? 'Fijada' : 'Fijar'}
                            containerStyles={
-                              post?.isPinned ? 'btn-secondary' : 'btn-primary'
+                              post.isPinned ? 'btn-secondary' : 'btn-primary'
                            }
                            disabled={post?.isPinned}
                            handleClick={handlePinned}
@@ -269,7 +250,7 @@ export default function FormPost(props: Props) {
                />
                <Error
                   message={
-                     formData.title.length > 80
+                     formData?.title?.length > 80
                         ? `Excedio el limite de caracteres ${formData.title.length} de 80`
                         : ''
                   }
@@ -283,7 +264,7 @@ export default function FormPost(props: Props) {
                />
                <Error
                   message={
-                     formData.summary.length > 110
+                     formData?.summary?.length > 110
                         ? `Excedio el limite de caracteres ${formData.summary.length} de 110`
                         : ''
                   }

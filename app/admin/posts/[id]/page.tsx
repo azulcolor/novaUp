@@ -13,12 +13,11 @@ export default async function AdminPostById({ params }: Props) {
    const token = cookieStore.get('nova-access-token')?.value || '';
    const user = apiRequest.getCurrentUser(token);
 
-   const post = await apiRequest.getPostById(token, Number(params.id));
    const categories = await apiRequest.getCategories();
    const typesPost = await apiRequest.getTypesPost();
    return (
       <FormPost
-         post={post}
+         id={Number(params.id)}
          categories={categories}
          typesPost={typesPost}
          user={user ? user.user : user}

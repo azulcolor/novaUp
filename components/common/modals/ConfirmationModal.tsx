@@ -45,8 +45,8 @@ export const ConfirmationModal = ({
    const fetchers = {
       users: async (token: string, id: number) => await apiRequest.deleteUser(token, id),
       posts: async (token: string, id: number) => await apiRequest.deletePost(token, id),
-      'delete-asset': async (token: string, target: ICatalogGen) =>
-         await apiRequest.deleteAssetsPost(token, target),
+      'delete-asset': async (token: string, id: number) =>
+         await apiRequest.deleteAssetsPost(token, id),
    };
 
    const reload = {

@@ -15,13 +15,9 @@ interface Props {
 export const FrameViewerModal = ({ file, isImage = false, children }: Props) => {
    const [isOpen, setIsOpen] = useState(false);
 
-   const handleClose = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === 'Escape') setIsOpen(() => false);
-   };
-
-   const handleIdentifyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-      if (e.currentTarget.id !== 'action-danger') setIsOpen(() => true);
+   const handleIdentifyClick = (e: any) => {
+      if (isImage && e.target.tagName !== 'IMG') return;
+      setIsOpen(() => true);
    };
 
    useEffect(() => {

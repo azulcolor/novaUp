@@ -15,6 +15,7 @@ import {
    getEmbedLinkFromYouTubeID,
 } from '@/libs/utils/common-functions';
 import { apiRequest } from '@/libs/axios-api';
+import { CustomButton } from '../CustomInputs/CustomButton';
 
 interface Props {
    id: number;
@@ -27,12 +28,14 @@ interface Props {
 export const FormAddLink = (props: Props) => {
    const { id, currentFiles, setCurrentFiles, formData, setFormData } = props;
    const [currentLink, setCurrentLink] = useState('');
+   const [isLoading, setIsLoading] = useState(false);
 
    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
       setCurrentLink(() => e.target.value);
    };
 
    const handleAddLink = async () => {
+      setIsLoading(true);
       let title = `video_${formData.videos.length + 1}}`;
       const videoId = extractYouTubeID(currentLink);
 
@@ -51,6 +54,7 @@ export const FormAddLink = (props: Props) => {
       } else {
          toast.error('El link no es valido');
       }
+      setIsLoading(false);
    };
 
    return (
@@ -60,12 +64,14 @@ export const FormAddLink = (props: Props) => {
             attributeToChangue="currentTag"
             value={currentLink || ''}
             onChangueValue={handleInput}>
-            <button
-               className="custom-text__btn"
-               onClick={handleAddLink}
-               disabled={currentLink === ''}>
+            <CustomButton
+               title="+"
+               containerStyles="custom-text__btn"
+               handleClick={handleAddLink}
+               disabled={currentLink === ''}
+               isLoading={isLoading}>
                <AddIcon />
-            </button>
+            </CustomButton>
          </CustomInputText>
 
          <div className="container__tags">
@@ -79,7 +85,7 @@ export const FormAddLink = (props: Props) => {
                   <p>{link.title}</p>
                   <ConfirmationModal
                      title="¿Seguro que deseas eliminar este video?"
-                     target={{ id, name: link.name }}
+                     target={link.id}
                      fetcher="delete-asset"
                      extraReloadFunc={() =>
                         setCurrentFiles((prev) => ({

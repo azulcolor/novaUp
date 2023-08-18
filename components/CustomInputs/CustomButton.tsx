@@ -11,6 +11,7 @@ interface Props {
    isLoading?: boolean;
    btnType?: 'button' | 'submit';
    disabled?: boolean;
+   children?: React.ReactNode;
 }
 
 export const CustomButton = ({
@@ -20,6 +21,7 @@ export const CustomButton = ({
    isLoading = false,
    btnType = 'button',
    disabled = false,
+   children,
 }: Props) => {
    return (
       <button
@@ -27,7 +29,7 @@ export const CustomButton = ({
          type={btnType}
          className={`btn ${containerStyles} ${isLoading ? 'p-5' : ''}`}
          onClick={handleClick}>
-         {isLoading ? <LoadingSpin /> : title}
+         {isLoading ? <LoadingSpin /> : children || title}
       </button>
    );
 };
