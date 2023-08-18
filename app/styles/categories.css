@@ -1,0 +1,32 @@
+.post-layout {
+   display: flex;
+   margin-top: 2rem;
+   padding-left: 4rem;
+   padding-right: 4rem;
+   justify-content: space-between;
+   flex-direction: unset;
+}
+
+.body {
+   padding: 2rem;
+   flex-direction: column;
+}
+
+.post-container {
+   display: grid;
+   grid-template-columns: repeat(2, minmax(410px, 1fr));
+   padding: 2rem;
+}
+
+@media (max-width: 1080px) {
+   .post-container {
+      grid-template-columns: 1fr;
+   }
+}
+
+@media (max-width: 660px) {
+   .post-container {
+      gap: 3rem;
+      padding: 1rem;
+   }
+}

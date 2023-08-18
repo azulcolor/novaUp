@@ -1,0 +1,146 @@
+@import './loading.css';
+@import './header.css';
+@import './admin.css';
+@import './inputs.css';
+@import './card.css';
+@import './categories.css';
+@import './formPost.css';
+@import './cardcarousel.css';
+@import './carousel.css';
+@import 'detailPost.css';
+@import './hammond.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+   --background: #fbfbfb;
+   --background-container: #e8e8e8;
+   --background-start-rgb: 214, 219, 220;
+   --background-end-rgb: 255, 255, 255;
+   --form-background-color: #dfdfdf;
+   --title-text: #232323;
+   --subtitle-text: #2c2c2c;
+   --normal-text: #7a7a7a;
+   --primary-color: #ff8900;
+   --secondary-color: #607ee9;
+   --tertiary-color: #f3f2f7;
+   --input-background: #f4f4f4;
+   --alternative-text-color: 0, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+   :root {
+      --foreground-rgb: 255, 255, 255;
+      --background-start-rgb: 0, 0, 0;
+      --background-end-rgb: 0, 0, 0;
+   }
+}
+
+body {
+   background: var(--background);
+}
+
+.title {
+   color: var(--title-text);
+   font-size: 32px;
+}
+
+.subtitle {
+   color: var(--subtitle-text);
+   font-size: 20px;
+}
+
+.text {
+   color: var(--normal-text);
+   font-size: 15px;
+}
+
+.title-bold {
+   color: var(--title-text);
+   font-size: 32px;
+   font-weight: bold;
+}
+
+.subtitle-bold {
+   color: var(--subtitle-text);
+   font-size: 20px;
+   font-weight: bold;
+}
+
+.text-bold {
+   color: var(--normal-text);
+   font-size: 15px;
+   font-weight: bold;
+}
+
+.text-ellipsis {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.alternative-title {
+   color: var(--primary-color);
+   font-size: 32px;
+}
+
+.alternative-subtitle {
+   color: var(--primary-color);
+   font-size: 20px;
+}
+
+.alternative-text {
+   color: var(--primary-color);
+   font-size: 15px;
+}
+
+.alternative-title-bold {
+   color: var(--primary-color);
+   font-size: 32px;
+   font-weight: bold;
+}
+
+.alternative-subtitle-bold {
+   color: var(--primary-color);
+   font-size: 20px;
+   font-weight: bold;
+}
+
+.alternative-text-bold {
+   color: var(--primary-color);
+   font-size: 15px;
+   font-weight: bold;
+}
+
+.br-left {
+   border-radius: 0 0.5rem 0 0;
+}
+
+.btn-primary {
+   background: var(--primary-color);
+   color: var(--tertiary-color);
+   transition: background-color 0.3s ease;
+   border-radius: 0.5rem;
+}
+
+.btn-primary:hover {
+   background: #ff9833;
+}
+
+.fadeIn {
+   animation: 1s ease-out 0s 1 fadeIn;
+}
+
+@keyframes fadeIn {
+   0% {
+      transform: translateX(-100%);
+      opacity: 0;
+   }
+
+   100% {
+      transform: translateX(0);
+      opacity: 1;
+   }
+}

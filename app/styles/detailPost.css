@@ -1,0 +1,22 @@
+.post-detail-layout {
+   display: grid;
+   grid-template-columns: 56% auto;
+   grid-template-rows: auto auto auto auto;
+}
+.cover__image {
+   max-height: 450px;
+}
+.video__post {
+   width: 100%;
+   min-height: 200px;
+   max-height: 530px;
+   max-width: 900px;
+}
+@media (max-width: 768px) {
+   .post-detail-layout {
+      grid-template-columns: auto;
+   }
+   .video__post {
+      height: auto;
+   }
+}
