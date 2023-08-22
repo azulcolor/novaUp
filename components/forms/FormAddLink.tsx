@@ -82,7 +82,7 @@ export const FormAddLink = (props: Props) => {
                      <VisibilityIcon />
                   </FrameViewerModal>
 
-                  <p>{link.title}</p>
+                  <span>{link.title}</span>
                   <ConfirmationModal
                      title="¿Seguro que deseas eliminar este video?"
                      target={link.id}

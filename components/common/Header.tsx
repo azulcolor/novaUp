@@ -40,17 +40,17 @@ export const Header = () => {
    const links: LinkItem[] = [
       {
          label: 'Principal',
-         path: '/',
+         path: url.home(),
          action: () => router.push(url.home()),
       },
       {
          label: 'Categorías',
-         path: '/posts',
+         path: url.posts(),
          action: () => router.push(url.posts()),
       },
       {
          label: 'Administración',
-         path: '/admin',
+         path: url.adminPosts(),
          action: () => router.push(url.adminPosts()),
       },
    ];
@@ -133,16 +133,16 @@ export const Header = () => {
                   <ul>
                      {links.map((link) =>
                         link.path.includes('admin') && !session ? null : (
-                           <li
+                           <Link
+                              href={link.path}
                               key={link.label}
-                              onClick={link.action}
                               className={
                                  pathname.split('/')[1] === link.path.split('/')[1]
                                     ? 'border-b'
                                     : ''
                               }>
                               {link.label}
-                           </li>
+                           </Link>
                         )
                      )}
 
@@ -166,19 +166,16 @@ export const Header = () => {
             <div className="hamburger-menu">
                <ul>
                   {links.map((link) => (
-                     <li
+                     <Link
                         key={link.label}
-                        onClick={() => {
-                           link.action();
-                           setShowMenu(false);
-                        }}
+                        href={link.path}
                         className={
                            pathname.split('/')[1] === link.path.split('/')[1]
-                              ? 'border-b'
+                              ? 'bg-[--primary-color] text-white'
                               : ''
                         }>
                         {link.label}
-                     </li>
+                     </Link>
                   ))}
                   {!session && (
                      <li

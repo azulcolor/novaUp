@@ -129,6 +129,10 @@ body {
    background: #ff9833;
 }
 
+.rounded-xl img {
+   border-radius: 0.75rem;
+}
+
 .fadeIn {
    animation: 1s ease-out 0s 1 fadeIn;
 }

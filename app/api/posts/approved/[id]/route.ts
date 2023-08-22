@@ -19,6 +19,7 @@ export async function PATCH(
       const id = context.params.id;
 
       let isAuth: any = '';
+      const { comments } = await req.json();
 
       if (headersList.has('authorization')) {
          const authorization = headersList.get('authorization');
@@ -29,7 +30,9 @@ export async function PATCH(
                : '';
       }
 
-      const post = await api('api', 'PATCH', `/posts/approve/${id}`, isAuth);
+      const post = await api('api', 'PATCH', `/posts/approve/${id}`, isAuth, {
+         comments,
+      });
 
       return NextResponse.json(post);
    } catch (error: any) {

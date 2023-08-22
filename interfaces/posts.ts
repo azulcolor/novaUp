@@ -26,6 +26,7 @@ export interface IPostRequest {
    assets: IAssets[];
    title: string;
    description: string;
+   isApproved: boolean;
    summary: string;
    publishDate: string;
    eventDate: string;

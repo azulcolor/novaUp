@@ -1,39 +1,41 @@
 'use client';
 import { useEffect, useState } from 'react';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { IAssets, IPost } from '@/interfaces';
 import { urlApi } from '@/libs/utils/url';
+import { PageNotFound } from '@/components/common/PageNotFound';
+import { extractYouTubeID } from '@/libs/utils/common-functions';
+import { FrameViewerModal } from '../common/modals/FrameViewerModal';
 
 interface Props {
    post: IPost;
 }
 
-enum Assets {
-   Imagen = 'Imagen',
-   Enlace = 'Enlace',
-   File = 'Pdf',
-}
+const ASSET_IMAGE = 'Imagen';
+const ASSET_LINK = 'Enlace';
+const ASSET_FILE = 'Pdf';
 
 const moocAsset: IAssets[] = [
-   { id: 1001, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: Assets.Enlace },
-   { id: 1002, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: Assets.Enlace },
-   { id: 1003, name: 'https://www.youtube.com/embed/SqrV4fs2qJk', type: Assets.Enlace },
+   { id: 1001, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: ASSET_LINK },
+   { id: 1002, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: ASSET_LINK },
+   { id: 1003, name: 'https://www.youtube.com/embed/SqrV4fs2qJk', type: ASSET_LINK },
    {
       id: 1004,
       name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
-      type: Assets.File,
+      type: ASSET_FILE,
    },
    {
       id: 1005,
       name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
-      type: Assets.File,
+      type: ASSET_FILE,
    },
    {
       id: 1006,
       name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
-      type: Assets.File,
+      type: ASSET_FILE,
    },
 ];
 
@@ -43,13 +45,13 @@ export default function PostDetail({ post }: Props) {
    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
    const assets = post.assets
       ? {
-           images: post.assets.filter((asset) => asset.type === Assets.Imagen),
-           videos: moocAsset.filter((asset) => asset.type === Assets.Enlace),
-           pdf: moocAsset.filter((asset) => asset.type === Assets.File),
+           images: post.assets.filter((asset) => asset.type === ASSET_IMAGE),
+           videos: post.assets.filter((asset) => asset.type === ASSET_LINK),
+           pdf: post.assets.filter((asset) => asset.type === ASSET_FILE),
         }
       : { images: [], videos: [], pdf: [] };
 
-   assets.images.unshift({ id: 0, name: post.coverImage, type: Assets.Imagen });
+   assets.images.unshift({ id: 0, name: post.coverImage, type: ASSET_IMAGE });
 
    useEffect(() => {
       const handleResize = () => {
@@ -65,6 +67,11 @@ export default function PostDetail({ post }: Props) {
       };
    }, []);
    const isMobile = windowSize.width <= 768;
+
+   if (!post || !post.isApproved) {
+      return <PageNotFound title="¡Oops! No encontramos la publicación" />;
+   }
+
    return (
       <>
          <div className="post-detail-layout gap-4 lg:mt-8">
@@ -74,96 +81,108 @@ export default function PostDetail({ post }: Props) {
                   text-3xl font-semibold mb-2 mt-2
                   xl:text-4xl xl:mb-8">
                   {post.title}
+                  <div className="md:row-span-2 lg:row-span-3 mt-10">
+                     <p
+                        className="
+                              text-neutral-500 text-base whitespace-pre-line text-justify
+                              lg:pr-12
+                              xl:text-lg 
+                              2xl:text-xl">
+                        {post.description}
+                     </p>
+                  </div>
                </p>
             </div>
-
-            <ImageComponent
-               src={`${urlApi}/${imageSelected}`}
-               w={1600}
-               h={900}
-               containerStyles="mx-auto md:row-span-2 md:mt-10"
-               imageStyle="cover__image rounded-xl object-cover"
-            />
-
-            <div className="md:row-span-2 lg:row-span-3">
-               <p
-                  className="
-               text-neutral-500 text-base whitespace-pre-line text-justify
-               lg:pr-12
-               xl:text-lg 
-               2xl:text-xl">
-                  {post.description}
-               </p>
-            </div>
-            <div
-               className="
-            grid grid-cols-1 gap-4 px-2 mx-auto
-            md:grid-cols-2 
-            lg:grid-cols-4">
-               {assets.images.map((image, i) => {
-                  return (
+            <div>
+               <div>
+                  <FrameViewerModal
+                     file={{ id: 0, name: imageSelected, type: 'Imagen' }}
+                     isImage>
                      <ImageComponent
-                        key={i}
-                        src={`${urlApi}/${image.name}`}
-                        w={828}
-                        h={466}
-                        containerStyles=""
-                        imageStyle={`
-                        rounded-xl w-full h-full 
-                        md:max-h-20 lg:max-h-28 
-                        ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
-                        handleClick={
-                           isMobile ? () => {} : () => setImageSelected(image.name)
-                        }
-                        addLoader={true}
+                        src={`${urlApi}/${imageSelected}`}
+                        w={1600}
+                        h={900}
+                        containerStyles="mx-auto md:row-span-2 md:mt-10 mb-4"
+                        imageStyle="cover__image rounded-xl object-cover"
                      />
-                  );
-               })}
+                  </FrameViewerModal>
+               </div>
+               <div
+                  className="
+                  grid grid-cols-1 gap-4 mx-auto
+                  md:grid-cols-2 
+                  lg:grid-cols-4">
+                  {assets.images.map((image, i) => {
+                     return (
+                        <ImageComponent
+                           key={i}
+                           src={`${urlApi}/${image.name}`}
+                           w={828}
+                           h={466}
+                           containerStyles=""
+                           imageStyle={`
+                              rounded-xl w-full h-full 
+                              ${image.name === imageSelected ? 'md:contrast-50' : ''}`}
+                           handleClick={
+                              isMobile ? () => {} : () => setImageSelected(image.name)
+                           }
+                           addLoader={true}
+                        />
+                     );
+                  })}
+               </div>
             </div>
          </div>
-         <div className="pt-8 flex flex-wrap justify-start">
-            {assets.videos.map((video) => {
-               return (
-                  <div
-                     key={video.id}
-                     className="
-                  py-2 md:p-4
-                  w-full
-                  h-auto
-                  lg:w-1/2
-                  ">
-                     <iframe
-                        className="video__post mx-auto"
-                        width="800"
-                        height="500"
-                        src={video.name}
-                        title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+         <div className="post-files">
+            {assets.videos.length > 0 && (
+               <div className="post-files__item">
+                  <div className="post-files__item__title">
+                     <h3 className="text-2xl font-semibold">Videos</h3>
                   </div>
-               );
-            })}
-         </div>
-         <div className="pt-8 flex flex-wrap justify-start">
-            {assets.pdf.map((pdf) => {
-               return (
-                  <div
-                     key={pdf.id}
-                     className="
-                  py-2 md:p-4
-                  w-full
-                  h-auto
-                  lg:w-1/2
-                  ">
-                     <iframe
-                        className="video__post mx-auto"
-                        width="800"
-                        height="500"
-                        src={pdf.name}
-                        title="YouTube video player"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                  <div className="form-files">
+                     {assets.videos.map((video, i) => {
+                        const videoID = extractYouTubeID(video.name);
+                        return (
+                           <div className="file justify-start" key={i}>
+                              <FrameViewerModal
+                                 file={{
+                                    id: video.id,
+                                    name: video.name,
+                                    type: video.type,
+                                 }}>
+                                 <ImageComponent
+                                    src={`https://img.youtube.com/vi/${videoID}/0.jpg`}
+                                    w={420}
+                                    h={310}
+                                    containerStyles="rounded-xl"
+                                 />
+                              </FrameViewerModal>
+                           </div>
+                        );
+                     })}
                   </div>
-               );
-            })}
+               </div>
+            )}
+            {assets.pdf.length > 0 && (
+               <div className="post-files__item">
+                  <div className="post-files__item__title">
+                     <h3 className="text-2xl font-semibold">Documentos</h3>
+                  </div>
+                  <div className="form-files flex-col">
+                     {assets.pdf.map((pdf, i) => {
+                        const path = `${urlApi}/${pdf.name}`;
+                        return (
+                           <div className="file--pdf justify-start" key={i}>
+                              <FrameViewerModal file={pdf}>
+                                 <VisibilityIcon />
+                              </FrameViewerModal>
+                              <div className="">{pdf.name.split('/').pop()}</div>
+                           </div>
+                        );
+                     })}
+                  </div>
+               </div>
+            )}
          </div>
       </>
    );

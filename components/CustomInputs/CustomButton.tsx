@@ -30,6 +30,7 @@ export const CustomButton = ({
          className={`btn ${containerStyles} ${isLoading ? 'p-5' : ''}`}
          onClick={handleClick}>
          {isLoading ? <LoadingSpin /> : children || title}
+         <span className="ml-2">{title === 'Regresar' && title}</span>
       </button>
    );
 };

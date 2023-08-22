@@ -75,6 +75,7 @@ export const serializedFormDataPost = (data: IPost) => ({
    summary: data.summary || '',
    publishDate: '',
    eventDate: '',
+   isApproved: data.isApproved || false,
    typeSelect: data.type
       ? { id: 0, name: data.type }
       : { id: 0, name: 'Tipo de publicación' },

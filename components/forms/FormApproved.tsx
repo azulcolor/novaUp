@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
@@ -15,24 +15,30 @@ interface Props {
    target: number;
    user: INovaUser | false;
    currentComments?: string;
+   changeStatus: (status: boolean) => void;
 }
 
-export const FormApproved = ({ status, target, user, currentComments }: Props) => {
-   const [comments, setComments] = useState('');
+export const FormApproved = ({
+   status,
+   target,
+   user,
+   currentComments,
+   changeStatus,
+}: Props) => {
+   const [comments, setComments] = useState(currentComments || '');
    const [isOpened, setIsOpened] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 
    const router = useRouter();
 
-   const handleOnConfirmation = async () => {
+   const handleOnConfirmation = async (comments: string) => {
       setIsLoading(true);
       const token = getCookie('nova-access-token');
       const res = await apiRequest.setStatusPost(String(token), target, comments);
       if (res.status === 'Success') {
          toast.success('Se ha actualizado el estado de la publicación');
-         setTimeout(() => {
-            router.refresh();
-         }, 2000);
+         router.refresh();
+         changeStatus && changeStatus(!status);
       } else {
          toast.error('Ha ocurrido un error al actualizar el estado de la publicación');
       }
@@ -94,16 +100,26 @@ export const FormApproved = ({ status, target, user, currentComments }: Props) =
                      containerStyles="btn-secondary"
                   />
                   {user && user?.role?.id !== 3 && (
-                     <CustomButton
-                        title={
-                           status || comments.length > 0
-                              ? 'Cancelar publicación'
-                              : 'Aprobar publicación'
-                        }
-                        handleClick={handleOnConfirmation}
-                        containerStyles="btn-primary"
-                        isLoading={isLoading}
-                     />
+                     <>
+                        {(currentComments?.length || 1) > 0 &&
+                        currentComments === comments ? (
+                           <CustomButton
+                              title={
+                                 status ? 'Cancelar publicación' : 'Aprobar publicación'
+                              }
+                              handleClick={() => handleOnConfirmation('')}
+                              containerStyles="btn-primary"
+                              isLoading={isLoading}
+                           />
+                        ) : (
+                           <CustomButton
+                              title="Actualizar comentarios"
+                              handleClick={() => handleOnConfirmation(comments)}
+                              containerStyles="btn-primary"
+                              isLoading={isLoading}
+                           />
+                        )}
+                     </>
                   )}
                </div>
             </div>

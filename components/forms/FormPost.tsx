@@ -181,8 +181,6 @@ export default function FormPost(props: Props) {
 
    const handleSelector = (slug: 'Image' | 'PDF' | 'Link') => setShowForm(slug);
    const handleBack = () => router.push(url.adminPosts());
-   const useFilteredAssets = (type: string, assets?: IAssets[]) =>
-      assets?.filter((asset) => asset.type === type) || [];
 
    useEffect(() => {
       (async () => {
@@ -220,10 +218,16 @@ export default function FormPost(props: Props) {
                   />
                   {typeof post.id === 'number' && post.id !== 0 && (
                      <FormApproved
-                        status={post?.isApproved}
+                        status={formData?.isApproved}
                         target={post?.id}
                         user={user}
                         currentComments={post?.comments}
+                        changeStatus={(status: boolean) =>
+                           setFormData(
+                              (prev: IPostRequest) =>
+                                 ({ ...prev, isApproved: status } as any)
+                           )
+                        }
                      />
                   )}
                   {post?.isApproved &&
