@@ -18,29 +18,7 @@ const ASSET_IMAGE = 'Imagen';
 const ASSET_LINK = 'Enlace';
 const ASSET_FILE = 'Pdf';
 
-const moocAsset: IAssets[] = [
-   { id: 1001, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: ASSET_LINK },
-   { id: 1002, name: 'https://www.youtube.com/embed/zaKnUdYUCHM', type: ASSET_LINK },
-   { id: 1003, name: 'https://www.youtube.com/embed/SqrV4fs2qJk', type: ASSET_LINK },
-   {
-      id: 1004,
-      name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
-      type: ASSET_FILE,
-   },
-   {
-      id: 1005,
-      name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
-      type: ASSET_FILE,
-   },
-   {
-      id: 1006,
-      name: 'https://upqroo.edu.mx/wp-content/uploads/2023/04/guia_inscripcion_NI20231.pdf',
-      type: ASSET_FILE,
-   },
-];
-
 export default function PostDetail({ post }: Props) {
-   post.assets ? post.assets.concat(moocAsset) : (post.assets = moocAsset);
    const [imageSelected, setImageSelected] = useState(post.coverImage);
    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
    const assets = post.assets

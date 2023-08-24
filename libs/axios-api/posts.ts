@@ -21,6 +21,8 @@ export const apiPosts = {
          })
          .catch((e) => []),
 
+   getAsset: async (path: string) => await api('next', 'GET', path),
+
    getPostsCrud: async (token: string): Promise<IPost[]> =>
       await api('next', 'GET', '/posts', {
          Authorization: `Bearer ${token}`,

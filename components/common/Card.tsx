@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { CustomButton } from '@/components/CustomInputs/CustomButton';
@@ -10,6 +10,7 @@ import { FrameViewerModal } from '@/components/common/modals/FrameViewerModal';
 
 import { urlApi } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
+import { apiRequest } from '@/libs/axios-api';
 
 interface Props {
    post: IPost;

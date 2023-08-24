@@ -114,6 +114,10 @@ body {
    font-weight: bold;
 }
 
+.br-top {
+   border-radius: 0.75rem 0.75rem 0 0;
+}
+
 .br-left {
    border-radius: 0 0.5rem 0 0;
 }

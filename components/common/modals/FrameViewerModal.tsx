@@ -47,13 +47,13 @@ export const FrameViewerModal = ({ file, isImage = false, children }: Props) => 
             key={file.id}
             className={`${
                file.type !== 'Pdf' ? '' : 'h-full '
-            }pt-6 w-full bg-white lg:w-1/2 relative rounded-lg shadow-lg text-black
+            }w-full lg:w-1/2 shadow-lg text-black bg-transparent
                   `}>
-            <button
-               className="absolute top-0 right-0 "
-               onClick={() => setIsOpen(() => false)}>
-               <ClearIcon />
-            </button>
+            <div className="flex justify-end bg-white br-top">
+               <button onClick={() => setIsOpen(() => false)}>
+                  <ClearIcon />
+               </button>
+            </div>
             {isImage ? (
                <ImageComponent
                   src={`${urlApi}/${file.name}`}

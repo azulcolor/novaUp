@@ -7,4 +7,5 @@ export const url = {
    adminUsers: () => '/admin/users',
 };
 
-export const urlApi = process.env.NEXT_PUBLIC_URL_API || 'http://localhost:3000';
+export const urlApi =
+   `${process.env.NEXT_PUBLIC_URL_BASE}/api` || 'http://localhost:3000';
