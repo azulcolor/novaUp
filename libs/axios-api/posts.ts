@@ -31,9 +31,22 @@ export const apiPosts = {
          .catch((e) => []),
 
    getPostById: async (token: string, id: number): Promise<IPost> =>
-      await api('next', 'GET', `/posts/${id}`, { Authorization: `Bearer ${token}` })
-         .then((data) => data)
-         .catch(() => {}),
+      await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/${id}`, {
+         method: 'GET',
+         headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+         },
+         next: { revalidate: 60 },
+      })
+         .then(async (res) => {
+            const data = await res.json();
+            if (data?.error) {
+               throw new Error(data.error);
+            }
+            return data;
+         })
+         .catch((e) => null),
 
    getPostsLatest: async (limit: number): Promise<IPost[]> =>
       await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/latest?limit=${limit}`, {

@@ -20,6 +20,6 @@ export async function GET(req: NextRequest, context: ICtx) {
       const formatedError = errorMessage(error, path, 'GET');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
-      return NextResponse.json(formatedError);
+      return NextResponse.json(formatedError, { status: formatedError.status });
    }
 }

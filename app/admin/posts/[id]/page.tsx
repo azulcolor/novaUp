@@ -1,12 +1,16 @@
+import { cookies } from 'next/headers';
+
 import FormPost from '@/components/forms/FormPost';
 import { apiRequest } from '@/libs/axios-api';
-import { cookies } from 'next/headers';
 
 interface Props {
    params: {
       id: string;
    };
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminPostById({ params }: Props) {
    const cookieStore = cookies();

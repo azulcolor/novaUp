@@ -4,6 +4,9 @@ import { errorMessage } from '@/libs/utils/serializers';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const path = '/api/posts/[id]';
 // [id] /id, /latest?limit=5, /pinned
 export async function GET(
@@ -44,7 +47,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
       const headersList = headers();
       const authorization = headersList.get('authorization');
       const data = await req.json();
-
+      console.log(data);
       const updatedPostApi = await api(
          'api',
          'PATCH',

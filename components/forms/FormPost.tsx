@@ -18,9 +18,7 @@ import { FormAddPDF } from '@/components/forms/FormAddPDF';
 import { FormAddLink } from '@/components/forms/FormAddLink';
 
 import {
-   IAssets,
    ICatalogGen,
-   IPost,
    IPostCurrentResources,
    IPostRequest,
    IPostResources,
@@ -33,7 +31,7 @@ import CustomInputDate from '@/components/CustomInputs/CustomInputDate';
 import { FormApproved } from '@/components/forms/FormApproved';
 
 import { apiRequest } from '@/libs/axios-api';
-import { url, urlApi } from '@/libs/utils/url';
+import { url } from '@/libs/utils/url';
 import { getTitleVideos } from '@/libs/utils/common-functions';
 import {
    serializedAssetsByPost,
@@ -201,6 +199,14 @@ export default function FormPost(props: Props) {
       })();
    }, [post]);
 
+   useEffect(() => {
+      return () => {
+         setFormData({} as any);
+         setResources({} as any);
+         setCurrentFiles({} as any);
+      };
+   }, []);
+
    return (
       <div className="form__post">
          <div className="container__text">
@@ -287,7 +293,7 @@ export default function FormPost(props: Props) {
                <h3>Multimedia</h3>
             </div>
 
-            <div className="">
+            <div>
                <p>Presiona el formato que deseas subir</p>
                <div className="container__btns__multimedia">
                   <CustomButton

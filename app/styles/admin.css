@@ -20,22 +20,17 @@
 }
 
 .admin-container__table {
-   overflow: auto;
    display: flex;
    justify-content: center;
    flex-direction: column;
    width: 90vw;
-   height: 75vh;
-   padding: 5rem;
-   /* background: #ffff; */
-   border-radius: 15px;
+   padding: 2rem 5rem 1rem 5rem;
 }
 
 .admin-container__table table {
    width: 100%;
    text-align: center;
    font-size: 1.3em;
-   border-radius: 8px;
 }
 
 .admin-container__table table thead {
@@ -45,7 +40,6 @@
 
 .admin-container__table table tr {
    transition: all 0.3s ease;
-   border-radius: 8px;
 }
 
 .admin-container__table table td {
@@ -98,7 +92,8 @@
 .modal {
    color: var(--subtitle-text);
    z-index: 55;
-   width: 30vw;
+   width: 80vw;
+   max-width: max-content;
    padding: 2rem;
    border-radius: 15px;
    background: #ffff;

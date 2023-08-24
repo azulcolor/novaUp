@@ -36,6 +36,6 @@ export async function PATCH(
       const formatedError = errorMessage(error, path, 'PATCH');
       if (process.env.NODE_ENV === 'development') console.log(formatedError);
 
-      return NextResponse.json(formatedError);
+      return NextResponse.json(formatedError, { status: formatedError.status });
    }
 }

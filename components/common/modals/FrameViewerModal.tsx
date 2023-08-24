@@ -64,7 +64,7 @@ export const FrameViewerModal = ({ file, isImage = false, children }: Props) => 
             ) : (
                <iframe
                   width="100%"
-                  height={file.type !== 'Pdf' ? '500' : '100%'}
+                  height={file.type !== 'Pdf' ? '500' : '95%'}
                   src={
                      file.type === 'Enlace'
                         ? file.name
