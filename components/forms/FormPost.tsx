@@ -1,6 +1,6 @@
+'use client';
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { getCookie } from 'cookies-next';
@@ -128,8 +128,9 @@ export default function FormPost(props: Props) {
 
             if (assets?.status === 'Success') {
                toast.success('Publicación actualizada');
-               const post = await apiRequest.getPostByIdCrud(token, formData.id);
-               setPost(post);
+               // const post = await apiRequest.getPostByIdCrud(token, formData.id);
+               // setPost(post);
+               router.push(url.adminPosts());
             }
          } else {
             toast.error('Error al actualizar publicación');

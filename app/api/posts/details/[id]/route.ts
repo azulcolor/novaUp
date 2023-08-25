@@ -3,7 +3,6 @@ import { errorMessage } from '@/libs/utils/serializers';
 import { NextRequest, NextResponse } from 'next/server';
 
 const path = 'app/api/post/[id]/';
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
    try {

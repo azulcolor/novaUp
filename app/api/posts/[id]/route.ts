@@ -1,8 +1,8 @@
-import { IPost } from '@/interfaces';
+import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+
 import { api } from '@/libs/axios-api';
 import { errorMessage } from '@/libs/utils/serializers';
-import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
 
 const path = '/api/posts/[id]';
 // [id] /id, /latest?limit=5, /pinned
@@ -24,8 +24,6 @@ export async function GET(
          'GET',
          `/posts/${id}${limit ? '?limit=' + limit : ''}`
       );
-      console.log(posts);
-      console.log('GET', id, limit);
 
       if (posts?.error) {
          throw new Error(posts.error);

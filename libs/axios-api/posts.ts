@@ -1,5 +1,5 @@
 import { api } from '@/libs/axios-api/axios';
-import { ICatalogGen, IPost, IPostPatch, IPostResources } from '@/interfaces';
+import { IPost, IPostPatch } from '@/interfaces';
 
 export const apiPosts = {
    getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
