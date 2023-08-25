@@ -50,7 +50,7 @@ export const CustomSelect = ({
             currentRefAttribute.current.value = String(defaultOption.id);
          }
       }
-   }, [searchParams]);
+   }, [searchParams, defaultOption]);
 
    return (
       <div className={containerStyles}>
@@ -58,7 +58,6 @@ export const CustomSelect = ({
             name={attributeToChangue}
             ref={currentRefAttribute as any}
             disabled={disabled}
-            defaultValue={defaultOption ? defaultOption.id : 0}
             onChange={(e) => handleChangueValue(Number(e.target.value))}>
             {defaultOption && (
                <option value={defaultOption.id}>{defaultOption.name}</option>

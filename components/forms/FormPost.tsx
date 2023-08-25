@@ -233,7 +233,7 @@ export default function FormPost(props: Props) {
                   )}
                   {post?.isApproved &&
                      post.category?.id === 8 &&
-                     post.type?.toLocaleLowerCase()?.includes('convocatoria') && (
+                     post.type.includes('Convocatoria') && (
                         <CustomButton
                            title={post?.isPinned ? 'Fijada' : 'Fijar'}
                            containerStyles={

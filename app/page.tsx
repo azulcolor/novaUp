@@ -1,6 +1,9 @@
 import { Card } from '@/components/common/Card';
 import { apiRequest } from '@/libs/axios-api';
 import Carousel from '@/components/common/Carousel';
+import { ImageComponent } from '@/components/common/ImageComponent';
+import { CustomButton } from '@/components/CustomInputs/CustomButton';
+import Link from 'next/link';
 
 export default async function Home() {
    const latests = await apiRequest.getPostsLatest(5);
@@ -30,6 +33,25 @@ export default async function Home() {
             ) : (
                <div></div>
             )}
+         </div>
+         <div className="flex p-6">
+            <div className="w-1/2">
+               <ImageComponent
+                  src="/assets/images/search-categories.png"
+                  w={500}
+                  h={300}
+                  containerStyles="flex justify-center items-center"
+               />
+            </div>
+            <div className="flex flex-col justify-center items-start w-1/2">
+               <h1 className="text-3xl pb-6">¿Estás buscando algo en específico?</h1>
+               <p className="text-lg pb-16">
+                  Ven a ver todas las noticias que tenemos para ti.
+               </p>
+               <Link href="/posts" className="btn btn-primary flex justify-center">
+                  <span>Ver categorias</span>
+               </Link>
+            </div>
          </div>
       </div>
    );
