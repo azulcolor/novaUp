@@ -9,9 +9,10 @@ import { getCookie } from 'cookies-next';
 
 const useNovaAccessToken = () => getCookie('nova-access-token')?.toString() || '';
 
-export const usePostData = (id: number) => {
-   const [currentPost, setCurrentPost] = useState<IPost>({} as any);
-
+export const usePostData = (
+   id: number,
+   setCurrentPost: React.Dispatch<React.SetStateAction<IPost>>
+) => {
    const getPostById = async () => {
       const token = useNovaAccessToken();
 
@@ -23,5 +24,5 @@ export const usePostData = (id: number) => {
       getPostById();
    }, [id]);
 
-   return currentPost;
+   return <></>;
 };

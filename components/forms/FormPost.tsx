@@ -19,6 +19,7 @@ import { FormAddLink } from '@/components/forms/FormAddLink';
 
 import {
    ICatalogGen,
+   IPost,
    IPostCurrentResources,
    IPostRequest,
    IPostResources,
@@ -53,7 +54,8 @@ interface Props {
 export default function FormPost(props: Props) {
    const { id, categories, typesPost, user } = props;
    const router = useRouter();
-   const post = usePostData(id);
+   const [post, setPost] = useState<IPost>({} as any);
+   usePostData(id, setPost);
 
    const [showForm, setShowForm] = useState('Image');
    const [isLoading, setIsLoading] = useState(false);
@@ -92,9 +94,9 @@ export default function FormPost(props: Props) {
       const token = getCookie('nova-access-token')?.toString() || '';
       if (formData.id) {
          const data = serializedPostUpdate(formData);
-         const setPost = await apiRequest.setPost(token, data, formData.id);
+         const updatePost = await apiRequest.setPost(token, data, formData.id);
 
-         if (setPost.status === 'Success') {
+         if (updatePost.status === 'Success') {
             const formDataNewAssets = new FormData();
             const serializedAssets = serializedAssetsByPost(resources);
             Object.keys(serializedAssets).forEach((key) => {
@@ -126,6 +128,8 @@ export default function FormPost(props: Props) {
 
             if (assets?.status === 'Success') {
                toast.success('Publicación actualizada');
+               const post = await apiRequest.getPostByIdCrud(token, formData.id);
+               setPost(post);
             }
          } else {
             toast.error('Error al actualizar publicación');

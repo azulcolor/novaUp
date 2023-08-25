@@ -4,8 +4,6 @@ import { errorMessage } from '@/libs/utils/serializers';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
-
 const path = '/api/posts/[id]';
 // [id] /id, /latest?limit=5, /pinned
 export async function GET(
@@ -20,39 +18,14 @@ export async function GET(
       const url = new URL(req.url);
       const id = context.params.id;
       const limit = url.searchParams.get('limit');
-      const noCache = url.searchParams.get('noCache');
-
-      if (noCache) {
-         const post = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/posts/${id}`, {
-            method: 'GET',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            cache: 'no-store',
-         })
-            .then(async (res) => {
-               const data = await res.json();
-               if (data?.error) {
-                  throw new Error(data.error);
-               }
-               return data;
-            })
-            .catch((e) => {
-               console.log(e);
-               return null;
-            });
-         console.log('GET', id, limit, noCache);
-         console.log(post);
-         return NextResponse.json(post);
-      }
 
       const posts = await api(
          'api',
          'GET',
-         `/posts/${id}${limit ? '?limit=' + limit : ''}`,
-         { cache: 'no-store' }
+         `/posts/${id}${limit ? '?limit=' + limit : ''}`
       );
-      console.log('GET', id, limit, noCache);
+      console.log(posts);
+      console.log('GET', id, limit);
 
       if (posts?.error) {
          throw new Error(posts.error);
