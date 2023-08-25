@@ -10,6 +10,7 @@ interface Props {
       id: string;
    };
 }
+export const dynamic = 'force-dynamic';
 
 export default function AdminPostById({ params }: Props) {
    const [categories, setCategories] = useState<ICatalogGen[]>([]);

@@ -3,6 +3,7 @@ import { errorMessage } from '@/libs/utils/serializers';
 import { NextRequest, NextResponse } from 'next/server';
 
 const path = 'app/api/post/[id]/';
+export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
    try {
@@ -10,24 +11,6 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
       console.log(id);
 
       const post = await api('api', 'GET', `/posts/${id}`);
-      //  fetch(`${process.env.NEXT_PUBLIC_URL_API}/posts/${id}`, {
-      //    method: 'GET',
-      //    headers: {
-      //       'Content-Type': 'application/json',
-      //    },
-      //    cache: 'no-store',
-      // })
-      //    .then(async (res) => {
-      //       const data = await res.json();
-      //       if (data?.error) {
-      //          throw new Error(data.error);
-      //       }
-      //       return data;
-      //    })
-      //    .catch((e) => {
-      //       console.log(e);
-      //       return null;
-      //    });
 
       console.log(post);
       if (post?.error) {
