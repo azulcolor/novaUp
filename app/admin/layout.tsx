@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                               title="Publicaciones"
                               handleClick={() => router.push(url.adminPosts())}
                               containerStyles={
-                                 (activeTab ? 'btn-primary--tab' : 'btn-secondary--tab') +
+                                 (activeTab ? 'btn-secondary--tab' : 'btn-primary--tab') +
                                  ' btn-left--tab'
                               }
                            />
@@ -67,8 +67,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                  handleClick={() => router.push(url.adminUsers())}
                                  containerStyles={
                                     (!activeTab
-                                       ? 'btn-primary--tab'
-                                       : 'btn-secondary--tab') + ' btn-right--tab'
+                                       ? 'btn-secondary--tab'
+                                       : 'btn-primary--tab') + ' btn-right--tab'
                                  }
                               />
                            )}
