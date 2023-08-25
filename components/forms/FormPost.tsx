@@ -126,7 +126,6 @@ export default function FormPost(props: Props) {
 
             if (assets?.status === 'Success') {
                toast.success('Publicación actualizada');
-               router.push('/admin/posts');
             }
          } else {
             toast.error('Error al actualizar publicación');
@@ -182,7 +181,7 @@ export default function FormPost(props: Props) {
 
    useEffect(() => {
       (async () => {
-         if (post.id) {
+         if (post?.id) {
             setFormData(serializedFormDataPost(post));
             setResources(serializedCurrentResources(post));
             setCurrentFiles(serializedCurrentFiles(post));
@@ -195,17 +194,13 @@ export default function FormPost(props: Props) {
                   videos: videosWithTitle,
                }));
             }
+         } else {
+            setFormData(serializedFormDataPost({} as any));
+            setResources(serializedCurrentResources({} as any));
+            setCurrentFiles(serializedCurrentFiles({} as any));
          }
       })();
    }, [post]);
-
-   useEffect(() => {
-      return () => {
-         setFormData({} as any);
-         setResources({} as any);
-         setCurrentFiles({} as any);
-      };
-   }, []);
 
    return (
       <div className="form__post">
@@ -222,7 +217,7 @@ export default function FormPost(props: Props) {
                      value={formData.eventDate}
                      label="Fecha del evento"
                   />
-                  {typeof post.id === 'number' && post.id !== 0 && (
+                  {typeof post?.id === 'number' && post?.id !== 0 && (
                      <FormApproved
                         status={formData?.isApproved}
                         target={post?.id}

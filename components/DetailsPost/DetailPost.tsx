@@ -80,8 +80,7 @@ export default function PostDetail({ post }: Props) {
                         src={`${urlApi}/${imageSelected}`}
                         w={1600}
                         h={900}
-                        containerStyles="mx-auto md:row-span-2 md:mt-10 mb-4"
-                        imageStyle="cover__image rounded-xl object-cover"
+                        containerStyles="cover__image rounded-xl"
                      />
                   </FrameViewerModal>
                </div>
@@ -89,7 +88,7 @@ export default function PostDetail({ post }: Props) {
                   className="
                   grid grid-cols-1 gap-4 mx-auto
                   md:grid-cols-2 
-                  lg:grid-cols-4">
+                  lg:grid-cols-4 mt-4">
                   {assets.images.map((image, i) => {
                      return (
                         <ImageComponent
@@ -97,7 +96,7 @@ export default function PostDetail({ post }: Props) {
                            src={`${urlApi}/${image.name}`}
                            w={828}
                            h={466}
-                           containerStyles=""
+                           containerStyles="cover__image-min"
                            imageStyle={`
                               rounded-xl w-full h-full 
                               ${image.name === imageSelected ? 'md:contrast-50' : ''}`}

@@ -12,15 +12,15 @@ const useNovaAccessToken = () => getCookie('nova-access-token')?.toString() || '
 export const usePostData = (id: number) => {
    const [currentPost, setCurrentPost] = useState<IPost>({} as any);
 
-   const getPostById = async (id: number) => {
+   const getPostById = async () => {
       const token = useNovaAccessToken();
 
-      const post = await apiRequest.getPostById(token, id);
+      const post = await apiRequest.getPostByIdCrud(token, id);
       setCurrentPost(post);
    };
 
    useEffect(() => {
-      getPostById(id);
+      getPostById();
    }, [id]);
 
    return currentPost;

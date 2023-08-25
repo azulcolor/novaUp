@@ -33,9 +33,9 @@ export const Posts = ({ posts }: Props) => {
    return (
       <div className="post-container">
          {filteredPosts.length
-            ? filteredPosts.map((post, index) => (
-                 <Card key={`${post.id}-${index}`} post={post} />
-              ))
+            ? filteredPosts
+                 .reverse()
+                 .map((post, index) => <Card key={`${post.id}-${index}`} post={post} />)
             : null}
       </div>
    );

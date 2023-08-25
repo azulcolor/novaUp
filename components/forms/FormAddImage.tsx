@@ -22,7 +22,7 @@ interface Props {
 
 export const FormAddImage = (props: Props) => {
    const { id, currentFiles, setCurrentFiles, formData, setFormData } = props;
-   const limit = 10;
+   const limit = 12;
 
    const handleAddImage = (
       e: React.ChangeEvent<HTMLInputElement>,
@@ -47,22 +47,19 @@ export const FormAddImage = (props: Props) => {
          toast.error('Solo puedes subir archivos de imagen');
       }
 
-      const currentSlots = formData.images ? formData.images.length : 0;
+      const currentSlots = formData.images
+         ? formData.images.length + currentFiles.images.length + e.target.files.length
+         : 0;
 
       if (currentSlots >= limit) {
          toast.error(`Solo puedes subir un maximo de ${limit} archivos`);
-         return;
       }
 
       const selectedFiles = Array.from(e.target.files)
          .filter((file) => file.type && acceptedTypes.includes(file.type))
-         .slice(0, limit - currentSlots); // Limitar a 10 archivos
+         .slice(0, limit - e.target.files.length); // Limitar a 10 archivos
 
       const validFiles = selectedFiles.filter((file) => file.size <= 5000000); // 5MB límite
-
-      if (currentSlots + e.target.files.length > limit) {
-         toast.error('Solo puedes subir un maximo de 10 archivos');
-      }
 
       if (validFiles.length < selectedFiles.length) {
          toast.error('Algunos archivos son demasiado grandes');
@@ -71,7 +68,10 @@ export const FormAddImage = (props: Props) => {
       if (isCoverImage) {
          setFormData({ ...formData, coverImage: validFiles[0] });
       } else {
-         setFormData({ ...formData, images: [...formData.images, ...validFiles] });
+         setFormData({
+            ...formData,
+            images: [...formData.images, ...validFiles],
+         });
       }
    };
 

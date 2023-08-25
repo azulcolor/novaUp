@@ -26,20 +26,22 @@ export async function GET(req: NextRequest) {
 
       if (isAuth !== '' && !approved) {
          try {
-            const user = jwt.decode(
-               (isAuth?.Authorization || '').replace('Bearer ', '')
-            ) as IUser;
+            const user = (
+               jwt.decode((isAuth?.Authorization || '').replace('Bearer ', '')) as any
+            )?.user as IUser;
 
             if (user && user?.role?.id === 3) {
                const posts = await api('api', 'GET', '/posts/user', isAuth);
 
                return NextResponse.json(posts);
-            } else {
+            } else if (user) {
                const posts = await api('api', 'GET', '/posts', isAuth);
 
                return NextResponse.json(posts);
             }
-         } catch {
+            throw new Error('Access Denied, please login again');
+         } catch (e) {
+            console.log(e);
             throw new Error('Error Al obtener los posts');
          }
       }

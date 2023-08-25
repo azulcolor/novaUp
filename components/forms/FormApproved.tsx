@@ -25,7 +25,7 @@ export const FormApproved = ({
    currentComments,
    changeStatus,
 }: Props) => {
-   const [comments, setComments] = useState(currentComments || '');
+   const [comments, setComments] = useState(currentComments || null);
    const [isOpened, setIsOpened] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 
@@ -84,7 +84,7 @@ export const FormApproved = ({
                         name="comments"
                         placeholder="Motivo"
                         minRows={5}
-                        value={comments}
+                        value={comments || ''}
                         onChangueValue={(e) => setComments(e.target.value)}
                      />
                   ) : currentComments && currentComments?.length > 0 ? (
@@ -101,8 +101,7 @@ export const FormApproved = ({
                   />
                   {user && user?.role?.id !== 3 && (
                      <>
-                        {(currentComments?.length || 1) > 0 &&
-                        currentComments === comments ? (
+                        {currentComments === comments ? (
                            <CustomButton
                               title={
                                  status ? 'Cancelar publicación' : 'Aprobar publicación'
@@ -114,7 +113,7 @@ export const FormApproved = ({
                         ) : (
                            <CustomButton
                               title="Actualizar comentarios"
-                              handleClick={() => handleOnConfirmation(comments)}
+                              handleClick={() => handleOnConfirmation(comments || '')}
                               containerStyles="btn-primary"
                               isLoading={isLoading}
                            />

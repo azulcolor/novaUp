@@ -46,7 +46,39 @@ export const apiPosts = {
             }
             return data;
          })
-         .catch((e) => null),
+         .catch((e) => {
+            console.log(e);
+            return null;
+         }),
+
+   getPostByIdCrud: async (token: string, id: number): Promise<IPost> =>
+      await api('next', 'GET', `/posts/${id}?noCache=true`, {
+         Authorization: `Bearer ${token}`,
+      })
+         .then((data) => data)
+         .catch((e) => {
+            console.log(e);
+            return null;
+         }),
+   //    fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/${id}`, {
+   //       method: 'GET',
+   //    headers: {
+   //       'Content-Type': 'application/json',
+   //       Authorization: `Bearer ${token}`,
+   //    },
+   //    cache: 'no-store',
+   // })
+   //    .then(async (res) => {
+   //       const data = await res.json();
+   //       if (data?.error) {
+   //          throw new Error(data.error);
+   //       }
+   //       return data;
+   //    })
+   //    .catch((e) => {
+   //       console.log(e);
+   //       return null;
+   //    }),
 
    getPostsLatest: async (limit: number): Promise<IPost[]> =>
       await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/posts/latest?limit=${limit}`, {
