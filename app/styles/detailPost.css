@@ -9,7 +9,7 @@
    max-height: 450px;
    object-fit: contain;
    border-radius: 0.75rem;
-   background-color: var(--tertiary-color);
+   background-color: var(--background-dark);
 }
 
 .container__title {

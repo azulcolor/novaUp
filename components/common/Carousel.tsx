@@ -14,6 +14,33 @@ export default function Carousel(props: Props) {
    const { items } = props;
    const numItems = items.length;
    const [activeSlide, setActiveSlide] = useState(0);
+   const [touchStart, setTouchStart] = useState<number | null>(null);
+   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+   const minSwipeDistance = 50; // Define el mínimo desplazamiento para considerarlo un swipe
+
+   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+      setTouchEnd(null);
+      setTouchStart(e.targetTouches[0].clientX);
+   };
+
+   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+      setTouchEnd(e.targetTouches[0].clientX);
+   };
+
+   const handleTouchEnd = () => {
+      if (!touchStart || !touchEnd) return;
+      console.log('touchStart', touchStart);
+
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > minSwipeDistance;
+      const isRightSwipe = distance < -minSwipeDistance;
+
+      if (isLeftSwipe) {
+         handleNextSlide();
+      } else if (isRightSwipe) {
+         handlePrevSlide();
+      }
+   };
 
    useEffect(() => {
       const carouselItems = document.querySelectorAll('[data-carousel-item]');
@@ -39,7 +66,13 @@ export default function Carousel(props: Props) {
    };
 
    return (
-      <div id="default-carousel" className="relative w-100" data-carousel="slide">
+      <div
+         id="default-carousel"
+         className="relative w-100"
+         data-carousel="slide"
+         onTouchStart={handleTouchStart}
+         onTouchMove={handleTouchMove}
+         onTouchEnd={handleTouchEnd}>
          {/* Carousel wrapper */}
          <div className="flex justify-center w-full overflow-hidden rounded-lg md: p-6">
             {items?.map((item, index) => (
@@ -71,7 +104,7 @@ export default function Carousel(props: Props) {
          {/* Slider controls */}
          <button
             type="button"
-            className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            className="carousel__btn--left absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
             data-carousel-prev
             onClick={handlePrevSlide}>
             <span className="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-white group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -93,7 +126,7 @@ export default function Carousel(props: Props) {
          </button>
          <button
             type="button"
-            className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            className="carousel__btn--right absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
             data-carousel-next
             onClick={handleNextSlide}>
             <span className="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-white group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">

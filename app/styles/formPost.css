@@ -134,3 +134,27 @@
    align-items: center;
    justify-content: flex-start;
 }
+
+@media (max-width: 768px) {
+   .form__post {
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+      padding-bottom: 2rem;
+   }
+   .container__text {
+      width: 100%;
+      height: auto;
+      padding: 0 3%;
+   }
+   .container__multimedia {
+      width: 100%;
+      padding: 0 3%;
+   }
+   .container-identifiers {
+      width: auto;
+   }
+   .container-identifiers > div select {
+      width: 100%;
+   }
+}

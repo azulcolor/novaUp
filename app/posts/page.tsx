@@ -21,6 +21,7 @@ export default async function PostsPage() {
                options={categories}
                defaultOption={extraOption}
                isChangueQuery={true}
+               containerStyles="categories-container"
             />
             <InputSearch />
          </div>

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import { url } from '@/libs/utils/url';
 import { apiRequest } from '@/libs/axios-api';
@@ -113,7 +114,7 @@ export const Header = () => {
       if (token) {
          router.prefetch(url.adminPosts());
       }
-   }, [pathname]);
+   }, [pathname, session]);
 
    return (
       <>
@@ -164,19 +165,25 @@ export const Header = () => {
          </div>
          {showMenu && (
             <div className="hamburger-menu">
+               <div className="flex justify-end mb-2">
+                  <ClearIcon onClick={handleToggleMenu} />
+               </div>
                <ul>
-                  {links.map((link) => (
-                     <Link
-                        key={link.label}
-                        href={link.path}
-                        className={
-                           pathname.split('/')[1] === link.path.split('/')[1]
-                              ? 'bg-[--primary-color] text-white'
-                              : ''
-                        }>
-                        {link.label}
-                     </Link>
-                  ))}
+                  {links.map((link) =>
+                     link.path.includes('admin') && !session ? null : (
+                        <Link
+                           key={link.label}
+                           href={link.path}
+                           className={
+                              pathname.split('/')[1] === link.path.split('/')[1]
+                                 ? 'bg-[--primary-color] text-white'
+                                 : ''
+                           }
+                           onClick={handleToggleMenu}>
+                           {link.label}
+                        </Link>
+                     )
+                  )}
                   {!session && (
                      <li
                         onClick={() => {

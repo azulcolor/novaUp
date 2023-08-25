@@ -6,7 +6,6 @@
 @import './categories.css';
 @import './formPost.css';
 @import './cardcarousel.css';
-@import './carousel.css';
 @import 'detailPost.css';
 @import './hammond.css';
 
@@ -16,6 +15,7 @@
 
 :root {
    --background: #fbfbfb;
+   --background-dark: #2c2c2c;
    --background-container: #e8e8e8;
    --background-start-rgb: 214, 219, 220;
    --background-end-rgb: 255, 255, 255;

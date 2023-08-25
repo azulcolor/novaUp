@@ -16,7 +16,7 @@ export default async function Home() {
 
    return (
       <div>
-         <div className="carousel">
+         <div className="bg-[var(--background-dark)]">
             <Carousel items={(latests as any) || []} />
          </div>
          <div className="post-container">

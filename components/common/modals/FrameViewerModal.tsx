@@ -60,7 +60,7 @@ export const FrameViewerModal = ({ file, isImage = false, children }: Props) => 
                   alt={file.name}
                   w={1024}
                   h={768}
-                  containerStyles="contain__image"
+                  containerStyles="contain__image bg-[var(--background-dark)]"
                />
             ) : (
                <iframe

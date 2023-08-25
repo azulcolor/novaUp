@@ -52,7 +52,11 @@ export const ImageComponent = ({
       <div
          className={`w-full h-full ${containerStyles}`}
          onClick={image !== defaultImg && handleClick ? handleClick : () => {}}>
-         {loading && addLoader && <HammondLoader />}{' '}
+         {loading && addLoader && (
+            <div className="flex w-full justify-center items-center">
+               <HammondLoader />
+            </div>
+         )}{' '}
          <Image
             src={image}
             alt={alt}
