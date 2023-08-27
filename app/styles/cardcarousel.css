@@ -57,10 +57,18 @@
    font-size: 1rem;
 }
 
+@media (max-width: 1360px) {
+   .cardcarousel {
+      grid-auto-rows: 22rem;
+      width: 80vw;
+   }
+}
+
 @media (max-width: 910px) {
    .cardcarousel {
       grid-template-columns: repeat(1, minmax(0, 20rem));
       grid-auto-rows: 10rem;
+      width: 100%;
    }
    .cardcarousel__body {
       grid-column: span 1 / span 1;
