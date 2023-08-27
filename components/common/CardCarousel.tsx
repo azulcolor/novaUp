@@ -43,8 +43,8 @@ export default function CarouselCard({ post }: Props) {
                      '/assets/images/image-not-found.png'
                   }
                   alt="logo"
-                  w={500}
-                  h={480}
+                  w={1024}
+                  h={720}
                   addLoader={true}
                />
             </FrameViewerModal>

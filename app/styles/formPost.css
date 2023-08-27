@@ -135,7 +135,7 @@
    justify-content: flex-start;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1078px) {
    .form__post {
       flex-direction: column;
       width: 100%;
@@ -156,5 +156,9 @@
    }
    .container-identifiers > div select {
       width: 100%;
+   }
+
+   .container__inputs .container__inputs-buttons {
+      flex-direction: column;
    }
 }

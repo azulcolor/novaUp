@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
+import PushPinIcon from '@mui/icons-material/PushPin';
 
 import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
 import { CustomInputText } from '@/components/CustomInputs/CustomInputText';
@@ -215,40 +216,45 @@ export default function FormPost(props: Props) {
                <h3>Regresar</h3>
             </div>
             <div className="container__inputs">
-               <div className="flex w-full justify-between">
+               <div className="container__inputs-buttons">
                   <CustomInputDate
                      name="eventDate"
                      onChange={handleInput}
                      value={formData.eventDate}
                      label="Fecha del evento"
                   />
-                  {typeof post?.id === 'number' && post?.id !== 0 && (
-                     <FormApproved
-                        status={formData?.isApproved}
-                        target={post?.id}
-                        user={user}
-                        currentComments={post?.comments}
-                        changeStatus={(status: boolean) =>
-                           setFormData(
-                              (prev: IPostRequest) =>
-                                 ({ ...prev, isApproved: status } as any)
-                           )
-                        }
-                     />
-                  )}
-                  {post?.isApproved &&
-                     post.category?.id === 8 &&
-                     post.type.includes('Convocatoria') && (
-                        <CustomButton
-                           title={post?.isPinned ? 'Fijada' : 'Fijar'}
-                           containerStyles={
-                              post.isPinned ? 'btn-secondary' : 'btn-primary'
+                  <div className="flex gap-6 mt-[0.75rem]">
+                     {typeof post?.id === 'number' && post?.id !== 0 && (
+                        <FormApproved
+                           status={formData?.isApproved}
+                           target={post?.id}
+                           user={user}
+                           currentComments={post?.comments}
+                           changeStatus={(status: boolean) =>
+                              setFormData(
+                                 (prev: IPostRequest) =>
+                                    ({ ...prev, isApproved: status } as any)
+                              )
                            }
-                           disabled={post?.isPinned}
-                           handleClick={handlePinned}
-                           isLoading={isLoading}
                         />
                      )}
+                     {post?.isApproved &&
+                        post.category?.id === 8 &&
+                        post.type.includes('Convocatoria') &&
+                        (!post?.isPinned ? (
+                           <CustomButton
+                              title={'Fijar'}
+                              containerStyles="btn-primary"
+                              handleClick={handlePinned}
+                              isLoading={isLoading}
+                           />
+                        ) : (
+                           <div className="flex justify-center items-center">
+                              <PushPinIcon className="mr-5" />
+                              <span>Fijada</span>
+                           </div>
+                        ))}
+                  </div>
                </div>
                <CustomTextarea
                   name={'title'}

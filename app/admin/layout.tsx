@@ -14,6 +14,9 @@ import MutateUsersContext from '@/context/MutateUsersContext';
 import { url } from '@/libs/utils/url';
 import { IPost, IUser } from '@/interfaces';
 import MutatePostsContext from '@/context/MutatePostsContext';
+import { InputSearch } from '@/components/CustomInputs/InputSearch';
+import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
+import { apiRequest } from '@/libs/axios-api';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const router = useRouter();
@@ -21,28 +24,38 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
    const { data: session } = useSession();
    const [users, setUsers] = useState<IUser[]>([]);
    const [posts, setPosts] = useState<IPost[]>([]);
+   const [categories, setCategories] = useState<any[]>([]);
    const [user, setUser] = useState<IUser>({} as any);
 
    const activeTab = pathname.toLowerCase().includes('post');
 
+   const extraOption = {
+      id: 0,
+      name: 'Recientes',
+   };
+
    useEffect(() => {
-      const token = getCookie('nova-access-token');
-      if (token) {
-         const decoded = jwt.decode(String(token)) as any;
-         const user = decoded?.user;
-         if (user) {
-            setUser(() => user);
-            if (user.role.id === 1) {
-               router.prefetch(url.adminUsers());
+      (async () => {
+         const token = getCookie('nova-access-token');
+         const categories = await apiRequest.getCategories();
+         setCategories(categories);
+         if (token) {
+            const decoded = jwt.decode(String(token)) as any;
+            const user = decoded?.user;
+            if (user) {
+               setUser(() => user);
+               if (user.role.id === 1) {
+                  router.prefetch(url.adminUsers());
+               }
             }
+         } else {
+            setTimeout(() => {
+               if (!session) {
+                  router.push(url.home());
+               }
+            }, 2000);
          }
-      } else {
-         setTimeout(() => {
-            if (!session) {
-               router.push(url.home());
-            }
-         }, 2000);
-      }
+      })();
    }, [session]);
 
    return (
@@ -72,6 +85,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                  }
                               />
                            )}
+                        </div>
+
+                        <div className="admin-layout__filters">
+                           <CustomSelect
+                              attributeToChangue="category"
+                              options={categories}
+                              defaultOption={extraOption}
+                              isChangueQuery={true}
+                              containerStyles="categories-container"
+                           />
+                           <CustomSelect
+                              attributeToChangue="status"
+                              options={[
+                                 { id: 0, name: 'Pendiente' },
+                                 { id: 1, name: 'Aprobado' },
+                                 { id: 2, name: 'Rechazado' },
+                              ]}
+                              defaultOption={{ id: 0, name: 'Pendiente' }}
+                              isChangueQuery={true}
+                              containerStyles="status-container"
+                           />
+                           <InputSearch />
                         </div>
 
                         <div>

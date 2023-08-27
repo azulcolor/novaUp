@@ -16,6 +16,7 @@ export const Posts = ({ posts }: Props) => {
    const searchParams = useSearchParams();
    const category = searchParams.get('category');
    const search = searchParams.get('search');
+   const status = searchParams.get('status');
 
    const filterPosts = (posts: IPost[]) => {
       if (category && category !== '0') {
@@ -23,6 +24,9 @@ export const Posts = ({ posts }: Props) => {
       }
       if (search && typeof search === 'string') {
          return handlesearchItems(posts, search);
+      }
+      if (status /*&& status !== '0'*/) {
+         return posts.filter((post) => post.isApproved === Boolean(Number(status)));
       }
       return posts;
    };

@@ -43,6 +43,7 @@ export const CustomSelect = ({
       if (onChangueValue) onChangueValue(attributeToChangue, defaultOption || options[0]);
    }, [options]);
 
+   // establece el valor por defecto si no existe el parametro en la url
    useEffect(() => {
       const currentAttribute = searchParams.get(attributeToChangue);
       if (!currentAttribute && defaultOption) {

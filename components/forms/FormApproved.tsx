@@ -38,7 +38,8 @@ export const FormApproved = ({
       if (res.status === 'Success') {
          toast.success('Se ha actualizado el estado de la publicación');
          router.refresh();
-         changeStatus && changeStatus(!status);
+         console.log('status', res);
+         changeStatus && (status || comments === '') && changeStatus(!status);
       } else {
          toast.error('Ha ocurrido un error al actualizar el estado de la publicación');
       }

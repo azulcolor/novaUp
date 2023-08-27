@@ -9,7 +9,7 @@ interface Props {
    title?: string;
 }
 
-export const PageNotFound = ({ title = '¡Oops! No encontramos la página' }: Props) => {
+export const PageNotFound = ({ title }: Props) => {
    const router = useRouter();
    return (
       <div className="w-full flex justify-center flex-col">
@@ -17,18 +17,22 @@ export const PageNotFound = ({ title = '¡Oops! No encontramos la página' }: Pr
             src="/svg/404-cat.svg"
             w={550}
             h={250}
-            containerStyles="flex justify-center"
+            containerStyles="flex justify-center max-h-[300px] md:max-h-max"
          />
-         <h1 className="text-center text-2xl font-bold mb-4">{title}</h1>
+         {title && (
+            <h1 className="text-center text-2xl text-[var(--normal-text)] mb-4">
+               {title}
+            </h1>
+         )}
          <div className="flex flex-row justify-center">
             <CustomButton
                title="Volver al inicio"
-               containerStyles="mr-4 btn-primary"
+               containerStyles="mr-4 btn-primary text-sm px-2"
                handleClick={() => router.push(url.home())}
             />
             <CustomButton
                title="Ver categorias"
-               containerStyles="btn-primary"
+               containerStyles="btn-primary text-sm px-2"
                handleClick={() => router.push(url.posts())}
             />
          </div>

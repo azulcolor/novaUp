@@ -24,7 +24,19 @@ export const FormAddImage = (props: Props) => {
    const { id, currentFiles, setCurrentFiles, formData, setFormData } = props;
    const limit = 12;
 
-   const handleAddImage = (
+   const validateImageDimensions = (file: File) => {
+      return new Promise((resolve) => {
+         const img = new Image();
+         img.onload = function () {
+            // Si la altura es mayor que el ancho, es una imagen vertical
+            const imageElement = this as HTMLImageElement;
+            resolve(imageElement.width >= imageElement.height);
+         };
+         img.src = URL.createObjectURL(file);
+      });
+   };
+
+   const handleAddImage = async (
       e: React.ChangeEvent<HTMLInputElement>,
       isCoverImage = false
    ) => {
@@ -59,11 +71,24 @@ export const FormAddImage = (props: Props) => {
          .filter((file) => file.type && acceptedTypes.includes(file.type))
          .slice(0, limit - e.target.files.length); // Limitar a 10 archivos
 
-      const validFiles = selectedFiles.filter((file) => file.size <= 5000000); // 5MB límite
+      const validFilesPromises = selectedFiles.map(async (file) => {
+         if (file.size > 5000000) {
+            toast.error('Las imágenes no pueden pesar más de 5MB');
+            return null;
+         }
 
-      if (validFiles.length < selectedFiles.length) {
-         toast.error('Algunos archivos son demasiado grandes');
-      }
+         const isValid = await validateImageDimensions(file);
+         if (!isValid) {
+            toast.error('Las imágenes verticales no son permitidas');
+            return null;
+         }
+         return file;
+      });
+
+      const validFiles = (await Promise.all(validFilesPromises)).filter(
+         Boolean
+      ) as File[];
+
       // Almacenar los objetos File directamente en el estado
       if (isCoverImage) {
          setFormData({ ...formData, coverImage: validFiles[0] });
@@ -91,7 +116,7 @@ export const FormAddImage = (props: Props) => {
 
    return (
       <div className="container-form-files">
-         <Info message="Puedes subir hasta 10 imágenes, no mayores a 5MB" />
+         <Info message={`Puedes subir hasta ${limit} imágenes, no mayores a 5MB`} />
          <div className="flex flex-row justify-between w-full">
             <CustomFileInput
                name="cover-image"

@@ -1,9 +1,10 @@
+import Link from 'next/link';
+
 import { Card } from '@/components/common/Card';
-import { apiRequest } from '@/libs/axios-api';
 import Carousel from '@/components/common/Carousel';
 import { ImageComponent } from '@/components/common/ImageComponent';
-import { CustomButton } from '@/components/CustomInputs/CustomButton';
-import Link from 'next/link';
+
+import { apiRequest } from '@/libs/axios-api';
 
 export default async function Home() {
    const latests = await apiRequest.getPostsLatest(5);
@@ -34,7 +35,7 @@ export default async function Home() {
                <div></div>
             )}
          </div>
-         <div className="flex p-6">
+         <div className="flex p-2 md:p-6">
             <div className="w-1/2">
                <ImageComponent
                   src="/assets/images/search-categories.png"
@@ -43,12 +44,16 @@ export default async function Home() {
                   containerStyles="flex justify-center items-center"
                />
             </div>
-            <div className="flex flex-col justify-center items-start w-1/2">
-               <h1 className="text-3xl pb-6">¿Estás buscando algo en específico?</h1>
-               <p className="text-lg pb-16">
+            <div className="flex flex-col justify-center items-start w-1/2 p-4">
+               <h1 className="text-base md:text-3xl pb-4 md:pb-6 text-[var(--subtitle-text)]">
+                  ¿Estás buscando algo en específico?
+               </h1>
+               <p className="text-xs pb-16 sm:text-xl text-[var(--normal-text)]">
                   Ven a ver todas las noticias que tenemos para ti.
                </p>
-               <Link href="/posts" className="btn btn-primary flex justify-center">
+               <Link
+                  href="/posts"
+                  className="btn btn-primary flex justify-center text-sm md:text-xl">
                   <span>Ver categorias</span>
                </Link>
             </div>

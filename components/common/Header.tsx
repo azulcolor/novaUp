@@ -148,9 +148,9 @@ export const Header = () => {
                      )}
 
                      {!session && (
-                        <li onClick={() => signIn('google')}>Iniciar sesion</li>
+                        <li onClick={() => signIn('google')}>Iniciar sesión</li>
                      )}
-                     {session && <li onClick={() => handleSignOut()}>Cerrar sesion</li>}
+                     {session && <li onClick={() => handleSignOut()}>Cerrar sesión</li>}
                   </ul>
                </div>
                <div className="hamburger__mode" onClick={handleToggleMenu}>

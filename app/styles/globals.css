@@ -141,6 +141,21 @@ body {
    animation: 1s ease-out 0s 1 fadeIn;
 }
 
+.container-not-found {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100vh;
+   background-image: url('/assets/images/wallpaper-cat.jpg');
+}
+
+.container-not-found img {
+   background-color: #ffffff;
+   border-radius: 50%;
+}
+
 @keyframes fadeIn {
    0% {
       transform: translateX(-100%);
