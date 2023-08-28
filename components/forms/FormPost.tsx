@@ -128,11 +128,14 @@ export default function FormPost(props: Props) {
             );
 
             if (assets?.status === 'Success') {
-               toast.success('Publicación actualizada');
-               // const post = await apiRequest.getPostByIdCrud(token, formData.id);
-               // setPost(post);
-               router.push(url.adminPosts());
-            }
+               const status = await apiRequest.setStatusPost(token, formData.id, null);
+               if (status?.status === 'Success') {
+                  router.push(url.adminPosts());
+                  toast.success('Publicación actualizada');
+               } else {
+                  toast.error('Error al actualizar el estado de la publicación');
+               }
+            } else toast.error('Error al actualizar recursos');
          } else {
             toast.error('Error al actualizar publicación');
          }

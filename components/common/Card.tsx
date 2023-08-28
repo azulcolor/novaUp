@@ -42,6 +42,8 @@ export const Card = ({ post }: Props) => {
                         src={
                            post.isApproved
                               ? '/svg/post-approved.svg'
+                              : post.comments
+                              ? '/svg/post-canceled.svg'
                               : '/svg/post-pending.svg'
                         }
                         alt="status"

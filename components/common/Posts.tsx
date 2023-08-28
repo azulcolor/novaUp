@@ -26,7 +26,13 @@ export const Posts = ({ posts }: Props) => {
          return handlesearchItems(posts, search);
       }
       if (status /*&& status !== '0'*/) {
-         return posts.filter((post) => post.isApproved === Boolean(Number(status)));
+         const statusN = Number(status);
+         return posts.filter((post) => {
+            if (statusN === 0) return true;
+            else if (statusN === 1) return post.isApproved;
+            else if (statusN === 2) return !post.isApproved && !post.comments;
+            else if (statusN === 3) return !post.isApproved && post.comments;
+         });
       }
       return posts;
    };

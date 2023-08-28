@@ -154,7 +154,7 @@ export const apiPosts = {
          Authorization: `Bearer ${token}`,
       }),
 
-   setStatusPost: async (token: string, id: number, comments: string) =>
+   setStatusPost: async (token: string, id: number, comments: string | null) =>
       await api(
          'next',
          'PATCH',

@@ -17,6 +17,7 @@ import MutatePostsContext from '@/context/MutatePostsContext';
 import { InputSearch } from '@/components/CustomInputs/InputSearch';
 import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
 import { apiRequest } from '@/libs/axios-api';
+import { toast } from 'react-hot-toast';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const router = useRouter();
@@ -33,6 +34,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       id: 0,
       name: 'Recientes',
    };
+
+   const filtersStatus = [
+      { id: 0, name: 'Todos' },
+      { id: 1, name: 'Aprobado' },
+      { id: 2, name: 'Pendiente' },
+      { id: 3, name: 'Rechazado' },
+   ];
 
    useEffect(() => {
       (async () => {
@@ -57,6 +65,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
          }
       })();
    }, [session]);
+
+   useEffect(() => {
+      toast('Filtros en mantenimiento', {
+         icon: '⚠️🔧',
+      });
+   }, []);
 
    return (
       <>
@@ -97,12 +111,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                            />
                            <CustomSelect
                               attributeToChangue="status"
-                              options={[
-                                 { id: 0, name: 'Pendiente' },
-                                 { id: 1, name: 'Aprobado' },
-                                 { id: 2, name: 'Rechazado' },
-                              ]}
-                              defaultOption={{ id: 0, name: 'Pendiente' }}
+                              options={filtersStatus}
+                              defaultOption={filtersStatus[0]}
                               isChangueQuery={true}
                               containerStyles="status-container"
                            />

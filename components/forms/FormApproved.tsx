@@ -31,14 +31,14 @@ export const FormApproved = ({
 
    const router = useRouter();
 
-   const handleOnConfirmation = async (comments: string) => {
+   const handleOnConfirmation = async (comments: string | null) => {
       setIsLoading(true);
       const token = getCookie('nova-access-token');
       const res = await apiRequest.setStatusPost(String(token), target, comments);
+
       if (res.status === 'Success') {
          toast.success('Se ha actualizado el estado de la publicación');
          router.refresh();
-         console.log('status', res);
          changeStatus && (status || comments === '') && changeStatus(!status);
       } else {
          toast.error('Ha ocurrido un error al actualizar el estado de la publicación');
@@ -107,14 +107,14 @@ export const FormApproved = ({
                               title={
                                  status ? 'Cancelar publicación' : 'Aprobar publicación'
                               }
-                              handleClick={() => handleOnConfirmation('')}
+                              handleClick={() => handleOnConfirmation(null)}
                               containerStyles="btn-primary"
                               isLoading={isLoading}
                            />
                         ) : (
                            <CustomButton
                               title="Actualizar comentarios"
-                              handleClick={() => handleOnConfirmation(comments || '')}
+                              handleClick={() => handleOnConfirmation(comments || null)}
                               containerStyles="btn-primary"
                               isLoading={isLoading}
                            />
