@@ -66,22 +66,23 @@ export const serializedCurrentResources = (data: IPost) => ({
    pdfs: [],
 });
 
-export const serializedFormDataPost = (data: IPost) => ({
-   id: data.id || 0,
-   category: data.category || { id: 0, name: 'Categorías' },
-   assets: data.assets || [],
-   title: data.title || '',
-   description: data.description || '',
-   summary: data.summary || '',
-   publishDate: '',
-   eventDate: '',
-   isApproved: data.isApproved || false,
-   typeSelect: data.type
-      ? { id: 0, name: data.type }
-      : { id: 0, name: 'Tipo de publicación' },
-   type: data.type || '',
-   tags: data.tags || '',
-   tagsList: data.tags ? data.tags.split(',') : [],
-   currentTag: '',
-   comments: data.comments || '',
-});
+export const serializedFormDataPost = (data: IPost) =>
+   ({
+      id: data.id || 0,
+      category: data.category || { id: 0, name: 'Categorías' },
+      assets: data.assets || [],
+      title: data.title || '',
+      description: data.description || '',
+      summary: data.summary || '',
+      publishDate: '',
+      eventDate: '',
+      typeSelect: data.type
+         ? { id: 0, name: data.type }
+         : { id: 0, name: 'Tipo de publicación' },
+      type: data.type || '',
+      tags: data.tags || '',
+      tagsList: data.tags ? data.tags.split(',') : [],
+      currentTag: '',
+      comments: data.comments || '',
+      status: data.status || 'rechazado',
+   } as IPostForm);

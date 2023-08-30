@@ -1,7 +1,7 @@
 import { ICatalogGen } from '@/interfaces/common';
 
 export type IPostType = IPostRequest;
-
+export type IPostStatus = 'aprobado' | 'pendiente' | 'rechazado';
 export interface IPost {
    id: number;
    categoryName: string;
@@ -13,7 +13,7 @@ export interface IPost {
    summary: string;
    publishDate: string;
    eventDate: string;
-   isApproved: boolean;
+   status: IPostStatus;
    isPinned: boolean;
    type: string;
    tags: string;
@@ -26,7 +26,7 @@ export interface IPostRequest {
    assets: IAssets[];
    title: string;
    description: string;
-   isApproved: boolean;
+   status: IPostStatus;
    summary: string;
    publishDate: string;
    eventDate: string;

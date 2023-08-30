@@ -8,14 +8,14 @@ import { CustomTextarea } from '@/components/CustomInputs/CustomTextarea';
 import { apiRequest } from '@/libs/axios-api';
 import { getCookie } from 'cookies-next';
 import { toast } from 'react-hot-toast';
-import { INovaUser } from '@/interfaces';
+import { INovaUser, IPostStatus } from '@/interfaces';
 
 interface Props {
-   status: boolean;
+   status: IPostStatus;
    target: number;
    user: INovaUser | false;
    currentComments?: string;
-   changeStatus: (status: boolean) => void;
+   changeStatus: (status: IPostStatus) => void;
 }
 
 export const FormApproved = ({
@@ -25,21 +25,27 @@ export const FormApproved = ({
    currentComments,
    changeStatus,
 }: Props) => {
-   const [comments, setComments] = useState(currentComments || null);
+   const [comments, setComments] = useState(currentComments || '');
    const [isOpened, setIsOpened] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 
+   // posible states of the post
+   const isAproved = status === 'aprobado';
+   // const isRejected = status === 'rechazado';
+   // const isPending = status === 'pendiente';
+   const isAprovedChangue = isAproved ? 'rechazado' : 'aprobado';
+
    const router = useRouter();
 
-   const handleOnConfirmation = async (comments: string | null) => {
+   const handleOnConfirmation = async (comments: string | null, status: IPostStatus) => {
       setIsLoading(true);
       const token = getCookie('nova-access-token');
-      const res = await apiRequest.setStatusPost(String(token), target, comments);
+      const res = await apiRequest.setStatusPost(String(token), target, comments, status);
 
       if (res.status === 'Success') {
          toast.success('Se ha actualizado el estado de la publicación');
          router.refresh();
-         changeStatus && (status || comments === '') && changeStatus(!status);
+         changeStatus && (status || comments === '') && changeStatus(isAprovedChangue);
       } else {
          toast.error('Ha ocurrido un error al actualizar el estado de la publicación');
       }
@@ -52,10 +58,10 @@ export const FormApproved = ({
          <CustomButton
             title={
                user && user?.role?.id !== 3
-                  ? status
+                  ? isAproved
                      ? 'Cancelar publicación'
                      : 'Aprobar publicación'
-                  : status
+                  : isAproved
                   ? 'Publicación aprobada'
                   : 'Publicación cancelada'
             }
@@ -105,16 +111,22 @@ export const FormApproved = ({
                         {currentComments === comments ? (
                            <CustomButton
                               title={
-                                 status ? 'Cancelar publicación' : 'Aprobar publicación'
+                                 isAproved
+                                    ? 'Cancelar publicación'
+                                    : 'Aprobar publicación'
                               }
-                              handleClick={() => handleOnConfirmation(null)}
+                              handleClick={() =>
+                                 handleOnConfirmation(null, isAprovedChangue)
+                              }
                               containerStyles="btn-primary"
                               isLoading={isLoading}
                            />
                         ) : (
                            <CustomButton
                               title="Actualizar comentarios"
-                              handleClick={() => handleOnConfirmation(comments || null)}
+                              handleClick={() =>
+                                 handleOnConfirmation(comments || null, 'rechazado')
+                              }
                               containerStyles="btn-primary"
                               isLoading={isLoading}
                            />

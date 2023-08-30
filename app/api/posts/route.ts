@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
    try {
       const headersList = req.headers;
       const url = new URL(req.url);
-      const approved = url.searchParams.get('approved');
+      const status = url.searchParams.get('status');
 
       let isAuth: any = '';
 
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
                : '';
       }
 
-      if (isAuth !== '' && !approved) {
+      if (isAuth !== '' && status !== 'aprovado') {
          try {
             const user = (
                jwt.decode((isAuth?.Authorization || '').replace('Bearer ', '')) as any
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
          }
       }
 
-      const posts = await api('api', 'GET', `/posts${approved ? '?approved=true' : ''}`);
+      const posts = await api('api', 'GET', `/posts${status ? `?status=${status}` : ''}`);
 
       return NextResponse.json(posts);
    } catch (error: any) {

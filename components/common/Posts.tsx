@@ -29,9 +29,9 @@ export const Posts = ({ posts }: Props) => {
          const statusN = Number(status);
          return posts.filter((post) => {
             if (statusN === 0) return true;
-            else if (statusN === 1) return post.isApproved;
-            else if (statusN === 2) return !post.isApproved && !post.comments;
-            else if (statusN === 3) return !post.isApproved && post.comments;
+            else if (statusN === 1) return post.status === 'aprobado';
+            else if (statusN === 2) return post.status === 'pendiente';
+            else if (statusN === 3) return post.status === 'rechazado';
          });
       }
       return posts;

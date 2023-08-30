@@ -24,6 +24,7 @@ import {
    IPostCurrentResources,
    IPostRequest,
    IPostResources,
+   IPostStatus,
    IUser,
 } from '@/interfaces';
 
@@ -128,7 +129,12 @@ export default function FormPost(props: Props) {
             );
 
             if (assets?.status === 'Success') {
-               const status = await apiRequest.setStatusPost(token, formData.id, null);
+               const status = await apiRequest.setStatusPost(
+                  token,
+                  formData.id,
+                  null,
+                  'pendiente'
+               );
                if (status?.status === 'Success') {
                   router.push(url.adminPosts());
                   toast.success('Publicación actualizada');
@@ -229,19 +235,19 @@ export default function FormPost(props: Props) {
                   <div className="flex gap-6 mt-[0.75rem]">
                      {typeof post?.id === 'number' && post?.id !== 0 && (
                         <FormApproved
-                           status={formData?.isApproved}
+                           status={formData?.status}
                            target={post?.id}
                            user={user}
                            currentComments={post?.comments}
-                           changeStatus={(status: boolean) =>
+                           changeStatus={(status: IPostStatus) =>
                               setFormData(
                                  (prev: IPostRequest) =>
-                                    ({ ...prev, isApproved: status } as any)
+                                    ({ ...prev, status: status } as any)
                               )
                            }
                         />
                      )}
-                     {post?.isApproved &&
+                     {post?.status === 'aprobado' &&
                         post.category?.id === 8 &&
                         post.type.includes('Convocatoria') &&
                         (!post?.isPinned ? (

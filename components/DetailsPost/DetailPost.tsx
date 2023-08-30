@@ -46,7 +46,7 @@ export default function PostDetail({ post }: Props) {
    }, []);
    const isMobile = windowSize.width <= 768;
 
-   if (!post || !post.isApproved) {
+   if (!post || post.status === 'rechazado') {
       return <PageNotFound title="¡Oops! No encontramos la publicación" />;
    }
 

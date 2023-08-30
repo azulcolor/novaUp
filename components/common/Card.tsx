@@ -40,9 +40,9 @@ export const Card = ({ post }: Props) => {
                   <div className="flex justify-between">
                      <ImageComponent
                         src={
-                           post.isApproved
+                           post.status === 'aprobado'
                               ? '/svg/post-approved.svg'
-                              : post.comments
+                              : post.status === 'rechazado'
                               ? '/svg/post-canceled.svg'
                               : '/svg/post-pending.svg'
                         }

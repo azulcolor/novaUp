@@ -1,10 +1,12 @@
 import { api } from '@/libs/axios-api/axios';
-import { IPost, IPostPatch } from '@/interfaces';
+import { IPost, IPostPatch, IPostStatus } from '@/interfaces';
 
 export const apiPosts = {
-   getPosts: async (token: string, status: boolean = true): Promise<IPost[]> =>
+   getPosts: async (token: string, status: IPostStatus = 'aprobado'): Promise<IPost[]> =>
       await fetch(
-         `${process.env.NEXT_PUBLIC_URL_BASE}/api/posts${status ? '?approved=true' : ''}`,
+         `${process.env.NEXT_PUBLIC_URL_BASE}/api/posts${
+            status ? `?status=${status}` : ''
+         }`,
          {
             method: 'GET',
             headers: {
@@ -154,7 +156,12 @@ export const apiPosts = {
          Authorization: `Bearer ${token}`,
       }),
 
-   setStatusPost: async (token: string, id: number, comments: string | null) =>
+   setStatusPost: async (
+      token: string,
+      id: number,
+      comments: string | null,
+      status: IPostStatus
+   ) =>
       await api(
          'next',
          'PATCH',
@@ -162,6 +169,6 @@ export const apiPosts = {
          {
             Authorization: `Bearer ${token}`,
          },
-         { comments }
+         { comments, status }
       ),
 };
