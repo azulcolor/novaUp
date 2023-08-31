@@ -191,6 +191,10 @@
    border-radius: 0.375rem;
 }
 
+.admin-layout__filters--mobile {
+   display: none;
+}
+
 @media (max-width: 1278px) {
    .admin-layout__filters .categories-container,
    .admin-layout__filters .status-container {
