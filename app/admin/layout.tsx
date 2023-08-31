@@ -67,12 +67,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       })();
    }, [session]);
 
-   useEffect(() => {
-      toast('Filtros en mantenimiento', {
-         icon: '⚠️🔧',
-      });
-   }, []);
-
    const layoutType = (type: 'web' | 'mobile') => (
       <>
          <div className={`admin-layout__filters${type === 'mobile' ? '--mobile' : ''}`}>
@@ -93,7 +87,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {type === 'web' && <InputSearch />}
          </div>
          {type === 'mobile' && (
-            <div className="flex w-full justify-center mt-2">
+            <div className="flex w-full justify-center mt-2 sm:hidden">
                <InputSearch />
             </div>
          )}
