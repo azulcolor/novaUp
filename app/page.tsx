@@ -5,6 +5,7 @@ import Carousel from '@/components/common/Carousel';
 import { ImageComponent } from '@/components/common/ImageComponent';
 
 import { apiRequest } from '@/libs/axios-api';
+import { CardEmptyPost } from '@/components/common/CardEmptyPost';
 
 export default async function Home() {
    const latests = await apiRequest.getPostsLatest(5);
@@ -27,12 +28,12 @@ export default async function Home() {
             {internalPosts ? (
                <Card key={`${internalPosts.id}-Internal`} post={internalPosts} />
             ) : (
-               <div></div>
+               <CardEmptyPost title="¡Oh no! Aún no hay convocatorias internas." />
             )}
             {externalPosts ? (
                <Card key={`${externalPosts.id}-External`} post={externalPosts} />
             ) : (
-               <div></div>
+               <CardEmptyPost title="¡Uy! Aún no hay convocatorias externas." />
             )}
          </div>
          <div className="flex p-2 md:p-6">

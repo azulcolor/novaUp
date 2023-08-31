@@ -69,6 +69,25 @@
    object-fit: cover;
 }
 
+.card-empty-post {
+   display: flex;
+   position: relative;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   background-color: #adabba;
+}
+
+.card-empty-post__body {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   padding: 2rem;
+}
+
 @media (max-width: 650px) {
    .card {
       border: none;
