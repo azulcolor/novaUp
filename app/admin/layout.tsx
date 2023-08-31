@@ -87,7 +87,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {type === 'web' && <InputSearch />}
          </div>
          {type === 'mobile' && (
-            <div className="flex w-full justify-center mt-2 sm:hidden">
+            <div className="admin-search--mobile">
                <InputSearch />
             </div>
          )}
