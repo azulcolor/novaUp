@@ -106,43 +106,45 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {session && (
                <section>
                   {pathname.includes('/admin/posts/') ? null : (
-                     <nav className="admin-layout">
-                        <div className="admin-layout__nav">
-                           <Link href={url.adminPosts()}>
-                              <CustomButton
-                                 title="Publicaciones"
-                                 handleClick={() => {}}
-                                 containerStyles={
-                                    (activeTab
-                                       ? 'btn-secondary--tab'
-                                       : 'btn-primary--tab') + ' btn-left--tab'
-                                 }
-                              />
-                           </Link>
-                           {user && user?.role?.id === 1 && (
-                              <Link href={url.adminUsers()}>
+                     <>
+                        <nav className="admin-layout">
+                           <div className="admin-layout__nav">
+                              <Link href={url.adminPosts()}>
                                  <CustomButton
-                                    title="Usuarios"
+                                    title="Publicaciones"
                                     handleClick={() => {}}
                                     containerStyles={
-                                       (!activeTab
+                                       (activeTab
                                           ? 'btn-secondary--tab'
-                                          : 'btn-primary--tab') + ' btn-right--tab'
+                                          : 'btn-primary--tab') + ' btn-left--tab'
                                     }
                                  />
                               </Link>
-                           )}
-                        </div>
-                        {layoutType('web')}
-                        <div>
-                           <SelectorDetails
-                              tabSelector={activeTab ? 'posts' : 'users'}
-                              action="create"
-                           />
-                        </div>
-                     </nav>
+                              {user && user?.role?.id === 1 && (
+                                 <Link href={url.adminUsers()}>
+                                    <CustomButton
+                                       title="Usuarios"
+                                       handleClick={() => {}}
+                                       containerStyles={
+                                          (!activeTab
+                                             ? 'btn-secondary--tab'
+                                             : 'btn-primary--tab') + ' btn-right--tab'
+                                       }
+                                    />
+                                 </Link>
+                              )}
+                           </div>
+                           {layoutType('web')}
+                           <div>
+                              <SelectorDetails
+                                 tabSelector={activeTab ? 'posts' : 'users'}
+                                 action="create"
+                              />
+                           </div>
+                        </nav>
+                        {layoutType('mobile')}
+                     </>
                   )}
-                  {layoutType('mobile')}
                   <MutatePostsContext.Provider value={{ posts, setPosts }}>
                      {children}
                   </MutatePostsContext.Provider>

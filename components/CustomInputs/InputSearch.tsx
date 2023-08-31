@@ -62,7 +62,7 @@ export const InputSearch = () => {
          <input
             type="text"
             className="search-input"
-            placeholder="Buscar publicación..."
+            placeholder="Buscar..."
             onChange={(e) => handleSearchChangue(e.target.value)}
          />
          <i className="icon-right" onClick={handleActiveFocus}>
