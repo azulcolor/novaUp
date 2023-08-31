@@ -18,6 +18,7 @@ import { InputSearch } from '@/components/CustomInputs/InputSearch';
 import { CustomSelect } from '@/components/CustomInputs/CustomSelect';
 import { apiRequest } from '@/libs/axios-api';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
    const router = useRouter();
@@ -72,6 +73,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       });
    }, []);
 
+   const layoutType = (type: 'web' | 'mobile') => (
+      <>
+         <div className={`admin-layout__filters${type === 'mobile' ? '--mobile' : ''}`}>
+            <CustomSelect
+               attributeToChangue="category"
+               options={categories}
+               defaultOption={extraOption}
+               isChangueQuery={true}
+               containerStyles="categories-container"
+            />
+            <CustomSelect
+               attributeToChangue="status"
+               options={filtersStatus}
+               defaultOption={filtersStatus[0]}
+               isChangueQuery={true}
+               containerStyles="status-container"
+            />
+            {type === 'web' && <InputSearch />}
+         </div>
+         {type === 'mobile' && (
+            <div className="flex w-full justify-center mt-2">
+               <InputSearch />
+            </div>
+         )}
+      </>
+   );
+
    return (
       <>
          <MutateUsersContext.Provider value={{ users, setUsers }}>
@@ -80,45 +108,32 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   {pathname.includes('/admin/posts/') ? null : (
                      <nav className="admin-layout">
                         <div className="admin-layout__nav">
-                           <CustomButton
-                              title="Publicaciones"
-                              handleClick={() => router.push(url.adminPosts())}
-                              containerStyles={
-                                 (activeTab ? 'btn-secondary--tab' : 'btn-primary--tab') +
-                                 ' btn-left--tab'
-                              }
-                           />
-                           {user && user?.role?.id === 1 && (
+                           <Link href={url.adminPosts()}>
                               <CustomButton
-                                 title="Usuarios"
-                                 handleClick={() => router.push(url.adminUsers())}
+                                 title="Publicaciones"
+                                 handleClick={() => {}}
                                  containerStyles={
-                                    (!activeTab
+                                    (activeTab
                                        ? 'btn-secondary--tab'
-                                       : 'btn-primary--tab') + ' btn-right--tab'
+                                       : 'btn-primary--tab') + ' btn-left--tab'
                                  }
                               />
+                           </Link>
+                           {user && user?.role?.id === 1 && (
+                              <Link href={url.adminUsers()}>
+                                 <CustomButton
+                                    title="Usuarios"
+                                    handleClick={() => {}}
+                                    containerStyles={
+                                       (!activeTab
+                                          ? 'btn-secondary--tab'
+                                          : 'btn-primary--tab') + ' btn-right--tab'
+                                    }
+                                 />
+                              </Link>
                            )}
                         </div>
-
-                        <div className="admin-layout__filters">
-                           <CustomSelect
-                              attributeToChangue="category"
-                              options={categories}
-                              defaultOption={extraOption}
-                              isChangueQuery={true}
-                              containerStyles="categories-container"
-                           />
-                           <CustomSelect
-                              attributeToChangue="status"
-                              options={filtersStatus}
-                              defaultOption={filtersStatus[0]}
-                              isChangueQuery={true}
-                              containerStyles="status-container"
-                           />
-                           <InputSearch />
-                        </div>
-
+                        {layoutType('web')}
                         <div>
                            <SelectorDetails
                               tabSelector={activeTab ? 'posts' : 'users'}
@@ -127,6 +142,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         </div>
                      </nav>
                   )}
+                  {layoutType('mobile')}
                   <MutatePostsContext.Provider value={{ posts, setPosts }}>
                      {children}
                   </MutatePostsContext.Provider>

@@ -21,7 +21,7 @@
    font-size: 1rem;
 }
 
-.card__body-details--editable {
+.card__body-details__editable {
    display: flex;
    justify-content: space-around;
    align-items: center;
@@ -29,7 +29,7 @@
    margin-right: 2rem;
 }
 
-.card__body-details--editable .btn-primary {
+.card__body-details__editable .btn-primary {
    padding: 0.6rem 2.5rem;
 }
 
@@ -120,5 +120,12 @@
       font-weight: 400;
       line-height: normal;
       margin-bottom: 0;
+      padding-bottom: 0.5rem;
+   }
+   .card__body-details__editable {
+      gap: 0.5rem;
+   }
+   .card__body-details__editable .btn-primary {
+      padding: 0.6rem 1rem;
    }
 }

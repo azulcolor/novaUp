@@ -25,7 +25,7 @@ export const FormApproved = ({
    currentComments,
    changeStatus,
 }: Props) => {
-   const [comments, setComments] = useState(currentComments || '');
+   const [comments, setComments] = useState(currentComments);
    const [isOpened, setIsOpened] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 

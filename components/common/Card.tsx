@@ -10,7 +10,6 @@ import { FrameViewerModal } from '@/components/common/modals/FrameViewerModal';
 
 import { urlApi } from '@/libs/utils/url';
 import { IPost } from '@/interfaces';
-import { apiRequest } from '@/libs/axios-api';
 
 interface Props {
    post: IPost;
@@ -19,6 +18,10 @@ interface Props {
 export const Card = ({ post }: Props) => {
    const router = useRouter();
    const pathname = usePathname();
+
+   const isAproved = post.status === 'aprobado';
+   const isPending = post.status === 'pendiente';
+   const isRejected = post.status === 'rechazado';
 
    const handleSolveNavigation = () => {
       if (pathname.includes('admin')) {
@@ -37,12 +40,12 @@ export const Card = ({ post }: Props) => {
             </div>
             <div>
                {pathname.includes('admin') ? (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between flex-col sm:flex-row">
                      <ImageComponent
                         src={
-                           post.status === 'aprobado'
+                           isAproved
                               ? '/svg/post-approved.svg'
-                              : post.status === 'rechazado'
+                              : isRejected
                               ? '/svg/post-canceled.svg'
                               : '/svg/post-pending.svg'
                         }
@@ -50,7 +53,7 @@ export const Card = ({ post }: Props) => {
                         w={30}
                         h={30}
                      />
-                     <div className="card__body-details--editable">
+                     <div className="card__body-details__editable">
                         <ConfirmationModal
                            title={`¿Seguro que deseas eliminar el post "${post.title}"?`}
                            target={post.id}

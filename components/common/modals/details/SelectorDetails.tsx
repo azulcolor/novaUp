@@ -5,6 +5,7 @@ import { CustomButton } from '@/components/CustomInputs/CustomButton';
 import { useRouter } from 'next/navigation';
 import { url } from '@/libs/utils/url';
 import { IUser } from '@/interfaces';
+import Link from 'next/link';
 
 interface Props {
    tabSelector: 'users' | 'posts';
@@ -15,8 +16,10 @@ export const SelectorDetails = ({ tabSelector, action }: Props) => {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const router = useRouter();
 
+   const isPost = tabSelector === 'posts';
+
    const handleActionByTabSelector = () => {
-      if (tabSelector === 'posts') {
+      if (isPost) {
          router.push(url.adminPostsEditable(0));
          return;
       } else {
@@ -26,11 +29,13 @@ export const SelectorDetails = ({ tabSelector, action }: Props) => {
 
    if (!isOpen)
       return (
-         <CustomButton
-            title="Crear nuevo"
-            handleClick={handleActionByTabSelector}
-            containerStyles="btn-primary--tab br-left"
-         />
+         <Link href={isPost ? url.adminPostsEditable(0) : ''}>
+            <CustomButton
+               title="Nuevo"
+               handleClick={handleActionByTabSelector}
+               containerStyles="btn-primary--tab br-left"
+            />
+         </Link>
       );
 
    if (isOpen && tabSelector === 'users')
