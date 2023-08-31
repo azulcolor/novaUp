@@ -134,16 +134,7 @@ export const FormAddImage = (props: Props) => {
          </div>
          <div className="form-files">
             <div className="file">
-               <FrameViewerModal
-                  file={{
-                     id,
-                     name:
-                        formData.coverImage instanceof File
-                           ? URL.createObjectURL(formData.coverImage)
-                           : currentFiles.coverImage,
-                     type: 'Imagen',
-                  }}
-                  isImage>
+               <FrameViewerModal file={formData.coverImage} isImage>
                   <button className="file__delete" onClick={handleDeleteCoverImage}>
                      <ClearIcon />
                   </button>
@@ -185,17 +176,19 @@ export const FormAddImage = (props: Props) => {
             ))}
             {formData.images?.map((file, index: number) => (
                <div key={index} className="file">
-                  <button
-                     className="file__delete"
-                     onClick={() => handleDeleteImage(file.name)}>
-                     <ClearIcon />
-                  </button>
-                  <ImageComponent
-                     src={URL.createObjectURL(file)}
-                     alt=""
-                     w={500}
-                     h={480}
-                  />
+                  <FrameViewerModal file={file} key={index} isImage>
+                     <button
+                        className="file__delete"
+                        onClick={() => handleDeleteImage(file.name)}>
+                        <ClearIcon />
+                     </button>
+                     <ImageComponent
+                        src={URL.createObjectURL(file)}
+                        alt=""
+                        w={500}
+                        h={480}
+                     />
+                  </FrameViewerModal>
                </div>
             ))}
          </div>

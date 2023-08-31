@@ -55,13 +55,20 @@ export const FrameViewerModal = ({ file, isImage = false, children }: Props) => 
                </button>
             </div>
             {isImage ? (
-               <ImageComponent
-                  src={`${urlApi}/${file.name}`}
-                  alt={file.name}
-                  w={1024}
-                  h={768}
-                  containerStyles="contain__image bg-[var(--background-dark)]"
-               />
+               (console.log(file),
+               (
+                  <ImageComponent
+                     src={
+                        file instanceof File
+                           ? URL.createObjectURL(file)
+                           : `${urlApi}/${file.name}`
+                     }
+                     alt={file.name}
+                     w={1024}
+                     h={768}
+                     containerStyles="contain__image bg-[var(--background-dark)]"
+                  />
+               ))
             ) : (
                <iframe
                   width="100%"
