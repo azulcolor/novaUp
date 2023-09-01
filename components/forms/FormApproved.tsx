@@ -34,6 +34,7 @@ export const FormApproved = ({
    // const isRejected = status === 'rechazado';
    // const isPending = status === 'pendiente';
    const isAprovedChangue = isAproved ? 'rechazado' : 'aprobado';
+   const isCommentsChanged = comments !== currentComments;
 
    const router = useRouter();
 
@@ -45,7 +46,7 @@ export const FormApproved = ({
       if (res.status === 'Success') {
          toast.success('Se ha actualizado el estado de la publicación');
          router.refresh();
-         changeStatus && (status || comments === '') && changeStatus(isAprovedChangue);
+         if (changeStatus && !status && isCommentsChanged) changeStatus(isAprovedChangue);
       } else {
          toast.error('Ha ocurrido un error al actualizar el estado de la publicación');
       }

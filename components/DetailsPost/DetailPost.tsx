@@ -7,7 +7,7 @@ import { ImageComponent } from '@/components/common/ImageComponent';
 import { IAssets, IPost } from '@/interfaces';
 import { urlApi } from '@/libs/utils/url';
 import { PageNotFound } from '@/components/common/PageNotFound';
-import { extractYouTubeID } from '@/libs/utils/common-functions';
+import { extractYouTubeID, formatDate } from '@/libs/utils/common-functions';
 import { FrameViewerModal } from '../common/modals/FrameViewerModal';
 
 interface Props {
@@ -52,24 +52,32 @@ export default function PostDetail({ post }: Props) {
 
    return (
       <>
-         <div className="post-detail-layout gap-4 lg:mt-8">
-            <div className="">
-               <p
-                  className="
-                  text-3xl font-semibold mb-2 mt-2
-                  xl:text-4xl xl:mb-8">
-                  {post.title}
-                  <div className="md:row-span-2 lg:row-span-3 mt-10">
-                     <p
-                        className="
+         <div className="post-detail-layout gap-4">
+            <div>
+               <div className="flex flex-col sm:flex-row w-full justify-between mb-2 xl:mb-4">
+                  <p
+                     className="
+                  text-3xl font-semibold mt-2
+                  xl:text-4xl">
+                     {post.title}
+                  </p>
+                  {post.eventDate && (
+                     <span className="text-md sm:text-lg">
+                        {formatDate(post.eventDate)}
+                     </span>
+                  )}
+               </div>
+
+               <div className="md:row-span-2 lg:row-span-3 mt-10">
+                  <p
+                     className="
                               text-neutral-500 text-base whitespace-pre-line text-justify
                               lg:pr-12
                               xl:text-lg 
                               2xl:text-xl">
-                        {post.description}
-                     </p>
-                  </div>
-               </p>
+                     {post.description}
+                  </p>
+               </div>
             </div>
             <div>
                <div>
