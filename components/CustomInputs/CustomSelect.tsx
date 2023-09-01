@@ -39,6 +39,16 @@ export const CustomSelect = ({
       }
    };
 
+   const handleChangueByQuery = async () => {
+      const currentAttribute = searchParams.get(attributeToChangue);
+      console.log(currentAttribute);
+      if (!currentAttribute) return;
+      const selected = options.find((option) => option.id === Number(currentAttribute));
+      console.log(selected);
+      if (!selected) return;
+      if (onChangueValue) onChangueValue(attributeToChangue, selected);
+   };
+
    useEffect(() => {
       if (onChangueValue) onChangueValue(attributeToChangue, defaultOption || options[0]);
    }, [options]);
@@ -46,11 +56,14 @@ export const CustomSelect = ({
    // establece el valor por defecto si no existe el parametro en la url
    useEffect(() => {
       const currentAttribute = searchParams.get(attributeToChangue);
+      console.log(currentAttribute);
       if (!currentAttribute && defaultOption) {
          if (currentRefAttribute?.current?.value) {
+            console.log(currentRefAttribute?.current?.value);
             currentRefAttribute.current.value = String(defaultOption.id);
          }
       }
+      handleChangueByQuery();
    }, [searchParams, defaultOption]);
 
    return (
