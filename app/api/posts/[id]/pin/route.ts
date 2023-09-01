@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
 
 import { api } from '@/libs/axios-api';
 import { errorMessage } from '@/libs/utils/serializers';
-import { headers } from 'next/headers';
 
-const path = '/api/posts/pin/[id]';
+const path = '/api/posts/[id]/pin';
 
 export async function PATCH(
    req: NextRequest,
@@ -29,7 +29,7 @@ export async function PATCH(
                : '';
       }
 
-      const post = await api('api', 'PATCH', `/posts/pin/${id}`, isAuth);
+      const post = await api('api', 'PATCH', `/posts/${id}/pin`, isAuth);
 
       return NextResponse.json(post);
    } catch (error: any) {

@@ -18,20 +18,11 @@ import { FormAddImage } from '@/components/forms/FormAddImage';
 import { FormAddPDF } from '@/components/forms/FormAddPDF';
 import { FormAddLink } from '@/components/forms/FormAddLink';
 
-import {
-   ICatalogGen,
-   IPost,
-   IPostCurrentResources,
-   IPostRequest,
-   IPostResources,
-   IPostStatus,
-   IUser,
-} from '@/interfaces';
-
 import { Error } from '@/components/alerts/Error';
 import { CustomTag } from '@/components/common/CustomTag';
 import CustomInputDate from '@/components/CustomInputs/CustomInputDate';
 import { FormApproved } from '@/components/forms/FormApproved';
+import { usePostData } from '@/hooks/useGetPostById';
 
 import { apiRequest } from '@/libs/axios-api';
 import { url } from '@/libs/utils/url';
@@ -44,7 +35,15 @@ import {
    serializedNewPost,
    serializedPostUpdate,
 } from '@/libs/utils/serializers';
-import { usePostData } from '@/hooks/useGetPostById';
+import {
+   ICatalogGen,
+   IPost,
+   IPostCurrentResources,
+   IPostRequest,
+   IPostResources,
+   IPostStatus,
+   IUser,
+} from '@/interfaces';
 
 interface Props {
    id: number;
@@ -98,7 +97,7 @@ export default function FormPost(props: Props) {
          const data = serializedPostUpdate(formData);
          const updatePost = await apiRequest.setPost(token, data, formData.id);
 
-         if (updatePost.status === 'Success') {
+         if (updatePost?.status === 'Success') {
             const formDataNewAssets = new FormData();
             const serializedAssets = serializedAssetsByPost(resources);
             Object.keys(serializedAssets).forEach((key) => {
@@ -168,7 +167,7 @@ export default function FormPost(props: Props) {
          });
 
          const savePost = await apiRequest.newPost(token, formDataNewPost);
-         if (savePost.status === 'Success') {
+         if (savePost?.status === 'Success') {
             toast.success('Publicación guardada');
             router.push('/admin/posts');
          } else {
@@ -182,7 +181,7 @@ export default function FormPost(props: Props) {
       setIsLoading(true);
       const token = getCookie('nova-access-token')?.toString() || '';
       const pinnedPost = await apiRequest.pinnedPost(token, post.id);
-      if (pinnedPost.status === 'Success') {
+      if (pinnedPost?.status === 'Success') {
          toast.success('Publicación fijada');
          router.refresh();
       } else {

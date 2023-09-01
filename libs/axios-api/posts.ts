@@ -152,7 +152,7 @@ export const apiPosts = {
          }),
 
    pinnedPost: async (token: string, id: number) =>
-      await api('next', 'PATCH', `/posts/pin/${id}`, {
+      await api('next', 'PATCH', `/posts/${id}/pin`, {
          Authorization: `Bearer ${token}`,
       }),
 
