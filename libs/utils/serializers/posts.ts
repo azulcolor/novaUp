@@ -5,6 +5,7 @@ import {
    IPostRequest,
    IPostResources,
 } from '@/interfaces';
+import { formatDate } from '../common-functions';
 
 export const serializedNewPost = (data: IPostForm) => {
    const baseObject = {
@@ -74,8 +75,8 @@ export const serializedFormDataPost = (data: IPost) =>
       title: data.title || '',
       description: data.description || '',
       summary: data.summary || '',
-      publishDate: '',
-      eventDate: '',
+      publishDate: formatDate(data.publishDate, 'ymd', '-'),
+      eventDate: formatDate(data.eventDate, 'ymd', '-'),
       typeSelect: data.type
          ? { id: 0, name: data.type }
          : { id: 0, name: 'Tipo de publicación' },
